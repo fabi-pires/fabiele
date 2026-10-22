@@ -80,5 +80,42 @@
 
     <p id="mensagem" role="status"></p>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ishkkvikgwwstisspgjc.supabase.co/rest/v1/";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+    const form = document.getElementById("formLogin");
+    const mensagem = document.getElementById("mensagem");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      mensagem.textContent = "Verificando acesso...";
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password: senha
+      });
+
+      if (error) {
+        mensagem.textContent = "Não foi possível entrar. Confira o e-mail e a senha.";
+        return;
+      }
+
+      mensagem.textContent = "Login realizado com sucesso!";
+    });
+  </script>
+</body>
+</html>
+
 </body>
 </html>
