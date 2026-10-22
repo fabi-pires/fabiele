@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Bio sem misterio </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav class="menu">
+            <div class="logo">
+                <i class="fa-solid fa-microscope"></i>
+                 <h1 class="logo">Bio sem misterio</h1>
+
+                <nav>
+                   
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+
+                        <li><a href="sobre.html">Sobre</a></li>
+
+                        <li><a href="disciplinas.html">Disciplinas</a></li>
+
+                        <li><a href="matricula.html">Matrícula</a></li>
+
+                        <li><a href="depoimentos.html">Contato</a></li>
+                        
+                        <li><a href="contato.html">Contato</a></li>
+
+                    </ul>
+
+                </nav>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- MATRÍCULA -->
+
+    <form action="enviar para botão" method="post" class="form-matricula">
+
+        <h2>Formulário de Matrícula</h2>
+
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone" required>
+
+        <label for="serie">Série</label>
+        <select id="serie" name="serie">
+            <option>Ensino Fundamental</option>
+            <option>Ensino Médio</option>
+            <option>Pré-Vestibular</option>
+        </select>
+
+        <label for="mensagem">Observações</label>
+        <textarea id="mensagem" name="mensagem" rows="5"></textarea>
+
+        <button type="submit">Enviar Matrícula</button>
+
+    </form>
+</body>
+</html>
