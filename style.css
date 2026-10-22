@@ -569,3 +569,51 @@ nav ul li a:hover {
         font-size: 9px;
     }
 }
+/* ===========================
+   AJUSTE DO MENU
+=========================== */
+
+header {
+    padding: 0 4%;
+    gap: 20px;
+}
+
+.logo h1 {
+    font-size: 27px;
+    white-space: nowrap;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 9px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    header {
+        height: auto;
+        min-height: 85px;
+        padding: 15px 4%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav ul {
+        justify-content: center;
+        gap: 5px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
