@@ -330,3 +330,70 @@ textarea {
 .form-matricula button:hover {
     background: #1b5e20;
 }
+/* ===========================
+   DEPOIMENTOS
+=========================== */
+
+.depoimentos {
+    min-height: 100vh;
+    padding: 140px 8% 80px;
+    text-align: center;
+    background: #f4fff8;
+}
+
+.depoimentos h2 {
+    font-size: 42px;
+    color: #1b5e20;
+    margin-bottom: 15px;
+}
+
+.depoimentos .subtitulo {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 50px;
+}
+
+.depoimentos-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card-depoimento {
+    width: 300px;
+    padding: 35px 28px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .12);
+    border-top: 5px solid #2e7d32;
+    transition: .3s;
+}
+
+.card-depoimento:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+}
+
+.estrelas {
+    color: #f5b400;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.card-depoimento p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 25px;
+}
+
+.card-depoimento h3 {
+    color: #1b5e20;
+    font-size: 17px;
+}
+
+.depoimentos + footer {
+    margin-top: 0;
+}
