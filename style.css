@@ -652,3 +652,37 @@ nav ul li a {
         padding: 8px;
     }
 }
+/* AJUSTE DO TEXTO PRINCIPAL */
+
+.hero {
+    justify-content: center;
+    gap: 40px;
+}
+
+.hero-texto {
+    flex: 1;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.hero-texto h1 {
+    text-align: left;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero-texto p {
+    text-align: left;
+}
+
+.hero-imagem {
+    flex: 1;
+    max-width: 460px;
+}
+
+@media (max-width: 768px) {
+    .hero-texto h1,
+    .hero-texto p {
+        text-align: center;
+    }
+}
