@@ -107,7 +107,7 @@
       });
 
       if (error) {
-        mensagem.textContent = "Não foi possível entrar. Confira o e-mail e a senha.";
+        mensagem.textContent = "Erro do Supabase: " + error.message;
         return;
       }
 
