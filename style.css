@@ -437,4 +437,135 @@ nav ul li a:hover {
 
 .depoimentos + footer {
     margin-top: 0;
+}/* ===========================
+   PÁGINA DE CONTATO
+=========================== */
+
+.pagina-contato {
+    min-height: 100vh;
+    padding: 145px 20px 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f4fff8, #e1f5e5);
+}
+
+.contato-card {
+    width: 100%;
+    max-width: 650px;
+    padding: 50px 40px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 15px 40px rgba(27, 94, 32, 0.12);
+    border: 1px solid #e0eee2;
+}
+
+.contato-icone {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 50%;
+    font-size: 32px;
+}
+
+.contato-etiqueta {
+    margin-bottom: 12px;
+    color: #388e3c;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.contato-card h2 {
+    margin-bottom: 20px;
+    color: #1b5e20;
+    font-size: clamp(30px, 5vw, 42px);
+}
+
+.contato-descricao {
+    max-width: 480px;
+    margin: 0 auto 30px;
+    color: #555;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.contato-instagram {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 18px 20px;
+    text-align: left;
+    text-decoration: none;
+    color: #ffffff;
+    background: #2e7d32;
+    border-radius: 16px;
+    transition: transform 0.25s, background 0.25s;
+}
+
+.contato-instagram:hover {
+    background: #1b5e20;
+    transform: translateY(-4px);
+}
+
+.contato-instagram > i:first-child {
+    font-size: 32px;
+}
+
+.contato-instagram span {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.contato-instagram small {
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.contato-instagram strong {
+    font-size: 17px;
+}
+
+.contato-instagram > i:last-child {
+    font-size: 15px;
+}
+
+.contato-final {
+    margin-top: 30px;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .pagina-contato {
+        padding: 120px 16px 45px;
+    }
+
+    .contato-card {
+        padding: 35px 22px;
+    }
+
+    .contato-instagram {
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .contato-instagram strong {
+        font-size: 15px;
+    }
+
+    .contato-instagram small {
+        font-size: 9px;
+    }
 }
