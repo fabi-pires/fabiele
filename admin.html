@@ -25,7 +25,6 @@
       margin: 0 auto;
     }
 
-    .cabecalho,
     .card {
       background: white;
       border-radius: 16px;
@@ -34,10 +33,7 @@
       box-shadow: 0 8px 30px #173b201a;
     }
 
-    h1 {
-      margin-top: 0;
-    }
-
+    h1,
     h2 {
       margin-top: 0;
     }
@@ -86,6 +82,11 @@
       margin-top: 0;
     }
 
+    .oculto {
+      display: none;
+    }
+
+    #mensagemLogin,
     #mensagem {
       margin-top: 16px;
       font-weight: bold;
@@ -115,169 +116,361 @@
 
   <main class="painel">
 
-    <section class="cabecalho">
-      <button id="btnSair" class="sair">Sair</button>
+    <!-- TELA DE LOGIN -->
+    <section id="telaLogin" class="card">
 
-      <h1>🌿 BioAulas</h1>
-      <p>Área da professora</p>
-    </section>
+      <h1>🌿 Bio sem mistério</h1>
 
-    <section class="card">
-      <h2>Nova aula</h2>
+      <h2>Área da professora</h2>
 
-      <form id="formAula">
+      <p>Entre para acessar o painel.</p>
 
-        <label for="titulo">Título da aula</label>
-        <input id="titulo" type="text" required>
+      <form id="formLogin">
 
-        <label for="descricao">Descrição</label>
-        <input id="descricao" type="text">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Digite seu e-mail"
+          required
+        >
 
-        <label for="conteudo">Conteúdo</label>
-        <textarea id="conteudo" required></textarea>
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          type="password"
+          placeholder="Digite sua senha"
+          required
+        >
 
-        <button type="submit">Cadastrar aula</button>
+        <button type="submit">Entrar</button>
 
-        <p id="mensagem"></p>
+        <p id="mensagemLogin"></p>
 
       </form>
+
     </section>
 
-    <section class="card">
-      <h2>Aulas cadastradas</h2>
 
-      <div id="listaAulas">
-        Carregando aulas...
-      </div>
+    <!-- PAINEL DA PROFESSORA -->
+    <section id="painelProfessora" class="oculto">
+
+      <section class="card">
+
+        <button id="btnSair" class="sair">Sair</button>
+
+        <h1>🌿 BioAulas</h1>
+
+        <p>Área da professora</p>
+
+      </section>
+
+
+      <section class="card">
+
+        <h2>Nova aula</h2>
+
+        <form id="formAula">
+
+          <label for="titulo">Título da aula</label>
+
+          <input
+            id="titulo"
+            type="text"
+            required
+          >
+
+          <label for="descricao">Descrição</label>
+
+          <input
+            id="descricao"
+            type="text"
+          >
+
+          <label for="conteudo">Conteúdo</label>
+
+          <textarea
+            id="conteudo"
+            required
+          ></textarea>
+
+          <button type="submit">
+            Cadastrar aula
+          </button>
+
+          <p id="mensagem"></p>
+
+        </form>
+
+      </section>
+
+
+      <section class="card">
+
+        <h2>Aulas cadastradas</h2>
+
+        <div id="listaAulas">
+          Carregando aulas...
+        </div>
+
+      </section>
+
     </section>
 
   </main>
 
+
+  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <script>
-    const SUPABASE_URL = "https://ishkkvikgwwstisspgjc.supabase.co";
 
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+    const SUPABASE_URL =
+      "https://ishkkvikgwwstisspgjc.supabase.co";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
-
-    const formAula = document.getElementById("formAula");
-    const mensagem = document.getElementById("mensagem");
-    const listaAulas = document.getElementById("listaAulas");
-    const btnSair = document.getElementById("btnSair");
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
 
 
-    async function verificarLogin() {
-
-      const { data } = await supabaseClient.auth.getSession();
-
-      if (!data.session) {
-        window.location.href = "admin.html";
-        return false;
-      }
-
-      return true;
-    }
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
 
-    async function carregarAulas() {
+    const telaLogin =
+      document.getElementById("telaLogin");
 
-      const { data, error } = await supabaseClient
-        .from("aulas")
-        .select("*")
-        .order("id", { ascending: false });
+    const painelProfessora =
+      document.getElementById("painelProfessora");
 
-      if (error) {
-        listaAulas.textContent =
-          "Erro ao carregar aulas: " + error.message;
-        return;
-      }
+    const formLogin =
+      document.getElementById("formLogin");
 
-      if (!data || data.length === 0) {
-        listaAulas.textContent = "Nenhuma aula cadastrada ainda.";
-        return;
-      }
+    const mensagemLogin =
+      document.getElementById("mensagemLogin");
 
-      listaAulas.innerHTML = "";
+    const formAula =
+      document.getElementById("formAula");
 
-      data.forEach(aula => {
+    const mensagem =
+      document.getElementById("mensagem");
 
-        const div = document.createElement("div");
-        div.className = "aula";
+    const listaAulas =
+      document.getElementById("listaAulas");
 
-        const titulo = document.createElement("h3");
-        titulo.textContent = aula.titulo;
-
-        const descricao = document.createElement("strong");
-        descricao.textContent = aula.descricao || "";
-
-        const conteudo = document.createElement("p");
-        conteudo.textContent = aula.conteudo;
-
-        div.appendChild(titulo);
-        div.appendChild(descricao);
-        div.appendChild(conteudo);
-
-        listaAulas.appendChild(div);
-      });
-    }
+    const btnSair =
+      document.getElementById("btnSair");
 
 
-    formAula.addEventListener("submit", async (event) => {
+    // LOGIN
+    formLogin.addEventListener("submit", async function(event) {
 
       event.preventDefault();
 
-      mensagem.textContent = "Salvando aula...";
+      mensagemLogin.textContent = "Entrando...";
 
-      const titulo = document.getElementById("titulo").value;
-      const descricao = document.getElementById("descricao").value;
-      const conteudo = document.getElementById("conteudo").value;
 
-      const { error } = await supabaseClient
-        .from("aulas")
-        .insert({
-          titulo: titulo,
-          descricao: descricao,
-          conteudo: conteudo
+      const email =
+        document.getElementById("email").value;
+
+      const senha =
+        document.getElementById("senha").value;
+
+
+      const { error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: senha
         });
 
+
       if (error) {
-        mensagem.textContent =
-          "Erro ao salvar: " + error.message;
+
+        mensagemLogin.textContent =
+          "E-mail ou senha incorretos.";
+
         return;
       }
 
-      mensagem.textContent = "Aula cadastrada com sucesso!";
+
+      mensagemLogin.textContent =
+        "Login realizado!";
+
+
+      mostrarPainel();
+
+    });
+
+
+    // MOSTRAR PAINEL
+    async function mostrarPainel() {
+
+      telaLogin.classList.add("oculto");
+
+      painelProfessora.classList.remove("oculto");
+
+      carregarAulas();
+
+    }
+
+
+    // CARREGAR AULAS
+    async function carregarAulas() {
+
+      const { data, error } =
+        await supabaseClient
+          .from("aulas")
+          .select("*")
+          .order("id", { ascending: false });
+
+
+      if (error) {
+
+        listaAulas.textContent =
+          "Erro ao carregar aulas: " +
+          error.message;
+
+        return;
+      }
+
+
+      if (!data || data.length === 0) {
+
+        listaAulas.textContent =
+          "Nenhuma aula cadastrada ainda.";
+
+        return;
+      }
+
+
+      listaAulas.innerHTML = "";
+
+
+      data.forEach(aula => {
+
+        const div =
+          document.createElement("div");
+
+        div.className = "aula";
+
+
+        const titulo =
+          document.createElement("h3");
+
+        titulo.textContent =
+          aula.titulo;
+
+
+        const descricao =
+          document.createElement("strong");
+
+        descricao.textContent =
+          aula.descricao || "";
+
+
+        const conteudo =
+          document.createElement("p");
+
+        conteudo.textContent =
+          aula.conteudo;
+
+
+        div.appendChild(titulo);
+
+        div.appendChild(descricao);
+
+        div.appendChild(conteudo);
+
+        listaAulas.appendChild(div);
+
+      });
+
+    }
+
+
+    // CADASTRAR AULA
+    formAula.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      mensagem.textContent =
+        "Salvando aula...";
+
+
+      const titulo =
+        document.getElementById("titulo").value;
+
+      const descricao =
+        document.getElementById("descricao").value;
+
+      const conteudo =
+        document.getElementById("conteudo").value;
+
+
+      const { error } =
+        await supabaseClient
+          .from("aulas")
+          .insert({
+            titulo: titulo,
+            descricao: descricao,
+            conteudo: conteudo
+          });
+
+
+      if (error) {
+
+        mensagem.textContent =
+          "Erro ao salvar: " +
+          error.message;
+
+        return;
+      }
+
+
+      mensagem.textContent =
+        "Aula cadastrada com sucesso!";
+
 
       formAula.reset();
 
       carregarAulas();
+
     });
 
 
-    btnSair.addEventListener("click", async () => {
+    // SAIR
+    btnSair.addEventListener("click", async function() {
 
       await supabaseClient.auth.signOut();
 
-      window.location.href = "admin.html";
+      painelProfessora.classList.add("oculto");
+
+      telaLogin.classList.remove("oculto");
+
     });
 
 
+    // VERIFICAR SE JÁ ESTÁ LOGADA
     async function iniciar() {
 
-      const logado = await verificarLogin();
+      const { data } =
+        await supabaseClient.auth.getSession();
 
-      if (logado) {
-        carregarAulas();
+
+      if (data.session) {
+
+        mostrarPainel();
+
       }
+
     }
 
 
     iniciar();
+
   </script>
 
 </body>
