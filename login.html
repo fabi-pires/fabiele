@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -112,7 +111,6 @@
 </head>
 
 <body>
-
     <main class="login-container">
 
         <div class="logo">🎓</div>
@@ -125,6 +123,7 @@
 
         <form id="formLogin">
             <label for="usuario">E-mail ou usuário</label>
+
             <input
                 type="text"
                 id="usuario"
@@ -135,6 +134,7 @@
             >
 
             <label for="senha">Senha</label>
+
             <input
                 type="password"
                 id="senha"
@@ -161,10 +161,17 @@
         document.getElementById("formLogin").addEventListener("submit", function(event) {
             event.preventDefault();
 
-            document.getElementById("mensagem").textContent =
-                "A tela está pronta, mas precisamos configurar a autenticação segura antes de liberar o acesso.";
+            const usuario = document.getElementById("usuario").value.trim();
+            const senha = document.getElementById("senha").value;
+
+            if (usuario === "" || senha === "") {
+                document.getElementById("mensagem").textContent =
+                    "Preencha o usuário e a senha.";
+                return;
+            }
+
+            window.location.href = "aluno.html";
         });
     </script>
-
 </body>
 </html>
