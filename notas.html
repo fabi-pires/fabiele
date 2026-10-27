@@ -4,30 +4,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Notas</title>
-    <link rel="stylesheet" href="aluno.css">
-</head>
-<body>
+    <title>Minhas Notas | Painel Escolar</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: white;
+            padding: 25px 18px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 0 16px 30px;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .resumo-card {
+            background: white;
+            padding: 20px 14px;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+            text-align: center;
+        }
+
+        .resumo-card p {
+            margin: 0 0 10px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .resumo-card strong {
+            font-size: 27px;
+            color: #1d4ed8;
+        }
+
+        .secao {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+        }
+
+        .secao h2 {
+            margin-top: 0;
+            color: #1d4ed8;
+            font-size: 21px;
+        }
+
+        .disciplina {
+            padding: 17px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .disciplina:last-child {
+            border-bottom: none;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .nome {
+            font-weight: bold;
+        }
+
+        .nota {
+            font-weight: bold;
+            font-size: 18px;
+            color: #1d4ed8;
+            white-space: nowrap;
+        }
+
+        .barra {
+            width: 100%;
+            height: 9px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progresso {
+            height: 100%;
+            background: #3b82f6;
+            border-radius: 20px;
+        }
+
+        .situacao {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .observacao {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #1e40af;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .voltar {
+            display: block;
+            margin: 22px auto 0;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 380px) {
+            .resumo-card strong {
+                font-size: 23px;
+            }
+
+            .secao {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
     <header>
         <h1>📊 Minhas Notas</h1>
+        <p>Acompanhe seu desempenho escolar</p>
     </header>
 
     <main class="container">
-        <section class="boas-vindas">
-            <h2>Boletim escolar</h2>
-            <p>Acompanhe suas notas e seu desempenho.</p>
+        <section class="resumo">
+            <div class="resumo-card">
+                <p>Média geral</p>
+                <strong id="mediaGeral">7,5</strong>
+            </div>
+
+            <div class="resumo-card">
+                <p>Disciplinas</p>
+                <strong>4</strong>
+            </div>
         </section>
 
-        <section class="card">
-            <h3>📚 Disciplinas</h3>
-            <p>As notas serão exibidas aqui quando forem cadastradas pelo professor.</p>
+        <section class="secao">
+            <h2>Notas por disciplina</h2>
+
+            <div class="disciplina">
+                <div class="linha">
+                    <span class="nome">📚 Português</span>
+                    <span class="nota">8,0</span>
+                </div>
+                <div class="barra">
+                    <div class="progresso" style="width: 80%"></div>
+                </div>
+                <p class="situacao">Nota demonstrativa</p>
+            </div>
+
+            <div class="disciplina">
+                <div class="linha">
+                    <span class="nome">➗ Matemática</span>
+                    <span class="nota">7,0</span>
+                </div>
+                <div class="barra">
+                    <div class="progresso" style="width: 70%"></div>
+                </div>
+                <p class="situacao">Nota demonstrativa</p>
+            </div>
+
+            <div class="disciplina">
+                <div class="linha">
+                    <span class="nome">🌎 Geografia</span>
+                    <span class="nota">8,5</span>
+                </div>
+                <div class="barra">
+                    <div class="progresso" style="width: 85%"></div>
+                </div>
+                <p class="situacao">Nota demonstrativa</p>
+            </div>
+
+            <div class="disciplina">
+                <div class="linha">
+                    <span class="nome">🔬 Ciências</span>
+                    <span class="nota">6,5</span>
+                </div>
+                <div class="barra">
+                    <div class="progresso" style="width: 65%"></div>
+                </div>
+                <p class="situacao">Nota demonstrativa</p>
+            </div>
+
+            <div class="observacao">
+                💡 Estas notas são exemplos para visualizar a página.
+                Elas ainda não são notas reais registradas por um professor.
+            </div>
         </section>
 
-        <p style="margin-top: 25px;">
-            <a href="aluno.html">⬅️ Voltar para o painel</a>
-        </p>
+        <a href="aluno.html" class="voltar">
+            ← Voltar ao painel do aluno
+        </a>
     </main>
 
+    <script>
+        const notas = [8.0, 7.0, 8.5, 6.5];
+        const media = notas.reduce((total, nota) => total + nota, 0) / notas.length;
+
+        document.getElementById("mediaGeral").textContent =
+            media.toLocaleString("pt-BR", {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+            });
+    </script>
 </body>
 </html>
