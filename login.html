@@ -1,1 +1,170 @@
 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Painel Escolar</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff, #f8fafc);
+            color: #1e293b;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 410px;
+            background: white;
+            padding: 35px 28px;
+            border-radius: 22px;
+            box-shadow: 0 12px 40px rgba(30, 64, 175, 0.12);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #1d4ed8;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px #dbeafe;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .aviso {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .voltar {
+            display: block;
+            margin-top: 22px;
+            text-align: center;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <div class="logo">🎓</div>
+
+        <h1>Bem-vindo!</h1>
+
+        <p class="subtitulo">
+            Entre na sua conta para acessar o painel escolar.
+        </p>
+
+        <form id="formLogin">
+            <label for="usuario">E-mail ou usuário</label>
+            <input
+                type="text"
+                id="usuario"
+                name="usuario"
+                placeholder="Digite seu e-mail ou usuário"
+                autocomplete="username"
+                required
+            >
+
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p class="aviso" id="mensagem">
+            Acesso para alunos e professores.
+        </p>
+
+        <a href="index.html" class="voltar">
+            ← Voltar ao início
+        </a>
+
+    </main>
+
+    <script>
+        document.getElementById("formLogin").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            document.getElementById("mensagem").textContent =
+                "A tela está pronta, mas precisamos configurar a autenticação segura antes de liberar o acesso.";
+        });
+    </script>
+
+</body>
+</html>
