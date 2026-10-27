@@ -2,38 +2,212 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil</title>
-    <link rel="stylesheet" href="aluno.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Perfil - Área do Aluno</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+}
+
+.container {
+    max-width: 750px;
+    margin: 25px auto;
+    padding: 0 15px 30px;
+}
+
+.perfil {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 5px 18px #0f172a0d;
+}
+
+.avatar {
+    width: 105px;
+    height: 105px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 55px;
+    border: 4px solid #bfdbfe;
+}
+
+.perfil h2 {
+    color: #1d4ed8;
+    margin: 10px 0;
+}
+
+.subtitulo {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.informacoes {
+    text-align: left;
+    margin-top: 25px;
+}
+
+.informacao {
+    padding: 15px 5px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.informacao:last-child {
+    border-bottom: none;
+}
+
+.rotulo {
+    display: block;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.valor {
+    font-size: 16px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.aviso {
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 14px;
+    border-radius: 12px;
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.botoes {
+    display: grid;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.botao {
+    display: block;
+    padding: 14px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.botao-secundario {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+footer {
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    padding: 15px;
+}
+
+@media (max-width: 400px) {
+    .perfil {
+        padding: 22px 15px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>👤 Meu Perfil</h1>
-    </header>
+<header>
+    <h1>👤 Meu Perfil</h1>
+    <p>Suas informações escolares</p>
+</header>
 
-    <main class="container">
+<main class="container">
 
-        <section class="boas-vindas">
-            <h2>Meus dados escolares</h2>
-            <p>Confira suas informações de aluno.</p>
-        </section>
+    <section class="perfil">
 
-        <section class="card">
-            <div class="icone">🎓</div>
-            <h3>Dados do aluno</h3>
-            <p>Nome: Não informado</p>
-            <p>Matrícula: Não informada</p>
-            <p>Turma: Não informada</p>
-            <p>Escola: Não informada</p>
-        </section>
+        <div class="avatar">🎓</div>
 
-        <p style="margin-top: 25px;">
-            <a href="aluno.html">⬅️ Voltar para o painel</a>
-        </p>
+        <h2 id="nomeAluno">Aluno Exemplo</h2>
+        <p class="subtitulo">Bem-vindo à sua área pessoal!</p>
 
-    </main>
+        <div class="informacoes">
+
+            <div class="informacao">
+                <span class="rotulo">Nome completo</span>
+                <span class="valor" id="nomeCompleto">Aluno Exemplo</span>
+            </div>
+
+            <div class="informacao">
+                <span class="rotulo">Turma</span>
+                <span class="valor">6º Ano</span>
+            </div>
+
+            <div class="informacao">
+                <span class="rotulo">Turno</span>
+                <span class="valor">Manhã</span>
+            </div>
+
+            <div class="informacao">
+                <span class="rotulo">E-mail</span>
+                <span class="valor">aluno@exemplo.com</span>
+            </div>
+
+            <div class="informacao">
+                <span class="rotulo">Situação escolar</span>
+                <span class="valor">Matriculado</span>
+            </div>
+
+        </div>
+
+        <div class="aviso">
+            💙 Estas informações são demonstrativas. Personalize os dados conforme necessário.
+        </div>
+
+        <div class="botoes">
+            <a href="aluno.html" class="botao">← Voltar ao painel do aluno</a>
+            <a href="notas.html" class="botao botao-secundario">📚 Consultar minhas notas</a>
+            <a href="atividades.html" class="botao botao-secundario">📝 Ver minhas atividades</a>
+            <a href="calendario.html" class="botao botao-secundario">📅 Abrir calendário</a>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    Área do Aluno • Portal Escolar
+</footer>
 
 </body>
 </html>
