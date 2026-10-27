@@ -5,30 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Painel Escolar</title>
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: linear-gradient(135deg, #dbeafe, #eff6ff, #f8fafc);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #f8fafc);
             color: #1e293b;
         }
 
         .login-container {
             width: 100%;
             max-width: 410px;
+            padding: 32px 26px;
             background: white;
-            padding: 35px 28px;
             border-radius: 22px;
             box-shadow: 0 12px 40px rgba(30, 64, 175, 0.12);
         }
@@ -41,23 +37,20 @@
 
         h1 {
             text-align: center;
-            font-size: 26px;
             color: #1d4ed8;
-            margin-bottom: 10px;
         }
 
         .subtitulo {
             text-align: center;
             color: #64748b;
             line-height: 1.5;
-            margin-bottom: 28px;
+            margin-bottom: 25px;
         }
 
         label {
             display: block;
+            margin: 16px 0 8px;
             font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 8px;
         }
 
         input {
@@ -66,36 +59,25 @@
             border: 1px solid #cbd5e1;
             border-radius: 10px;
             font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        input:focus {
-            outline: 2px solid #93c5fd;
-            border-color: #2563eb;
         }
 
         button {
             width: 100%;
+            margin-top: 22px;
             padding: 15px;
+            border: 0;
+            border-radius: 10px;
             background: #2563eb;
             color: white;
-            border: none;
-            border-radius: 10px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        button:hover {
-            background: #1d4ed8;
-        }
-
         .aviso {
-            margin-top: 18px;
             text-align: center;
-            font-size: 14px;
             color: #64748b;
-            line-height: 1.5;
+            margin-top: 18px;
         }
 
         .voltar {
@@ -104,39 +86,23 @@
             text-align: center;
             color: #2563eb;
             text-decoration: none;
-            font-weight: bold;
         }
     </style>
 </head>
-
 <body>
     <main class="login-container">
         <div class="logo">🎓</div>
-
         <h1>Bem-vindo!</h1>
-
-        <p class="subtitulo">
-            Entre na sua conta para acessar o painel escolar.
-        </p>
+        <p class="subtitulo">Entre para acessar o painel escolar.</p>
 
         <form id="formLogin">
             <label for="usuario">Usuário</label>
-            <input
-                type="text"
-                id="usuario"
-                placeholder="Digite seu usuário"
-                autocomplete="username"
-                required
-            >
+            <input id="usuario" type="text"
+                   placeholder="Digite seu usuário" required>
 
             <label for="senha">Senha</label>
-            <input
-                type="password"
-                id="senha"
-                placeholder="Digite sua senha"
-                autocomplete="current-password"
-                required
-            >
+            <input id="senha" type="password"
+                   placeholder="Digite sua senha" required>
 
             <button type="submit">Entrar</button>
         </form>
@@ -145,11 +111,13 @@
             Acesso de teste para alunos.
         </p>
 
-        <a href="index.html" class="voltar">← Voltar ao início</a>
+        <a class="voltar" href="index.html">← Voltar ao início</a>
     </main>
 
     <script>
-        document.getElementById("formLogin").addEventListener("submit", function(event) {
+        const formulario = document.getElementById("formLogin");
+
+        formulario.addEventListener("submit", function(event) {
             event.preventDefault();
 
             const usuario = document.getElementById("usuario").value.trim();
