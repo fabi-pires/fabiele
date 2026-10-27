@@ -67,12 +67,11 @@
             border-radius: 10px;
             font-size: 16px;
             margin-bottom: 20px;
-            outline: none;
         }
 
         input:focus {
+            outline: 2px solid #93c5fd;
             border-color: #2563eb;
-            box-shadow: 0 0 0 3px #dbeafe;
         }
 
         button {
@@ -94,7 +93,7 @@
         .aviso {
             margin-top: 18px;
             text-align: center;
-            font-size: 13px;
+            font-size: 14px;
             color: #64748b;
             line-height: 1.5;
         }
@@ -112,7 +111,6 @@
 
 <body>
     <main class="login-container">
-
         <div class="logo">🎓</div>
 
         <h1>Bem-vindo!</h1>
@@ -122,23 +120,19 @@
         </p>
 
         <form id="formLogin">
-            <label for="usuario">E-mail ou usuário</label>
-
+            <label for="usuario">Usuário</label>
             <input
                 type="text"
                 id="usuario"
-                name="usuario"
-                placeholder="Digite seu e-mail ou usuário"
+                placeholder="Digite seu usuário"
                 autocomplete="username"
                 required
             >
 
             <label for="senha">Senha</label>
-
             <input
                 type="password"
                 id="senha"
-                name="senha"
                 placeholder="Digite sua senha"
                 autocomplete="current-password"
                 required
@@ -148,13 +142,10 @@
         </form>
 
         <p class="aviso" id="mensagem">
-            Acesso para alunos e professores.
+            Acesso de teste para alunos.
         </p>
 
-        <a href="index.html" class="voltar">
-            ← Voltar ao início
-        </a>
-
+        <a href="index.html" class="voltar">← Voltar ao início</a>
     </main>
 
     <script>
@@ -164,13 +155,12 @@
             const usuario = document.getElementById("usuario").value.trim();
             const senha = document.getElementById("senha").value;
 
-            if (usuario === "" || senha === "") {
+            if (usuario === "aluno" && senha === "123456") {
+                window.location.href = "aluno.html";
+            } else {
                 document.getElementById("mensagem").textContent =
-                    "Preencha o usuário e a senha.";
-                return;
+                    "Usuário ou senha incorretos. Tente novamente.";
             }
-
-            window.location.href = "aluno.html";
         });
     </script>
 </body>
