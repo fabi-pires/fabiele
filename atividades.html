@@ -1,1 +1,351 @@
 
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades | Painel Escolar</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: white;
+            padding: 28px 18px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 25px auto;
+            padding: 0 16px 30px;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .resumo-card {
+            background: white;
+            padding: 20px 12px;
+            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+        }
+
+        .resumo-card p {
+            margin: 0 0 10px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .resumo-card strong {
+            font-size: 28px;
+            color: #1d4ed8;
+        }
+
+        .lista {
+            display: grid;
+            gap: 16px;
+        }
+
+        .atividade {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+            border-left: 5px solid #3b82f6;
+        }
+
+        .atividade.atrasada {
+            border-left-color: #ef4444;
+        }
+
+        .atividade.entregue {
+            border-left-color: #16a34a;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .atividade h2 {
+            font-size: 18px;
+            margin: 0 0 8px;
+            color: #1e293b;
+        }
+
+        .materia {
+            color: #2563eb;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 0 12px;
+        }
+
+        .descricao {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .prazo {
+            margin: 14px 0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 10px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .atrasada .status {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .entregue .status {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .botao {
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background: #1d4ed8;
+        }
+
+        .entregue .botao {
+            background: #16a34a;
+        }
+
+        .observacao {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 12px;
+            color: #1e40af;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .voltar {
+            display: block;
+            margin-top: 22px;
+            padding: 14px;
+            text-align: center;
+            text-decoration: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 420px) {
+            .topo {
+                flex-direction: column;
+            }
+
+            .atividade {
+                padding: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>📝 Minhas Atividades</h1>
+        <p>Organize suas tarefas escolares</p>
+    </header>
+
+    <main class="container">
+        <section class="resumo">
+            <div class="resumo-card">
+                <p>Pendentes</p>
+                <strong id="pendentes">3</strong>
+            </div>
+
+            <div class="resumo-card">
+                <p>Entregues</p>
+                <strong id="entregues">1</strong>
+            </div>
+        </section>
+
+        <section class="lista" id="listaAtividades">
+
+            <article class="atividade" data-status="pendente">
+                <div class="topo">
+                    <div>
+                        <h2>Exercícios de frações</h2>
+                        <p class="materia">➗ Matemática</p>
+                    </div>
+                    <span class="status">Pendente</span>
+                </div>
+
+                <p class="descricao">
+                    Resolver os exercícios do capítulo 3 do livro.
+                </p>
+
+                <p class="prazo">📅 Prazo: 30/10/2026</p>
+
+                <button class="botao" type="button">Marcar como entregue</button>
+            </article>
+
+            <article class="atividade" data-status="pendente">
+                <div class="topo">
+                    <div>
+                        <h2>Leitura e interpretação</h2>
+                        <p class="materia">📚 Português</p>
+                    </div>
+                    <span class="status">Pendente</span>
+                </div>
+
+                <p class="descricao">
+                    Ler o texto indicado e responder às perguntas no caderno.
+                </p>
+
+                <p class="prazo">📅 Prazo: 02/11/2026</p>
+
+                <button class="botao" type="button">Marcar como entregue</button>
+            </article>
+
+            <article class="atividade" data-status="pendente">
+                <div class="topo">
+                    <div>
+                        <h2>Pesquisa sobre o meio ambiente</h2>
+                        <p class="materia">🌎 Geografia</p>
+                    </div>
+                    <span class="status">Pendente</span>
+                </div>
+
+                <p class="descricao">
+                    Preparar uma pequena pesquisa sobre preservação ambiental.
+                </p>
+
+                <p class="prazo">📅 Prazo: 05/11/2026</p>
+
+                <button class="botao" type="button">Marcar como entregue</button>
+            </article>
+
+            <article class="atividade entregue" data-status="entregue">
+                <div class="topo">
+                    <div>
+                        <h2>Resumo do conteúdo</h2>
+                        <p class="materia">🔬 Ciências</p>
+                    </div>
+                    <span class="status">Entregue</span>
+                </div>
+
+                <p class="descricao">
+                    Fazer um resumo do conteúdo estudado em aula.
+                </p>
+
+                <p class="prazo">✅ Atividade concluída</p>
+
+                <button class="botao" type="button">Desfazer entrega</button>
+            </article>
+
+        </section>
+
+        <div class="observacao">
+            💡 Estas atividades são exemplos para demonstração.
+            Marcar uma atividade como entregue altera a tela, mas ainda
+            não envia arquivos ao professor nem salva a entrega em uma conta.
+        </div>
+
+        <a href="aluno.html" class="voltar">
+            ← Voltar ao painel do aluno
+        </a>
+    </main>
+
+    <script>
+        const atividades = document.querySelectorAll(".atividade");
+
+        function atualizarResumo() {
+            let pendentes = 0;
+            let entregues = 0;
+
+            atividades.forEach(function(atividade) {
+                if (atividade.dataset.status === "entregue") {
+                    entregues++;
+                } else {
+                    pendentes++;
+                }
+            });
+
+            document.getElementById("pendentes").textContent = pendentes;
+            document.getElementById("entregues").textContent = entregues;
+        }
+
+        atividades.forEach(function(atividade) {
+            const botao = atividade.querySelector(".botao");
+            const status = atividade.querySelector(".status");
+            const prazo = atividade.querySelector(".prazo");
+
+            botao.addEventListener("click", function() {
+                if (atividade.dataset.status === "pendente") {
+                    atividade.dataset.status = "entregue";
+                    atividade.classList.add("entregue");
+                    atividade.classList.remove("atrasada");
+                    status.textContent = "Entregue";
+                    prazo.textContent = "✅ Atividade concluída";
+                    botao.textContent = "Desfazer entrega";
+                } else {
+                    atividade.dataset.status = "pendente";
+                    atividade.classList.remove("entregue");
+                    status.textContent = "Pendente";
+                    prazo.textContent = "📅 Consulte o prazo da atividade";
+                    botao.textContent = "Marcar como entregue";
+                }
+
+                atualizarResumo();
+            });
+        });
+
+        atualizarResumo();
+    </script>
+</body>
+</html>
