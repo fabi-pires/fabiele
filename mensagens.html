@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensagens - Área do Aluno</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+    color: white;
+    text-align: center;
+    padding: 28px 15px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+}
+
+.container {
+    max-width: 850px;
+    margin: 25px auto;
+    padding: 0 15px 30px;
+}
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+}
+
+h2 {
+    color: #1d4ed8;
+    font-size: 21px;
+    margin-top: 0;
+}
+
+.resumo {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.resumo-item {
+    flex: 1;
+    padding: 15px;
+    background: #eff6ff;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.numero {
+    display: block;
+    font-size: 25px;
+    font-weight: bold;
+    color: #1d4ed8;
+}
+
+.resumo-item span:last-child {
+    font-size: 13px;
+    color: #475569;
+}
+
+.mensagem {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.mensagem.nao-lida {
+    background: #eff6ff;
+    border-color: #93c5fd;
+}
+
+.mensagem-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.mensagem h3 {
+    font-size: 16px;
+    margin: 0 0 7px;
+    color: #1e293b;
+}
+
+.remetente {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0 0 12px;
+}
+
+.conteudo {
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    margin: 0 0 12px;
+}
+
+.data {
+    color: #64748b;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button, .botao {
+    border: none;
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+
+.primario {
+    background: #2563eb;
+    color: white;
+}
+
+.secundario {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.perigo {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 15px 0 7px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    font: inherit;
+    background: white;
+    color: #1e293b;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+form button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+}
+
+.vazio {
+    color: #64748b;
+    text-align: center;
+    padding: 20px 5px;
+    line-height: 1.6;
+}
+
+.aviso {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.voltar {
+    display: block;
+    background: #2563eb;
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 15px;
+    }
+
+    .resumo-item {
+        padding: 12px 5px;
+    }
+
+    .mensagem-topo {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>💬 Mensagens</h1>
+    <p>Comunicação da escola com o aluno</p>
+</header>
+
+<main class="container">
+
+    <div class="aviso">
+        ℹ️ Esta é uma versão demonstrativa. As mensagens ficam salvas
+        somente neste navegador e não são enviadas à escola.
+    </div>
+
+    <section class="card">
+        <div class="resumo">
+            <div class="resumo-item">
+                <span class="numero" id="total">0</span>
+                <span>Total de mensagens</span>
+            </div>
+            <div class="resumo-item">
+                <span class="numero" id="naoLidas">0</span>
+                <span>Não lidas</span>
+            </div>
+        </div>
+
+        <h2>📥 Caixa de entrada</h2>
+        <div id="listaMensagens"></div>
+    </section>
+
+    <section class="card">
+        <h2>✉️ Escrever mensagem</h2>
+
+        <form id="formMensagem">
+            <label for="destinatario">Destinatário</label>
+            <select id="destinatario" required>
+                <option value="Secretaria da escola">Secretaria da escola</option>
+                <option value="Coordenação escolar">Coordenação escolar</option>
+                <option value="Professor(a)">Professor(a)</option>
+            </select>
+
+            <label for="assunto">Assunto</label>
+            <input id="assunto" type="text" maxlength="100"
+                placeholder="Digite o assunto" required>
+
+            <label for="textoMensagem">Sua mensagem</label>
+            <textarea id="textoMensagem" maxlength="2000"
+                placeholder="Escreva sua mensagem aqui..." required></textarea>
+
+            <button class="primario" type="submit">
+                📤 Enviar mensagem
+            </button>
+        </form>
+
+        <p id="avisoEnvio" role="status" aria-live="polite"></p>
+    </section>
+
+    <a href="aluno.html" class="voltar">
+        ← Voltar ao painel do aluno
+    </a>
+
+</main>
+
+<script>
+(function() {
+    const chave = "agendaMensagensEscolaresV1";
+
+    const mensagensIniciais = [
+        {
+            id: "exemplo1",
+            remetente: "Secretaria da escola",
+            assunto: "Bem-vindo à área de mensagens!",
+            texto: "Este é um exemplo de mensagem da escola. Aqui você poderá consultar avisos e comunicados quando o site estiver conectado a um sistema real de mensagens.",
+            data: "27/10/2026",
+            lida: false,
+            tipo: "recebida"
+        },
+        {
+            id: "exemplo2",
+            remetente: "Coordenação escolar",
+            assunto: "Organização dos estudos",
+            texto: "Lembre-se de consultar a agenda escolar e verificar as datas das próximas atividades.",
+            data: "27/10/2026",
+            lida: true,
+            tipo: "recebida"
+        }
+    ];
+
+    function carregarMensagens() {
+        try {
+            const dados = localStorage.getItem(chave);
+            if (dados !== null) {
+                const mensagens = JSON.parse(dados);
+                if (Array.isArray(mensagens)) {
+                    return mensagens;
+                }
+            }
+        } catch (erro) {
+            console.warn("Não foi possível carregar as mensagens.", erro);
+        }
+
+        return mensagensIniciais.map(m => ({...m}));
+    }
+
+    let mensagens = carregarMensagens();
+
+    function salvarMensagens() {
+        try {
+            localStorage.setItem(chave, JSON.stringify(mensagens));
+            return true;
+        } catch (erro) {
+            console.warn("Não foi possível salvar as mensagens.", erro);
+            return false;
+        }
+    }
+
+    function criarElemento(tag, classe, texto) {
+        const elemento = document.createElement(tag);
+        if (classe) elemento.className = classe;
+        if (texto !== undefined) elemento.textContent = texto;
+        return elemento;
+    }
+
+    function atualizarResumo() {
+        document.getElementById("total").textContent = mensagens.length;
+        document.getElementById("naoLidas").textContent =
+            mensagens.filter(m => m.tipo === "recebida" && !m.lida).length;
+    }
+
+    function renderizarMensagens() {
+        const lista = document.getElementById("listaMensagens");
+        lista.replaceChildren();
+
+        if (mensagens.length === 0) {
+            lista.appendChild(criarElemento(
+                "p", "vazio",
+                "📭 Você ainda não tem mensagens. Quando houver mensagens salvas, elas aparecerão aqui."
+            ));
+        }
+
+        mensagens.forEach(function(mensagem) {
+            const cartao = criarElemento(
+                "article",
+                "mensagem" + (mensagem.tipo === "recebida" && !mensagem.lida ? " nao-lida" : "")
+            );
+
+            const topo = criarElemento("div", "mensagem-topo");
+            const grupo = document.createElement("div");
+
+            grupo.appendChild(criarElemento("h3", "", mensagem.assunto));
+            grupo.appendChild(criarElemento("p", "remetente",
+                (mensagem.tipo === "enviada" ? "Para: " : "De: ") + mensagem.remetente
+            ));
+
+            topo.appendChild(grupo);
+
+            if (mensagem.tipo === "recebida" && !mensagem.lida) {
+                topo.appendChild(criarElemento("span", "data", "🔵 Não lida"));
+            } else if (mensagem.tipo === "recebida") {
+                topo.appendChild(criarElemento("span", "data", "✓ Lida"));
+            } else {
+                topo.appendChild(criarElemento("span", "data", "📤 Enviada neste navegador"));
+            }
+
+            cartao.appendChild(topo);
+            cartao.appendChild(criarElemento("p", "conteudo", mensagem.texto));
+            cartao.appendChild(criarElemento("p", "data", "📅 " + mensagem.data));
+
+            const acoes = criarElemento("div", "acoes");
+
+            if (mensagem.tipo === "recebida" && !mensagem.lida) {
+                const botaoLer = criarElemento("button", "secundario", "✓ Marcar como lida");
+                botaoLer.type = "button";
+                botaoLer.addEventListener("click", function() {
+                    mensagem.lida = true;
+                    salvarMensagens();
+                    renderizarMensagens();
+                });
+                acoes.appendChild(botaoLer);
+            }
+
+            const botaoExcluir = criarElemento("button", "perigo", "🗑️ Excluir");
+            botaoExcluir.type = "button";
+            botaoExcluir.addEventListener("click", function() {
+                if (confirm("Deseja excluir esta mensagem deste navegador?")) {
+                    mensagens = mensagens.filter(m => m.id !== mensagem.id);
+                    salvarMensagens();
+                    renderizarMensagens();
+                }
+            });
+
+            acoes.appendChild(botaoExcluir);
+            cartao.appendChild(acoes);
+            lista.appendChild(cartao);
+        });
+
+        atualizarResumo();
+    }
+
+    document.getElementById("formMensagem").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const destinatario = document.getElementById("destinatario").value;
+        const assunto = document.getElementById("assunto").value.trim();
+        const texto = document.getElementById("textoMensagem").value.trim();
+        const aviso = document.getElementById("avisoEnvio");
+
+        if (!assunto || !texto) {
+            aviso.textContent = "Preencha o assunto e a mensagem.";
+            return;
+        }
+
+        const agora = new Date();
+        const data = String(agora.getDate()).padStart(2, "0") + "/" +
+            String(agora.getMonth() + 1).padStart(2, "0") + "/" +
+            agora.getFullYear();
+
+        mensagens.unshift({
+            id: "msg_" + Date.now() + "_" + Math.random().toString(36).slice(2),
+            remetente: destinatario,
+            assunto: assunto,
+            texto: texto,
+            data: data,
+            lida: true,
+            tipo: "enviada"
+        });
+
+        const salvou = salvarMensagens();
+        renderizarMensagens();
+        this.reset();
+
+        aviso.textContent = salvou
+            ? "Mensagem registrada neste navegador. Ela ainda não foi enviada à escola."
+            : "A mensagem apareceu na página, mas não pôde ser salva. Verifique o armazenamento do navegador.";
+    });
+
+    renderizarMensagens();
+})();
+</script>
+
+</body>
+</html>
