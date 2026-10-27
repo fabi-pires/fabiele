@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -5,71 +6,155 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    min-height: 100vh;
 }
 
 header {
-    background: #2563eb;
+    background: linear-gradient(135deg, #1d4ed8, #2563eb);
     color: white;
-    padding: 20px;
+    padding: 28px 16px;
     text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: 700;
 }
 
 .container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px;
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 28px 18px;
 }
 
 .boas-vindas {
     background: white;
     padding: 25px;
-    border-radius: 12px;
+    border-radius: 16px;
     margin-bottom: 25px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e2e8f0;
 }
 
 .boas-vindas h2 {
-    margin-bottom: 8px;
+    font-size: 23px;
+    margin-bottom: 10px;
+    color: #1e3a8a;
+}
+
+.boas-vindas p {
+    color: #64748b;
+    line-height: 1.6;
 }
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 165px;
+    padding: 24px 16px;
     background: white;
-    padding: 25px;
-    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
     text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-decoration: none;
+    color: #1e293b;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+a.card {
     cursor: pointer;
-    transition: 0.2s;
 }
 
-.card:hover {
-    transform: translateY(-4px);
+a.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12);
+    border-color: #93c5fd;
 }
 
-.card .icone {
-    font-size: 35px;
-    margin-bottom: 10px;
+.icone {
+    font-size: 36px;
+    margin-bottom: 13px;
 }
 
 .card h3 {
+    font-size: 17px;
     margin-bottom: 8px;
+    color: #1d4ed8;
 }
 
-@media (max-width: 600px) {
-    .container {
-        margin: 15px auto;
-        padding: 15px;
+.card p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.container > p a {
+    display: inline-block;
+    color: #1d4ed8;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 23px 12px;
     }
 
+    header h1 {
+        font-size: 22px;
+    }
+
+    .container {
+        padding: 20px 14px;
+    }
+
+    .boas-vindas {
+        padding: 20px;
+    }
+
+    .boas-vindas h2 {
+        font-size: 21px;
+    }
+
+    .menu {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .card {
+        min-height: 155px;
+        padding: 18px 10px;
+    }
+
+    .icone {
+        font-size: 30px;
+    }
+
+    .card h3 {
+        font-size: 15px;
+    }
+
+    .card p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 340px) {
     .menu {
         grid-template-columns: 1fr;
     }
