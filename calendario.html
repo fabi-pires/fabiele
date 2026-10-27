@@ -2,35 +2,208 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Escolar</title>
-    <link rel="stylesheet" href="aluno.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário Escolar</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}
+header{background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:white;text-align:center;padding:28px 16px}
+header h1{margin:0 0 8px;font-size:27px}
+header p{margin:0}
+.container{max-width:850px;margin:24px auto;padding:0 15px 30px}
+.calendario,.eventos{background:white;border-radius:18px;padding:20px;box-shadow:0 4px 14px rgba(15,23,42,.05)}
+.controles{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:22px}
+.controles h2{color:#1d4ed8;font-size:20px;text-align:center;margin:0}
+.seta{border:none;border-radius:9px;background:#dbeafe;color:#1d4ed8;font-size:21px;padding:9px 14px;cursor:pointer}
+.dias-semana,.dias{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.dia-semana{padding:9px 0;text-align:center;font-size:12px;font-weight:bold;color:#64748b}
+.dia{min-height:50px;padding:7px 2px;border-radius:9px;text-align:center;background:#f8fafc;border:1px solid #e2e8f0;font-size:14px;cursor:pointer}
+.dia.vazio{background:transparent;border-color:transparent;cursor:default}
+.dia.hoje{border:2px solid #2563eb;font-weight:bold}
+.dia.evento{background:#dbeafe;border-color:#93c5fd;color:#1d4ed8;font-weight:bold}
+.ponto{display:block;width:6px;height:6px;background:#2563eb;border-radius:50%;margin:5px auto 0}
+.legenda{display:flex;flex-wrap:wrap;gap:15px;margin-top:18px;color:#64748b;font-size:13px}
+.eventos{margin-top:22px}
+.eventos h2{color:#1d4ed8;font-size:20px;margin-top:0}
+.evento{padding:14px 0;border-bottom:1px solid #e2e8f0}
+.evento:last-child{border-bottom:none}
+.evento strong{display:block;margin-bottom:6px}
+.evento p{margin:0;font-size:14px;color:#64748b;line-height:1.5}
+.destaque{display:inline-block;margin-top:7px;padding:5px 9px;border-radius:20px;background:#dbeafe;color:#1d4ed8;font-size:12px}
+.observacao{background:#eff6ff;color:#1e40af;padding:15px;border-radius:12px;margin-top:20px;font-size:14px;line-height:1.6}
+.voltar{display:block;margin-top:22px;padding:14px;border-radius:10px;background:#2563eb;color:white;text-align:center;text-decoration:none;font-weight:bold}
+@media(max-width:400px){.calendario,.eventos{padding:12px}.dia{min-height:43px;font-size:12px}.controles h2{font-size:17px}}
+</style>
 </head>
 <body>
+<header>
+<h1>📅 Calendário Escolar</h1>
+<p>Confira suas datas e compromissos</p>
+</header>
 
-    <header>
-        <h1>📅 Calendário Escolar</h1>
-    </header>
+<main class="container">
+<section class="calendario">
+<div class="controles">
+<button class="seta" id="anterior" aria-label="Mês anterior">‹</button>
+<h2 id="mesAno"></h2>
+<button class="seta" id="proximo" aria-label="Próximo mês">›</button>
+</div>
 
-    <main class="container">
+<div class="dias-semana">
+<div class="dia-semana">Dom</div><div class="dia-semana">Seg</div>
+<div class="dia-semana">Ter</div><div class="dia-semana">Qua</div>
+<div class="dia-semana">Qui</div><div class="dia-semana">Sex</div>
+<div class="dia-semana">Sáb</div>
+</div>
+<div class="dias" id="dias"></div>
+<div class="legenda"><span>🔵 Data com evento</span><span>🔷 Hoje</span></div>
+</section>
 
-        <section class="boas-vindas">
-            <h2>Minha agenda</h2>
-            <p>Acompanhe provas, atividades e datas importantes.</p>
-        </section>
+<section class="eventos">
+<h2>📌 Compromissos</h2>
+<div id="listaEventos"></div>
+</section>
 
-        <section class="card">
-            <div class="icone">📚</div>
-            <h3>Agenda escolar</h3>
-            <p>As próximas provas e atividades aparecerão aqui quando forem cadastradas.</p>
-        </section>
+<div class="observacao">
+💡 Os compromissos são exemplos. Toque em um dia para consultar os eventos daquela data.
+</div>
 
-        <p style="margin-top: 25px;">
-            <a href="aluno.html">⬅️ Voltar para o painel</a>
-        </p>
+<a href="aluno.html" class="voltar">← Voltar ao painel do aluno</a>
+</main>
 
-    </main>
+<script>
+const hoje = new Date();
+let ano = hoje.getFullYear();
+let mes = hoje.getMonth();
 
+const eventos = [
+{data:"2026-10-30",titulo:"Prova de Matemática",descricao:"Revisar os exercícios e o capítulo 3."},
+{data:"2026-11-02",titulo:"Atividade de Português",descricao:"Entrega da leitura e interpretação."},
+{data:"2026-11-05",titulo:"Trabalho de Geografia",descricao:"Pesquisa sobre o meio ambiente."},
+{data:"2026-11-12",titulo:"Avaliação de Ciências",descricao:"Revisar os conteúdos estudados."}
+];
+
+const nomesMeses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+function formatoData(a,m,d){
+return a+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
+}
+
+function desenharCalendario(){
+document.getElementById("mesAno").textContent=nomesMeses[mes]+" de "+ano;
+const grade=document.getElementById("dias");
+grade.innerHTML="";
+const primeiroDia=new Date(ano,mes,1).getDay();
+const totalDias=new Date(ano,mes+1,0).getDate();
+
+for(let i=0;i<primeiroDia;i++){
+const vazio=document.createElement("div");
+vazio.className="dia vazio";
+grade.appendChild(vazio);
+}
+
+for(let dia=1;dia<=totalDias;dia++){
+const data=formatoData(ano,mes,dia);
+const elemento=document.createElement("button");
+elemento.type="button";
+elemento.className="dia";
+elemento.appendChild(document.createTextNode(dia));
+
+if(dia===hoje.getDate()&&mes===hoje.getMonth()&&ano===hoje.getFullYear()){
+elemento.classList.add("hoje");
+}
+
+if(eventos.some(e=>e.data===data)){
+elemento.classList.add("evento");
+const ponto=document.createElement("span");
+ponto.className="ponto";
+elemento.appendChild(ponto);
+}
+
+elemento.addEventListener("click",()=>mostrarEventos(data));
+grade.appendChild(elemento);
+}
+}
+
+function mostrarEventos(data){
+const lista=document.getElementById("listaEventos");
+lista.innerHTML="";
+const encontrados=eventos.filter(e=>e.data===data);
+const partes=data.split("-");
+const dataBonita=partes[2]+"/"+partes[1]+"/"+partes[0];
+
+const titulo=document.createElement("p");
+titulo.textContent="Data selecionada: "+dataBonita;
+lista.appendChild(titulo);
+
+if(encontrados.length===0){
+const mensagem=document.createElement("p");
+mensagem.textContent="Nenhum evento cadastrado para esta data.";
+lista.appendChild(mensagem);
+return;
+}
+
+encontrados.forEach(e=>{
+const item=document.createElement("div");
+item.className="evento";
+const nome=document.createElement("strong");
+nome.textContent=e.titulo;
+const descricao=document.createElement("p");
+descricao.textContent=e.descricao;
+const etiqueta=document.createElement("span");
+etiqueta.className="destaque";
+etiqueta.textContent=dataBonita;
+item.appendChild(nome);
+item.appendChild(descricao);
+item.appendChild(etiqueta);
+lista.appendChild(item);
+});
+}
+
+function listarEventos(){
+const lista=document.getElementById("listaEventos");
+lista.innerHTML="";
+const hojeString=formatoData(hoje.getFullYear(),hoje.getMonth(),hoje.getDate());
+const futuros=eventos.filter(e=>e.data>=hojeString).sort((a,b)=>a.data.localeCompare(b.data));
+
+if(futuros.length===0){
+lista.textContent="Não há compromissos futuros cadastrados.";
+return;
+}
+
+futuros.forEach(e=>{
+const item=document.createElement("div");
+item.className="evento";
+const partes=e.data.split("-");
+const nome=document.createElement("strong");
+nome.textContent=e.titulo;
+const descricao=document.createElement("p");
+descricao.textContent=e.descricao;
+const etiqueta=document.createElement("span");
+etiqueta.className="destaque";
+etiqueta.textContent="📅 "+partes[2]+"/"+partes[1]+"/"+partes[0];
+item.appendChild(nome);
+item.appendChild(descricao);
+item.appendChild(etiqueta);
+lista.appendChild(item);
+});
+}
+
+document.getElementById("anterior").addEventListener("click",()=>{
+mes--;
+if(mes<0){mes=11;ano--;}
+desenharCalendario();
+});
+
+document.getElementById("proximo").addEventListener("click",()=>{
+mes++;
+if(mes>11){mes=0;ano++;}
+desenharCalendario();
+});
+
+desenharCalendario();
+listarEventos();
+</script>
 </body>
 </html>
