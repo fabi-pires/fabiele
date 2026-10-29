@@ -1,73 +1,195 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Bio sem misterio </title>
+
+    <meta
+        name="description"
+        content="Faça sua matrícula no Bio sem Mistério e
+        tenha acesso a conteúdos de Biologia."
+    >
+
+    <title>Matrícula | Bio sem Mistério</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 </head>
 
 <body>
-    <header>
-        <nav class="menu">
-            <div class="logo">
-                <i class="fa-solid fa-microscope"></i>
-                 <h1 class="logo">Bio sem misterio</h1>
 
-                <nav>
-                   
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
+    <header class="cabecalho">
+        <nav class="menu" aria-label="Menu principal">
 
-                        <li><a href="sobre.html">Sobre</a></li>
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-microscope"
+                   aria-hidden="true"></i>
+                <span>Bio sem Mistério</span>
+            </a>
 
-                        <li><a href="disciplinas.html">Disciplinas</a></li>
+            <ul class="menu-lista">
+                <li>
+                    <a href="index.html">Início</a>
+                </li>
 
-                        <li><a href="matricula.html">Matrícula</a></li>
+                <li>
+                    <a href="sobre.html">Sobre</a>
+                </li>
 
-                        <li><a href="depoimentos.html">Contato</a></li>
-                        
-                        <li><a href="contato.html">Contato</a></li>
+                <li>
+                    <a href="disciplinas.html">Disciplinas</a>
+                </li>
 
-                    </ul>
+                <li>
+                    <a href="matricula.html"
+                       aria-current="page">Matrícula</a>
+                </li>
 
-                </nav>
-            </div>
+                <li>
+                    <a href="contato.html">Contato</a>
+                </li>
+            </ul>
 
         </nav>
     </header>
 
-    <!-- MATRÍCULA -->
+    <main class="pagina-matricula">
 
-    <form action="enviar para botão" method="post" class="form-matricula">
+        <section class="introducao">
+            <span class="etiqueta">BIOLOGIA PARA TODOS</span>
 
-        <h2>Formulário de Matrícula</h2>
+            <h1>Comece sua jornada na Biologia!</h1>
 
-        <label for="nome">Nome completo</label>
-        <input type="text" id="nome" name="nome" required>
+            <p>
+                Preencha o formulário abaixo para solicitar
+                sua matrícula no Bio sem Mistério.
+            </p>
+        </section>
 
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" required>
+        <section class="cartao-matricula"
+                 aria-labelledby="titulo-formulario">
 
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" name="telefone" required>
+            <div class="titulo-formulario">
+                <i class="fa-solid fa-leaf"
+                   aria-hidden="true"></i>
 
-        <label for="serie">Série</label>
-        <select id="serie" name="serie">
-            <option>Ensino Fundamental</option>
-            <option>Ensino Médio</option>
-            <option>Pré-Vestibular</option>
-        </select>
+                <h2 id="titulo-formulario">
+                    Formulário de Matrícula
+                </h2>
 
-        <label for="mensagem">Observações</label>
-        <textarea id="mensagem" name="mensagem" rows="5"></textarea>
+                <p>
+                    Informe seus dados nos campos abaixo.
+                </p>
+            </div>
 
-        <button type="submit">Enviar Matrícula</button>
+            <form
+                action="#"
+                method="post"
+                class="form-matricula"
+            >
 
-    </form>
+                <div class="campo">
+                    <label for="nome">Nome completo</label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite seu nome completo"
+                        autocomplete="name"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone</label>
+
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(00) 00000-0000"
+                        autocomplete="tel"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="serie">Curso desejado</label>
+
+                    <select id="serie" name="serie" required>
+                        <option value="" selected disabled>
+                            Selecione uma opção
+                        </option>
+
+                        <option value="fundamental">
+                            Ensino Fundamental
+                        </option>
+
+                        <option value="medio">
+                            Ensino Médio
+                        </option>
+
+                        <option value="pre-vestibular">
+                            Pré-Vestibular
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="mensagem">
+                        Observações
+                        <span>(opcional)</span>
+                    </label>
+
+                    <textarea
+                        id="mensagem"
+                        name="mensagem"
+                        rows="4"
+                        placeholder="Escreva aqui suas dúvidas ou observações"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="botao-matricula">
+                    <i class="fa-solid fa-paper-plane"
+                       aria-hidden="true"></i>
+                    Enviar matrícula
+                </button>
+
+                <p class="aviso-formulario">
+                    Confira seus dados antes de enviar.
+                </p>
+
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+        <p>
+            &copy; 2026 Bio sem Mistério.
+            Todos os direitos reservados.
+        </p>
+    </footer>
+
 </body>
 </html>
