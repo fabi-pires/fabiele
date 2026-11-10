@@ -7,122 +7,116 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
 <body>
-
     <header>
-
         <div class="logo">
             <i class="fa-solid fa-microscope"></i>
-           
-            <h1>Bio  sem misterio</h1>
+            <h1>Bio sem mistério</h1>
         </div>
-
         <nav>
-
             <ul>
-
                 <li><a href="index.html">Início</a></li>
-
                 <li><a href="sobre.html">Sobre</a></li>
-
                 <li><a href="disciplinas.html">Disciplinas</a></li>
-
                 <li><a href="matricula.html">Matrícula</a></li>
                 <li><a href="depoimentos.html">Depoimentos</a></li>
-
                 <li><a href="contato.html">Contato</a></li>
                 <li><a href="login.html">Área do aluno</a></li>
-
-
             </ul>
-
         </nav>
-
     </header>
-    <!-- DISCIPLINAS -->
 
-    <section class="disciplinas" id="disciplinas">
-
-        <h2>Disciplinas</h2>
-
-        <div class="cards">
-
-            <div class="card">
-
-                <i class="fas fa-dna"></i>
-
-                <h3>Genética</h3>
-
-                <p>Aprenda DNA, genes e hereditariedade.</p>
-
+    <main>
+        <section class="disciplinas" id="disciplinas">
+            <h2>Disciplinas</h2>
+            <div class="cards">
+                <div class="card"><i class="fas fa-dna"></i><h3>Genética</h3><p>Aprenda DNA, genes e hereditariedade.</p></div>
+                <div class="card"><i class="fas fa-leaf"></i><h3>Botânica</h3><p>Conheça o universo das plantas.</p></div>
+                <div class="card"><i class="fas fa-fish"></i><h3>Zoologia</h3><p>Estudo completo dos animais.</p></div>
+                <div class="card"><i class="fas fa-globe-americas"></i><h3>Ecologia</h3><p>Natureza e meio ambiente.</p></div>
+                <div class="card"><i class="fas fa-heartbeat"></i><h3>Corpo Humano</h3><p>Sistemas do organismo humano.</p></div>
+                <div class="card"><i class="fas fa-microscope"></i><h3>Citologia</h3><p>Estrutura e funcionamento das células.</p></div>
             </div>
+        </section>
 
-            <div class="card">
-
-                <i class="fas fa-leaf"></i>
-
-                <h3>Botânica</h3>
-
-                <p>Conheça o universo das plantas.</p>
-
+        <section class="disciplinas" id="aulas-publicadas">
+            <h2>Aulas publicadas pela professora</h2>
+            <p>Os conteúdos cadastrados pela professora aparecem aqui automaticamente.</p>
+            <div id="listaAulasPublicadas" class="cards" aria-live="polite">
+                <div class="card"><p>Carregando aulas...</p></div>
             </div>
+            <button id="atualizarAulas" type="button">Atualizar aulas</button>
+            <p id="statusAulas" role="status" aria-live="polite"></p>
+        </section>
+    </main>
 
-            <div class="card">
-
-                <i class="fas fa-fish"></i>
-
-                <h3>Zoologia</h3>
-
-                <p>Estudo completo dos animais.</p>
-
-            </div>
-
-            <div class="card">
-
-                <i class="fas fa-globe-americas"></i>
-
-                <h3>Ecologia</h3>
-
-                <p>Natureza e meio ambiente.</p>
-
-            </div>
-
-            <div class="card">
-
-                <i class="fas fa-heartbeat"></i>
-
-                <h3>Corpo Humano</h3>
-
-                <p>Sistemas do organismo humano.</p>
-
-            </div>
-
-            <div class="card">
-
-                <i class="fas fa-microscope"></i>
-
-                <h3>Citologia</h3>
-
-                <p>Estrutura e funcionamento das células.</p>
-
-            </div>
-
-        </div>
-
-    </section>
     <footer>
-
-        <p>
-
-            © 2026 BioAulas - Professora Fabielle Pires
-
-        </p>
-
+        <p>© 2026 BioAulas - Professora Fabielle Pires</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
+    <script>
+        const SUPABASE_URL = "https://ishkkvikgwwstisspgjc.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+        const bancoAulas = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        const listaAulas = document.getElementById("listaAulasPublicadas");
+        const statusAulas = document.getElementById("statusAulas");
+        const botaoAtualizar = document.getElementById("atualizarAulas");
+
+        function criarElemento(tag, texto, classe) {
+            const elemento = document.createElement(tag);
+            elemento.textContent = texto || "";
+            if (classe) elemento.className = classe;
+            return elemento;
+        }
+
+        async function carregarAulasPublicadas() {
+            botaoAtualizar.disabled = true;
+            botaoAtualizar.textContent = "Carregando...";
+            statusAulas.textContent = "";
+            listaAulas.replaceChildren(criarElemento("div", "Buscando conteúdos...", "card"));
+
+            const { data, error } = await bancoAulas
+                .from("aulas")
+                .select("id, titulo, descricao, conteudo")
+                .order("id", { ascending: false });
+
+            botaoAtualizar.disabled = false;
+            botaoAtualizar.textContent = "Atualizar aulas";
+
+            if (error) {
+                listaAulas.replaceChildren(
+                    criarElemento("div", "Não foi possível carregar as aulas agora.", "card")
+                );
+                statusAulas.textContent =
+                    "O banco recusou a leitura das aulas. É necessário liberar a leitura pública da tabela aulas no Supabase (política SELECT). Código: " +
+                    error.code;
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                listaAulas.replaceChildren(
+                    criarElemento("div", "Ainda não há aulas cadastradas.", "card")
+                );
+                return;
+            }
+
+            listaAulas.replaceChildren();
+            data.forEach((aula) => {
+                const card = criarElemento("article", "", "card");
+                card.appendChild(criarElemento("h3", aula.titulo || "Aula sem título"));
+                if (aula.descricao) card.appendChild(criarElemento("p", aula.descricao));
+                card.appendChild(criarElemento("p", aula.conteudo || "Conteúdo não informado."));
+                listaAulas.appendChild(card);
+            });
+
+            statusAulas.textContent = data.length + (data.length === 1 ? " aula carregada." : " aulas carregadas.");
+        }
+
+        botaoAtualizar.addEventListener("click", carregarAulasPublicadas);
+        carregarAulasPublicadas();
+    </script>
 </body>
-
 </html>
