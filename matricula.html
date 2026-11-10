@@ -89,9 +89,10 @@
             </div>
 
             <form
-                action="#"
+                action="https://wa.me/555195747291"
                 method="post"
                 class="form-matricula"
+                id="form-matricula"
             >
 
                 <div class="campo">
@@ -176,7 +177,7 @@
                 </button>
 
                 <p class="aviso-formulario">
-                    Confira seus dados antes de enviar.
+                    O WhatsApp será aberto com sua solicitação pronta. Revise os dados e toque em Enviar no WhatsApp.
                 </p>
 
             </form>
@@ -191,5 +192,31 @@
         </p>
     </footer>
 
+<script>
+        document.getElementById("form-matricula").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            if (!form.reportValidity()) return;
+
+            const dados = new FormData(form);
+            const cursos = {
+                fundamental: "Ensino Fundamental",
+                medio: "Ensino Médio",
+                "pre-vestibular": "Pré-Vestibular"
+            };
+            const mensagem = [
+                "Olá, Fabiele! Gostaria de solicitar informações sobre matrícula no Bio sem Mistério.",
+                "",
+                "Nome: " + dados.get("nome"),
+                "E-mail: " + dados.get("email"),
+                "Telefone: " + dados.get("telefone"),
+                "Curso desejado: " + (cursos[dados.get("serie")] || dados.get("serie")),
+                "Observações: " + (dados.get("mensagem") || "Não informadas")
+            ].join("\n");
+
+            const url = "https://wa.me/555195747291?text=" + encodeURIComponent(mensagem);
+            window.open(url, "_blank", "noopener,noreferrer");
+        });
+    </script>
 </body>
 </html>
