@@ -665,3 +665,28 @@ header nav ul li a:hover {
         padding: 22px;
     }
 }
+
+/* MATRÍCULA: layout responsivo */
+.cabecalho { position: relative; }
+.cabecalho .menu { width:100%; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.cabecalho .logo { display:inline-flex; align-items:center; gap:10px; color:#fff; text-decoration:none; font-size:21px; font-weight:700; }
+.cabecalho .menu-lista { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; list-style:none; }
+.cabecalho .menu-lista a { display:block; padding:9px 11px; color:#fff; text-decoration:none; border-radius:8px; font-weight:600; }
+.cabecalho .menu-lista a:hover,.cabecalho .menu-lista a[aria-current="page"] { background:rgba(255,255,255,.14); }
+.pagina-matricula { min-height:75vh; padding:55px 18px 70px; background:linear-gradient(135deg,#f4fff8,#e1f5e5); }
+.pagina-matricula .introducao { max-width:760px; margin:0 auto 30px; text-align:center; }
+.pagina-matricula .etiqueta { color:#2e7d32; font-size:12px; font-weight:800; letter-spacing:2px; }
+.pagina-matricula .introducao h1 { margin:12px 0; color:#1b5e20; font-size:clamp(30px,5vw,44px); }
+.pagina-matricula .introducao p { color:#4b5563; line-height:1.7; }
+.cartao-matricula { max-width:680px; margin:0 auto; padding:30px 22px; background:#fff; border:1px solid #e0eee2; border-radius:20px; box-shadow:0 12px 35px rgba(27,94,32,.1); }
+.titulo-formulario { text-align:center; }
+.titulo-formulario > i { color:#2e7d32; font-size:30px; }
+.titulo-formulario h2 { margin:12px 0 8px; color:#1b5e20; }
+.titulo-formulario p { color:#64748b; }
+.cartao-matricula .form-matricula { width:100%; margin:22px auto 0; padding:0; box-shadow:none; }
+.cartao-matricula .campo { margin-bottom:16px; }
+.cartao-matricula .campo label { margin:0 0 7px; color:#334155; }
+.cartao-matricula .campo label span { color:#64748b; font-weight:400; }
+.cartao-matricula .form-matricula input:focus,.cartao-matricula .form-matricula select:focus,.cartao-matricula .form-matricula textarea:focus { outline:3px solid rgba(46,125,50,.15); border-color:#2e7d32; }
+.rodape { padding:20px; text-align:center; color:#64748b; }
+@media(max-width:768px) { .cabecalho .menu { flex-direction:column; } .cabecalho .menu-lista { justify-content:center; } .cartao-matricula { padding:24px 16px; } }
