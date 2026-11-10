@@ -1,12 +1,30 @@
-var themeBtn = document.getElementById("themeBtn");
-var body = document.body;
-var form = document.getElementById("contactForm");
+(function () {
+    "use strict";
 
-// Altera tema
-themeBtn.addEventListener("click", function () {
-    body.classList.toggle("dark");
-    body.classList.toggle("light");
+    // O script é compartilhado entre páginas que podem não ter o botão de tema.
+    // Só registra o evento quando o controle realmente existe.
+    const themeBtn = document.getElementById("themeBtn");
 
-    var isDark = body.classList.contains("dark");
-    themeBtn.textContent = isDark ? "🌜 Tema escuro" : "🌞 Tema claro";
-});
+    if (themeBtn) {
+        const temaSalvo = localStorage.getItem("bioaulas-tema");
+        if (temaSalvo === "dark" || temaSalvo === "light") {
+            document.body.classList.remove("dark", "light");
+            document.body.classList.add(temaSalvo);
+        }
+
+        function atualizarTexto() {
+            const escuro = document.body.classList.contains("dark");
+            themeBtn.textContent = escuro ? "🌜 Tema escuro" : "🌞 Tema claro";
+            themeBtn.setAttribute("aria-pressed", String(escuro));
+        }
+
+        themeBtn.addEventListener("click", function () {
+            const escuro = document.body.classList.toggle("dark");
+            document.body.classList.toggle("light", !escuro);
+            localStorage.setItem("bioaulas-tema", escuro ? "dark" : "light");
+            atualizarTexto();
+        });
+
+        atualizarTexto();
+    }
+})();
