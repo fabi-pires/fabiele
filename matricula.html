@@ -91,7 +91,7 @@
             <form
                 action="https://wa.me/555195747291"
                 method="post"
-                class="form-matricula"
+                class="form-matricula"\r\n                id="form-matricula"
             >
 
                 <div class="campo">
@@ -176,7 +176,7 @@
                 </button>
 
                 <p class="aviso-formulario">
-                    Confira seus dados antes de enviar.
+                    O WhatsApp será aberto com sua solicitação pronta. Revise os dados e toque em Enviar no WhatsApp.
                 </p>
 
             </form>
@@ -211,7 +211,7 @@
                 "Telefone: " + dados.get("telefone"),
                 "Curso desejado: " + (cursos[dados.get("serie")] || dados.get("serie")),
                 "Observações: " + (dados.get("mensagem") || "Não informadas")
-            ].join("\\n");
+            ].join("\n");
 
             const url = "https://wa.me/555195747291?text=" + encodeURIComponent(mensagem);
             window.open(url, "_blank", "noopener,noreferrer");
