@@ -177,6 +177,13 @@
 
 
       <section class="card">
+        <h2>Solicitações de matrícula</h2>
+        <p>Confira os alunos que aguardam aprovação.</p>
+        <div id="listaSolicitacoes">Carregando solicitações...</div>
+        <p id="mensagemSolicitacoes" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="card">
 
         <h2>Nova aula</h2>
 
@@ -323,9 +330,59 @@
       painelProfessora.classList.remove("oculto");
 
       carregarAulas();
+      carregarSolicitacoes();
 
     }
 
+
+    // SOLICITAÇÕES DE MATRÍCULA
+    async function carregarSolicitacoes() {
+      const lista = document.getElementById("listaSolicitacoes");
+      const aviso = document.getElementById("mensagemSolicitacoes");
+      lista.textContent = "Carregando...";
+      const { data, error } = await supabaseClient
+        .from("perfis")
+        .select("id,nome,criado_em")
+        .eq("aprovado", false)
+        .order("criado_em", { ascending: true });
+      if (error) {
+        lista.textContent = "Não foi possível carregar. Verifique se a conta da professora possui a função teacher. " + error.message;
+        return;
+      }
+      if (!data || data.length === 0) {
+        lista.textContent = "Nenhuma solicitação pendente.";
+        return;
+      }
+      lista.innerHTML = "";
+      data.forEach(perfil => {
+        const item = document.createElement("div");
+        item.className = "aula";
+        const nome = document.createElement("strong");
+        nome.textContent = perfil.nome || "Aluno sem nome";
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.textContent = "Aprovar matrícula";
+        botao.addEventListener("click", async () => {
+          if (!confirm('Aprovar o cadastro de "' + (perfil.nome || "aluno") + '"?')) return;
+          botao.disabled = true;
+          botao.textContent = "Aprovando...";
+          const { data: atualizado, error: erroAtualizacao } = await supabaseClient
+            .from("perfis").update({ aprovado: true }).eq("id", perfil.id).select("id");
+          if (erroAtualizacao || !atualizado || atualizado.length === 0) {
+            botao.disabled = false;
+            botao.textContent = "Tentar novamente";
+            aviso.textContent = erroAtualizacao ? erroAtualizacao.message : "A aprovação não foi confirmada. Verifique a permissão teacher.";
+            return;
+          }
+          aviso.textContent = "Matrícula aprovada!";
+          carregarSolicitacoes();
+        });
+        item.appendChild(nome);
+        item.appendChild(document.createElement("br"));
+        item.appendChild(botao);
+        lista.appendChild(item);
+      });
+    }
 
     // CARREGAR AULAS
     async function carregarAulas() {
