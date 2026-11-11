@@ -416,12 +416,13 @@
           btnExcluir.textContent = "Excluindo...";
           statusExclusao.textContent = "";
 
-          const { error: erroExclusao } = await supabaseClient
+          const { data: dataExcluida, error: erroExclusao } = await supabaseClient
             .from("aulas")
             .delete()
-            .eq("id", aula.id);
+            .eq("id", aula.id)
+            .select("id");
 
-          if (erroExclusao) {
+          if (erroExclusao || !dataExcluida || dataExcluida.length === 0) {
             btnExcluir.disabled = false;
             btnExcluir.textContent = "Tentar excluir novamente";
             statusExclusao.textContent =
