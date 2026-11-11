@@ -109,6 +109,16 @@
       white-space: pre-wrap;
       color: #526354;
     }
+
+    .btn-excluir {
+      margin-top: 8px;
+      background: #b42318;
+    }
+
+    .mensagem-exclusao {
+      margin-top: 8px;
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -384,6 +394,49 @@
 
         div.appendChild(conteudo);
 
+        const btnExcluir = document.createElement("button");
+        btnExcluir.type = "button";
+        btnExcluir.className = "btn-excluir";
+        btnExcluir.textContent = "Excluir aula";
+
+        const statusExclusao = document.createElement("p");
+        statusExclusao.className = "mensagem-exclusao";
+        statusExclusao.setAttribute("aria-live", "polite");
+
+        btnExcluir.addEventListener("click", async function() {
+          const confirmar = window.confirm(
+            'Tem certeza que deseja excluir a aula "' +
+            (aula.titulo || "sem título") +
+            '"? Essa ação não pode ser desfeita.'
+          );
+
+          if (!confirmar) return;
+
+          btnExcluir.disabled = true;
+          btnExcluir.textContent = "Excluindo...";
+          statusExclusao.textContent = "";
+
+          const { data: dataExcluida, error: erroExclusao } = await supabaseClient
+            .from("aulas")
+            .delete()
+            .eq("id", aula.id)
+            .select("id");
+
+          if (erroExclusao || !dataExcluida || dataExcluida.length === 0) {
+            btnExcluir.disabled = false;
+            btnExcluir.textContent = "Tentar excluir novamente";
+            statusExclusao.textContent =
+              "Não foi possível excluir. Verifique a permissão de exclusão no Supabase: " +
+              erroExclusao.message;
+            return;
+          }
+
+          statusExclusao.textContent = "Aula excluída.";
+          carregarAulas();
+        });
+
+        div.appendChild(btnExcluir);
+        div.appendChild(statusExclusao);
         listaAulas.appendChild(div);
 
       });
