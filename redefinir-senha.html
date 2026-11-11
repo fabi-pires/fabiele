@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redefinir senha | Bio sem Mistério</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;font-family:Arial,sans-serif;background:#f0f7ef;color:#183b20}.card{width:100%;max-width:420px;background:#fff;padding:30px;border-radius:20px;box-shadow:0 8px 30px #173b201a}h1{color:#1b5e20;text-align:center}label{display:block;margin:16px 0 7px;font-weight:bold}input{width:100%;padding:13px;border:1px solid #b8cbb9;border-radius:9px;font-size:16px}button{width:100%;padding:14px;margin-top:20px;border:0;border-radius:9px;background:#1b5e20;color:#fff;font-size:16px;font-weight:bold}#mensagem{line-height:1.5}
+</style>
+</head>
+<body>
+<main class="card">
+<h1>🌿 Criar nova senha</h1>
+<p>Digite uma nova senha para sua conta de aluno.</p>
+<form id="formSenha">
+<label for="senha">Nova senha</label>
+<input id="senha" type="password" minlength="6" autocomplete="new-password" required>
+<label for="confirmar">Confirme a nova senha</label>
+<input id="confirmar" type="password" minlength="6" autocomplete="new-password" required>
+<button id="btnSalvar" type="submit">Salvar nova senha</button>
+</form>
+<p id="mensagem" role="status" aria-live="polite"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const msg=document.getElementById("mensagem");
+db.auth.getSession().then(({data,error})=>{
+ if(error||!data.session) msg.textContent="Abra novamente o link de recuperação enviado ao seu e-mail.";
+});
+document.getElementById("formSenha").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const senha=document.getElementById("senha").value;
+ const confirmar=document.getElementById("confirmar").value;
+ const btn=document.getElementById("btnSalvar");
+ if(senha!==confirmar){msg.textContent="As senhas não coincidem.";return;}
+ btn.disabled=true;btn.textContent="Salvando...";
+ const {error}=await db.auth.updateUser({password:senha});
+ if(error){msg.textContent="Não foi possível alterar a senha: "+error.message;btn.disabled=false;btn.textContent="Tentar novamente";return;}
+ msg.textContent="Senha alterada com sucesso! Agora você já pode entrar na área do aluno.";
+ await db.auth.signOut();
+ btn.textContent="Senha salva";
+});
+</script>
+</body>
+</html>
