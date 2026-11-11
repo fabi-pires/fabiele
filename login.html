@@ -11,17 +11,17 @@ const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const msg=document.getElementById("mensagem");
 document.getElementById("btnRecuperar").addEventListener("click",async()=>{
- const email=document.getElementById("email").value.trim();
+ const email=document.getElementById("email").value.trim().toLowerCase();
  if(!email){msg.textContent="Digite seu e-mail no campo acima e toque novamente em Esqueci minha senha.";document.getElementById("email").focus();return;}
  const btn=document.getElementById("btnRecuperar");btn.disabled=true;btn.textContent="Enviando...";
- const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo:"https://fabi-pires.github.io/fabiele/redefinir-senha.html"});
+ let error; try { ({error}=await db.auth.resetPasswordForEmail(email,{redirectTo:"https://fabi-pires.github.io/fabiele/redefinir-senha.html"})); } catch(e) { error=e; }
  if(error){msg.textContent="Não foi possível enviar o e-mail: "+error.message;btn.disabled=false;btn.textContent="Tentar novamente";return;}
  msg.textContent="Se esse e-mail estiver cadastrado, enviaremos um link para criar uma nova senha. Confira também o spam.";
  btn.textContent="E-mail solicitado";
 });
 document.getElementById("formLogin").addEventListener("submit",async e=>{
 e.preventDefault();const btn=document.getElementById("btnEntrar");btn.disabled=true;btn.textContent="Verificando...";
-const {data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("senha").value});
+let data,error; try { ({data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim().toLowerCase(),password:document.getElementById("senha").value})); } catch(e) { error=e; }
 if(error){msg.textContent="Não foi possível entrar. Confira seus dados e confirme seu e-mail, se solicitado.";btn.disabled=false;btn.textContent="Entrar";return;}
 const {data:perfil,error:pe}=await db.from("perfis").select("nome,aprovado").eq("id",data.user.id).maybeSingle();
 if(pe||!perfil||perfil.aprovado!==true){msg.textContent=pe?"Não foi possível verificar sua matrícula. Fale com a professora.":"Sua solicitação ainda aguarda aprovação da professora.";await db.auth.signOut();btn.disabled=false;btn.textContent="Entrar";return;}
