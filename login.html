@@ -1,135 +1,19 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Painel Escolar</title>
-    <style>
-        * { box-sizing: border-box; }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #dbeafe, #f8fafc);
-            color: #1e293b;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 410px;
-            padding: 32px 26px;
-            background: white;
-            border-radius: 22px;
-            box-shadow: 0 12px 40px rgba(30, 64, 175, 0.12);
-        }
-
-        .logo {
-            text-align: center;
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #1d4ed8;
-        }
-
-        .subtitulo {
-            text-align: center;
-            color: #64748b;
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin: 16px 0 8px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 22px;
-            padding: 15px;
-            border: 0;
-            border-radius: 10px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .aviso {
-            text-align: center;
-            color: #64748b;
-            margin-top: 18px;
-        }
-
-        .voltar {
-            display: block;
-            margin-top: 22px;
-            text-align: center;
-            color: #2563eb;
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <main class="login-container">
-        <div class="logo">🎓</div>
-        <h1>Bem-vindo!</h1>
-        <p class="subtitulo">Entre para acessar o painel escolar.</p>
-
-        <form id="formLogin">
-            <label for="usuario">Usuário</label>
-            <input id="usuario" type="text"
-                   placeholder="Digite seu usuário" required>
-
-            <label for="senha">Senha</label>
-            <input id="senha" type="password"
-                   placeholder="Digite sua senha" required>
-
-            <button type="submit">Entrar</button>
-        </form>
-
-        <p class="aviso" id="mensagem">
-            Acesso de teste para alunos.
-        </p>
-
-        <a class="voltar" href="index.html">← Voltar ao início</a>
-    </main>
-
-    <script>
-        const formulario = document.getElementById("formLogin");
-
-        formulario.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const usuario = document.getElementById("usuario").value.trim();
-            const senha = document.getElementById("senha").value;
-
-            if (usuario === "aluno" && senha === "123456") {
-                window.location.href = "aluno.html";
-            } else {
-                document.getElementById("mensagem").textContent =
-                    "Usuário ou senha incorretos. Tente novamente.";
-            }
-        });
-    </script>
-</body>
-</html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Entrar | Bio sem Mistério</title>
+<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;font-family:Arial,sans-serif;background:#f0f7ef;color:#183b20}.login{width:100%;max-width:420px;background:#fff;padding:30px;border-radius:20px;box-shadow:0 8px 30px #173b201a}h1{text-align:center;color:#1b5e20}label{display:block;margin:16px 0 7px;font-weight:bold}input{width:100%;padding:13px;border:1px solid #b8cbb9;border-radius:9px;font-size:16px}button{width:100%;padding:14px;margin-top:20px;border:0;border-radius:9px;background:#1b5e20;color:#fff;font-size:16px;font-weight:bold}#mensagem{line-height:1.5}.links{text-align:center;line-height:2;margin-top:16px}.links a{color:#1b5e20}</style></head>
+<body><main class="login"><h1>🌿 Área do aluno</h1><p>Entre com o e-mail e a senha usados na matrícula.</p>
+<form id="formLogin"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" required><label for="senha">Senha</label><input id="senha" type="password" autocomplete="current-password" required><button id="btnEntrar" type="submit">Entrar</button></form>
+<p id="mensagem" role="status" aria-live="polite"></p><div class="links"><a href="matricula.html">Ainda não tenho cadastro</a><br><a href="index.html">Voltar ao início</a><br><a href="admin.html">Acesso da professora</a></div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXAiLCJyZWYiOiJpc2hra3Zpa2d3d3N0aXNzcGdqYyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzkyNjMwNzc2LCJleHAiOjIxMDgyMDY3NzZ9.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+document.getElementById("formLogin").addEventListener("submit",async e=>{
+e.preventDefault();const msg=document.getElementById("mensagem"),btn=document.getElementById("btnEntrar");btn.disabled=true;btn.textContent="Verificando...";
+const {data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("senha").value});
+if(error){msg.textContent="Não foi possível entrar. Confira seus dados e confirme seu e-mail, se solicitado.";btn.disabled=false;btn.textContent="Entrar";return;}
+const {data:perfil,error:pe}=await db.from("perfis").select("nome,aprovado").eq("id",data.user.id).maybeSingle();
+if(pe||!perfil||perfil.aprovado!==true){msg.textContent=pe?"Não foi possível verificar sua matrícula. Fale com a professora.":"Sua solicitação ainda aguarda aprovação da professora.";await db.auth.signOut();btn.disabled=false;btn.textContent="Entrar";return;}
+location.href="aluno.html";
+});
+</script></body></html>
