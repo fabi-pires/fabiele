@@ -425,9 +425,9 @@
           if (erroExclusao || !dataExcluida || dataExcluida.length === 0) {
             btnExcluir.disabled = false;
             btnExcluir.textContent = "Tentar excluir novamente";
-            statusExclusao.textContent =
-              "Não foi possível excluir. Verifique a permissão de exclusão no Supabase: " +
-              erroExclusao.message;
+            statusExclusao.textContent = erroExclusao
+              ? "Não foi possível excluir: " + erroExclusao.message
+              : "O Supabase não confirmou a exclusão. Isso geralmente acontece quando falta uma política de permissão DELETE (RLS) para a conta da professora. A aula continua salva.";
             return;
           }
 
