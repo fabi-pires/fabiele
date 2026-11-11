@@ -1,222 +1,24 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="Faça sua matrícula no Bio sem Mistério e
-        tenha acesso a conteúdos de Biologia."
-    >
-
-    <title>Matrícula | Bio sem Mistério</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-</head>
-
-<body>
-
-    <header class="cabecalho">
-        <nav class="menu" aria-label="Menu principal">
-
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-microscope"
-                   aria-hidden="true"></i>
-                <span>Bio sem Mistério</span>
-            </a>
-
-            <ul class="menu-lista">
-                <li>
-                    <a href="index.html">Início</a>
-                </li>
-
-                <li>
-                    <a href="sobre.html">Sobre</a>
-                </li>
-
-                <li>
-                    <a href="disciplinas.html">Disciplinas</a>
-                </li>
-
-                <li>
-                    <a href="matricula.html"
-                       aria-current="page">Matrícula</a>
-                </li>
-
-                <li>
-                    <a href="contato.html">Contato</a>
-                </li>
-            </ul>
-
-        </nav>
-    </header>
-
-    <main class="pagina-matricula">
-
-        <section class="introducao">
-            <span class="etiqueta">BIOLOGIA PARA TODOS</span>
-
-            <h1>Comece sua jornada na Biologia!</h1>
-
-            <p>
-                Preencha o formulário abaixo para solicitar
-                sua matrícula no Bio sem Mistério.
-            </p>
-        </section>
-
-        <section class="cartao-matricula"
-                 aria-labelledby="titulo-formulario">
-
-            <div class="titulo-formulario">
-                <i class="fa-solid fa-leaf"
-                   aria-hidden="true"></i>
-
-                <h2 id="titulo-formulario">
-                    Formulário de Matrícula
-                </h2>
-
-                <p>
-                    Informe seus dados nos campos abaixo.
-                </p>
-            </div>
-
-            <form
-                action="https://wa.me/555195747291"
-                method="post"
-                class="form-matricula"
-                id="form-matricula"
-            >
-
-                <div class="campo">
-                    <label for="nome">Nome completo</label>
-
-                    <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        placeholder="Digite seu nome completo"
-                        autocomplete="name"
-                        required
-                    >
-                </div>
-
-                <div class="campo">
-                    <label for="email">E-mail</label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="seuemail@exemplo.com"
-                        autocomplete="email"
-                        required
-                    >
-                </div>
-
-                <div class="campo">
-                    <label for="telefone">Telefone</label>
-
-                    <input
-                        type="tel"
-                        id="telefone"
-                        name="telefone"
-                        placeholder="(00) 00000-0000"
-                        autocomplete="tel"
-                        required
-                    >
-                </div>
-
-                <div class="campo">
-                    <label for="serie">Curso desejado</label>
-
-                    <select id="serie" name="serie" required>
-                        <option value="" selected disabled>
-                            Selecione uma opção
-                        </option>
-
-                        <option value="fundamental">
-                            Ensino Fundamental
-                        </option>
-
-                        <option value="medio">
-                            Ensino Médio
-                        </option>
-
-                        <option value="pre-vestibular">
-                            Pré-Vestibular
-                        </option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label for="mensagem">
-                        Observações
-                        <span>(opcional)</span>
-                    </label>
-
-                    <textarea
-                        id="mensagem"
-                        name="mensagem"
-                        rows="4"
-                        placeholder="Escreva aqui suas dúvidas ou observações"
-                    ></textarea>
-                </div>
-
-                <button type="submit" class="botao-matricula">
-                    <i class="fa-solid fa-paper-plane"
-                       aria-hidden="true"></i>
-                    Enviar matrícula
-                </button>
-
-                <p class="aviso-formulario">
-                    O WhatsApp será aberto com sua solicitação pronta. Revise os dados e toque em Enviar no WhatsApp.
-                </p>
-
-            </form>
-        </section>
-
-    </main>
-
-    <footer class="rodape">
-        <p>
-            &copy; 2026 Bio sem Mistério.
-            Todos os direitos reservados.
-        </p>
-    </footer>
-
-<script>
-        document.getElementById("form-matricula").addEventListener("submit", function (event) {
-            event.preventDefault();
-            const form = event.currentTarget;
-            if (!form.reportValidity()) return;
-
-            const dados = new FormData(form);
-            const cursos = {
-                fundamental: "Ensino Fundamental",
-                medio: "Ensino Médio",
-                "pre-vestibular": "Pré-Vestibular"
-            };
-            const mensagem = [
-                "Olá, Fabiele! Gostaria de solicitar informações sobre matrícula no Bio sem Mistério.",
-                "",
-                "Nome: " + dados.get("nome"),
-                "E-mail: " + dados.get("email"),
-                "Telefone: " + dados.get("telefone"),
-                "Curso desejado: " + (cursos[dados.get("serie")] || dados.get("serie")),
-                "Observações: " + (dados.get("mensagem") || "Não informadas")
-            ].join("\n");
-
-            const url = "https://wa.me/555195747291?text=" + encodeURIComponent(mensagem);
-            window.open(url, "_blank", "noopener,noreferrer");
-        });
-    </script>
-</body>
-</html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Solicite sua matrícula no Bio sem Mistério."><title>Matrícula | Bio sem Mistério</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>.cadastro-auth{max-width:650px;margin:30px auto;padding:28px;background:#fff;border-radius:18px;box-shadow:0 8px 30px #173b201a}.cadastro-auth label{display:block;margin:14px 0 6px;font-weight:600}.cadastro-auth input,.cadastro-auth select,.cadastro-auth textarea{width:100%;padding:12px;border:1px solid #b8cbb9;border-radius:8px;font:inherit}.cadastro-auth button{margin-top:20px;padding:13px 18px;border:0;border-radius:9px;background:#1b5e20;color:#fff;font-weight:bold;font-size:16px;width:100%}#retornoCadastro{margin-top:16px;line-height:1.5;font-weight:600}.link-login{text-align:center;margin-top:18px}</style></head>
+<body><header class="cabecalho"><nav class="menu" aria-label="Menu principal"><a href="index.html" class="logo"><i class="fa-solid fa-microscope" aria-hidden="true"></i><span>Bio sem Mistério</span></a><ul class="menu-lista"><li><a href="index.html">Início</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="disciplinas.html">Disciplinas</a></li><li><a href="matricula.html" aria-current="page">Matrícula</a></li><li><a href="contato.html">Contato</a></li></ul></nav></header>
+<main class="pagina-matricula"><section class="introducao"><span class="etiqueta">BIOLOGIA PARA TODOS</span><h1>Comece sua jornada na Biologia!</h1><p>Crie seu acesso e solicite sua matrícula no Bio sem Mistério.</p></section>
+<section class="cadastro-auth"><h2>Solicitação de matrícula</h2><p>Preencha seus dados. A professora analisará sua solicitação e liberará o acesso após a aprovação.</p>
+<form id="form-matricula"><label for="nome">Nome completo</label><input id="nome" name="nome" autocomplete="name" required maxlength="120"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><label for="telefone">Telefone</label><input id="telefone" name="telefone" type="tel" autocomplete="tel" required><label for="serie">Curso desejado</label><select id="serie" name="serie" required><option value="">Selecione uma opção</option><option>Ensino Fundamental</option><option>Ensino Médio</option><option>Pré-Vestibular</option></select><label for="senha">Crie uma senha (mínimo 6 caracteres)</label><input id="senha" name="senha" type="password" minlength="6" autocomplete="new-password" required><label for="observacoes">Observações (opcional)</label><textarea id="observacoes" name="observacoes" rows="3"></textarea><button id="btnCadastro" type="submit">Enviar solicitação</button><p id="retornoCadastro" role="status" aria-live="polite"></p></form>
+<p class="link-login">Já tem cadastro? <a href="login.html">Entrar na área do aluno</a></p></section></main>
+<footer class="rodape"><p>&copy; 2026 Bio sem Mistério. Todos os direitos reservados.</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+document.getElementById("form-matricula").addEventListener("submit",async function(event){
+event.preventDefault();const form=event.currentTarget;if(!form.reportValidity())return;
+const btn=document.getElementById("btnCadastro"),retorno=document.getElementById("retornoCadastro");btn.disabled=true;btn.textContent="Enviando...";retorno.textContent="";
+const nome=document.getElementById("nome").value.trim(),email=document.getElementById("email").value.trim(),senha=document.getElementById("senha").value;
+const telefone=document.getElementById("telefone").value.trim(),curso=document.getElementById("serie").value,observacoes=document.getElementById("observacoes").value.trim();
+const {data,error}=await db.auth.signUp({email,password:senha,options:{data:{nome,telefone,curso,observacoes}}});
+btn.disabled=false;btn.textContent="Enviar solicitação";
+if(error){retorno.textContent="Não foi possível enviar: "+error.message;return;}
+if(data.user){retorno.textContent=data.session?"Solicitação enviada! Seu cadastro aguarda a aprovação da professora.":"Cadastro criado! Verifique seu e-mail para confirmar o endereço. Depois, a professora poderá aprovar sua solicitação.";form.reset();}
+});
+</script></body></html>
