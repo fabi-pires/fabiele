@@ -6,7 +6,7 @@
 <p id="mensagem" role="status" aria-live="polite"></p><div class="links"><a href="matricula.html">Ainda não tenho cadastro</a><br><a href="index.html">Voltar ao início</a><br><a href="admin.html">Acesso da professora</a></div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
-const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXAiLCJyZWYiOiJpc2hra3Zpa2d3d3N0aXNzcGdqYyIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzkyNjMwNzc2LCJleHAiOjIxMDgyMDY3NzZ9.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrdmlrZ3d3c3Rpc3NwZ2pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2MzA3NzYsImV4cCI6MjEwODIwNjc3Nn0.Cj4mBGiGjBkV2aqmwjhohltHRN1TimukobTpABdoOnY";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 document.getElementById("formLogin").addEventListener("submit",async e=>{
 e.preventDefault();const msg=document.getElementById("mensagem"),btn=document.getElementById("btnEntrar");btn.disabled=true;btn.textContent="Verificando...";
