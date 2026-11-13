@@ -297,26 +297,30 @@
         document.getElementById("senha").value;
 
 
-      const { error } =
+      const { data, error } =
         await supabaseClient.auth.signInWithPassword({
           email: email,
           password: senha
         });
 
-
       if (error) {
-
-        mensagemLogin.textContent =
-          "E-mail ou senha incorretos.";
-
+        mensagemLogin.textContent = "E-mail ou senha incorretos.";
         return;
       }
 
+      const { data: perfil, error: erroPerfil } = await supabaseClient
+        .from("perfis")
+        .select("nome, aprovado, tipo_usuario")
+        .eq("id", data.user.id)
+        .maybeSingle();
 
-      mensagemLogin.textContent =
-        "Login realizado!";
+      if (erroPerfil || !perfil || perfil.aprovado !== true || perfil.tipo_usuario !== "professora") {
+        await supabaseClient.auth.signOut();
+        mensagemLogin.textContent = "Este acesso é exclusivo da professora. Confira a conta utilizada.";
+        return;
+      }
 
-
+      mensagemLogin.textContent = "Login realizado!";
       mostrarPainel();
 
     });
@@ -324,14 +328,27 @@
 
     // MOSTRAR PAINEL
     async function mostrarPainel() {
+      const { data: sessao } = await supabaseClient.auth.getUser();
+      if (!sessao.user) return;
+
+      const { data: perfil, error } = await supabaseClient
+        .from("perfis")
+        .select("aprovado, tipo_usuario")
+        .eq("id", sessao.user.id)
+        .maybeSingle();
+
+      if (error || !perfil || perfil.aprovado !== true || perfil.tipo_usuario !== "professora") {
+        await supabaseClient.auth.signOut();
+        painelProfessora.classList.add("oculto");
+        telaLogin.classList.remove("oculto");
+        mensagemLogin.textContent = "Este acesso é exclusivo da professora.";
+        return;
+      }
 
       telaLogin.classList.add("oculto");
-
       painelProfessora.classList.remove("oculto");
-
       carregarAulas();
       carregarSolicitacoes();
-
     }
 
 
