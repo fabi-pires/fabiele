@@ -1,351 +1,145 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atividades | Painel Escolar</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-
-        header {
-            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
-            color: white;
-            padding: 28px 18px;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0 0 8px;
-            font-size: 28px;
-        }
-
-        header p {
-            margin: 0;
-            opacity: 0.95;
-        }
-
-        .container {
-            max-width: 850px;
-            margin: 25px auto;
-            padding: 0 16px 30px;
-        }
-
-        .resumo {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
-            margin-bottom: 22px;
-        }
-
-        .resumo-card {
-            background: white;
-            padding: 20px 12px;
-            text-align: center;
-            border-radius: 16px;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-        }
-
-        .resumo-card p {
-            margin: 0 0 10px;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .resumo-card strong {
-            font-size: 28px;
-            color: #1d4ed8;
-        }
-
-        .lista {
-            display: grid;
-            gap: 16px;
-        }
-
-        .atividade {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-            border-left: 5px solid #3b82f6;
-        }
-
-        .atividade.atrasada {
-            border-left-color: #ef4444;
-        }
-
-        .atividade.entregue {
-            border-left-color: #16a34a;
-        }
-
-        .topo {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .atividade h2 {
-            font-size: 18px;
-            margin: 0 0 8px;
-            color: #1e293b;
-        }
-
-        .materia {
-            color: #2563eb;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 0 0 12px;
-        }
-
-        .descricao {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .prazo {
-            margin: 14px 0;
-            font-size: 14px;
-            color: #475569;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 7px 10px;
-            border-radius: 20px;
-            background: #dbeafe;
-            color: #1d4ed8;
-            font-size: 12px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .atrasada .status {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .entregue .status {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .botao {
-            border: none;
-            padding: 12px 16px;
-            border-radius: 10px;
-            background: #2563eb;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .botao:hover {
-            background: #1d4ed8;
-        }
-
-        .entregue .botao {
-            background: #16a34a;
-        }
-
-        .observacao {
-            margin-top: 20px;
-            padding: 15px;
-            background: #eff6ff;
-            border-radius: 12px;
-            color: #1e40af;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .voltar {
-            display: block;
-            margin-top: 22px;
-            padding: 14px;
-            text-align: center;
-            text-decoration: none;
-            background: #2563eb;
-            color: white;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        @media (max-width: 420px) {
-            .topo {
-                flex-direction: column;
-            }
-
-            .atividade {
-                padding: 17px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minhas atividades | Bio sem mistério</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f0f7ef;color:#183b20}
+header{background:#1b5e20;color:white;text-align:center;padding:26px 16px}
+header h1{margin:0 0 8px}.container{max-width:850px;margin:24px auto;padding:0 15px 35px}
+.resumo{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+.resumo-card,.atividade,.aviso{background:white;border-radius:14px;padding:18px;box-shadow:0 4px 16px #173b2012}
+.resumo-card{text-align:center}.resumo-card p{margin:0 0 8px;color:#607261}.resumo-card strong{font-size:27px;color:#1b5e20}
+.lista{display:grid;gap:16px}.atividade{border-left:5px solid #1b5e20}
+.atividade h2{margin:0 0 8px;font-size:20px}.materia{color:#28723a;font-weight:bold;margin:0 0 10px}
+.descricao{white-space:pre-wrap;line-height:1.6;color:#526354}.prazo,.status{font-size:14px;color:#526354}
+label{display:block;font-weight:bold;margin:14px 0 6px}textarea,input[type=file]{width:100%;font:inherit}
+textarea{min-height:110px;padding:11px;border:1px solid #b8cbb9;border-radius:8px;resize:vertical}
+input[type=file]{padding:10px;background:#f7fbf7;border:1px solid #b8cbb9;border-radius:8px}
+button,.voltar{display:block;margin-top:14px;padding:12px 16px;border:0;border-radius:8px;background:#1b5e20;color:white;font-weight:bold;font-size:15px;text-align:center;text-decoration:none;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}.entregue{border-left-color:#198754}.mensagem{font-weight:bold;margin-top:10px}
+.aviso{margin:18px 0;line-height:1.5;color:#526354}.vazio{background:white;padding:20px;border-radius:12px}
+@media(max-width:420px){.atividade{padding:15px}}
+</style>
 </head>
-
 <body>
-    <header>
-        <h1>📝 Minhas Atividades</h1>
-        <p>Organize suas tarefas escolares</p>
-    </header>
+<header><h1>🌿 Minhas atividades</h1><p>Bio sem mistério | Área do aluno</p></header>
+<main class="container">
+<section class="resumo">
+<div class="resumo-card"><p>Pendentes</p><strong id="pendentes">0</strong></div>
+<div class="resumo-card"><p>Entregues</p><strong id="entregues">0</strong></div>
+</section>
+<div id="mensagemGeral" class="aviso">Verificando seu acesso...</div>
+<section class="lista" id="listaAtividades"></section>
+<a class="voltar" href="aluno.html">← Voltar ao painel do aluno</a>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const lista=document.getElementById("listaAtividades");
+const mensagemGeral=document.getElementById("mensagemGeral");
 
-    <main class="container">
-        <section class="resumo">
-            <div class="resumo-card">
-                <p>Pendentes</p>
-                <strong id="pendentes">3</strong>
-            </div>
-
-            <div class="resumo-card">
-                <p>Entregues</p>
-                <strong id="entregues">1</strong>
-            </div>
-        </section>
-
-        <section class="lista" id="listaAtividades">
-
-            <article class="atividade" data-status="pendente">
-                <div class="topo">
-                    <div>
-                        <h2>Exercícios de frações</h2>
-                        <p class="materia">➗ Matemática</p>
-                    </div>
-                    <span class="status">Pendente</span>
-                </div>
-
-                <p class="descricao">
-                    Resolver os exercícios do capítulo 3 do livro.
-                </p>
-
-                <p class="prazo">📅 Prazo: 30/10/2026</p>
-
-                <button class="botao" type="button">Marcar como entregue</button>
-            </article>
-
-            <article class="atividade" data-status="pendente">
-                <div class="topo">
-                    <div>
-                        <h2>Leitura e interpretação</h2>
-                        <p class="materia">📚 Português</p>
-                    </div>
-                    <span class="status">Pendente</span>
-                </div>
-
-                <p class="descricao">
-                    Ler o texto indicado e responder às perguntas no caderno.
-                </p>
-
-                <p class="prazo">📅 Prazo: 02/11/2026</p>
-
-                <button class="botao" type="button">Marcar como entregue</button>
-            </article>
-
-            <article class="atividade" data-status="pendente">
-                <div class="topo">
-                    <div>
-                        <h2>Pesquisa sobre o meio ambiente</h2>
-                        <p class="materia">🌎 Geografia</p>
-                    </div>
-                    <span class="status">Pendente</span>
-                </div>
-
-                <p class="descricao">
-                    Preparar uma pequena pesquisa sobre preservação ambiental.
-                </p>
-
-                <p class="prazo">📅 Prazo: 05/11/2026</p>
-
-                <button class="botao" type="button">Marcar como entregue</button>
-            </article>
-
-            <article class="atividade entregue" data-status="entregue">
-                <div class="topo">
-                    <div>
-                        <h2>Resumo do conteúdo</h2>
-                        <p class="materia">🔬 Ciências</p>
-                    </div>
-                    <span class="status">Entregue</span>
-                </div>
-
-                <p class="descricao">
-                    Fazer um resumo do conteúdo estudado em aula.
-                </p>
-
-                <p class="prazo">✅ Atividade concluída</p>
-
-                <button class="botao" type="button">Desfazer entrega</button>
-            </article>
-
-        </section>
-
-        <div class="observacao">
-            💡 Estas atividades são exemplos para demonstração.
-            Marcar uma atividade como entregue altera a tela, mas ainda
-            não envia arquivos ao professor nem salva a entrega em uma conta.
-        </div>
-
-        <a href="aluno.html" class="voltar">
-            ← Voltar ao painel do aluno
-        </a>
-    </main>
-
-    <script>
-        const atividades = document.querySelectorAll(".atividade");
-
-        function atualizarResumo() {
-            let pendentes = 0;
-            let entregues = 0;
-
-            atividades.forEach(function(atividade) {
-                if (atividade.dataset.status === "entregue") {
-                    entregues++;
-                } else {
-                    pendentes++;
-                }
-            });
-
-            document.getElementById("pendentes").textContent = pendentes;
-            document.getElementById("entregues").textContent = entregues;
+function dataBR(valor){
+  if(!valor)return "Sem prazo definido";
+  return new Date(valor+"T00:00:00").toLocaleDateString("pt-BR");
+}
+async function iniciar(){
+  const {data:{user},error:erroUsuario}=await supabaseClient.auth.getUser();
+  if(erroUsuario||!user){
+    mensagemGeral.textContent="Faça login para consultar e enviar suas atividades.";
+    setTimeout(()=>location.href="login.html",1200);
+    return;
+  }
+  const {data:perfil,error:erroPerfil}=await supabaseClient.from("perfis")
+    .select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
+  if(erroPerfil||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){
+    mensagemGeral.textContent="Esta página é exclusiva para alunos com cadastro aprovado.";
+    return;
+  }
+  mensagemGeral.textContent="Olá, "+(perfil.nome||"aluno")+"! Aqui estão as atividades publicadas pela professora.";
+  await carregarAtividades(user);
+}
+async function carregarAtividades(user){
+  lista.textContent="Carregando atividades...";
+  const [{data:atividades,error:erroAtividades},{data:respostas,error:erroRespostas}]=await Promise.all([
+    supabaseClient.from("atividades_escolares")
+      .select("id,titulo,descricao,materia,prazo_entrega,criado_em")
+      .eq("publicada",true).order("criado_em",{ascending:false}),
+    supabaseClient.from("respostas_atividades")
+      .select("id,atividade_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+      .eq("aluno_id",user.id)
+  ]);
+  if(erroAtividades){lista.textContent="Erro ao carregar atividades: "+erroAtividades.message;return;}
+  if(erroRespostas){lista.textContent="Erro ao consultar suas entregas: "+erroRespostas.message;return;}
+  const mapa=new Map((respostas||[]).map(r=>[String(r.atividade_id),r]));
+  const pendentes=(atividades||[]).filter(a=>!mapa.has(String(a.id))).length;
+  document.getElementById("pendentes").textContent=pendentes;
+  document.getElementById("entregues").textContent=(respostas||[]).length;
+  if(!atividades||atividades.length===0){lista.innerHTML='<div class="vazio">A professora ainda não publicou atividades.</div>';return;}
+  lista.innerHTML="";
+  for(const atividade of atividades){
+    const resposta=mapa.get(String(atividade.id));
+    const card=document.createElement("article");
+    card.className="atividade"+(resposta?" entregue":"");
+    const titulo=document.createElement("h2");titulo.textContent=atividade.titulo||"Atividade";
+    const materia=document.createElement("p");materia.className="materia";materia.textContent=atividade.materia||"Atividade escolar";
+    const descricao=document.createElement("p");descricao.className="descricao";descricao.textContent=atividade.descricao||"";
+    const prazo=document.createElement("p");prazo.className="prazo";prazo.textContent="📅 Prazo: "+dataBR(atividade.prazo_entrega);
+    const status=document.createElement("p");status.className="status";
+    status.textContent=resposta?"✅ Enviada — aguardando correção da professora":"📝 Pendente";
+    card.append(titulo,materia,descricao,prazo,status);
+    if(resposta){
+      if(resposta.resposta_texto){const texto=document.createElement("p");texto.textContent="Sua resposta: "+resposta.resposta_texto;card.appendChild(texto);}
+      if(resposta.arquivo_url){
+        const {data:linkData}=await supabaseClient.storage.from("entregas-atividades").createSignedUrl(resposta.arquivo_url,3600);
+        if(linkData&&linkData.signedUrl){const link=document.createElement("a");link.href=linkData.signedUrl;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Abrir arquivo enviado";card.appendChild(link);}
+      }
+      if(resposta.correcao_ia){const c=document.createElement("p");c.textContent="Correção preliminar: "+resposta.correcao_ia;card.appendChild(c);}
+      if(resposta.nota_ia!==null&&resposta.nota_ia!==undefined){const n=document.createElement("p");n.textContent="Sugestão de nota: "+resposta.nota_ia;card.appendChild(n);}
+      if(resposta.nota_final!==null&&resposta.nota_final!==undefined){const n=document.createElement("p");n.textContent="Nota final: "+resposta.nota_final;card.appendChild(n);}
+      if(resposta.comentario_professora){const c=document.createElement("p");c.textContent="Comentário da professora: "+resposta.comentario_professora;card.appendChild(c);}
+    }else{
+      const form=document.createElement("form");
+      const labelTexto=document.createElement("label");labelTexto.textContent="Escreva sua resposta";
+      const textarea=document.createElement("textarea");textarea.placeholder="Digite sua resposta aqui...";
+      const labelArquivo=document.createElement("label");labelArquivo.textContent="Ou anexe uma foto/PDF (máximo 25 MB)";
+      const arquivo=document.createElement("input");arquivo.type="file";arquivo.accept="application/pdf,image/jpeg,image/png,image/webp";
+      const botao=document.createElement("button");botao.type="submit";botao.textContent="Enviar atividade";
+      const aviso=document.createElement("p");aviso.className="mensagem";aviso.setAttribute("role","status");
+      form.append(labelTexto,textarea,labelArquivo,arquivo,botao,aviso);
+      form.addEventListener("submit",async(event)=>{
+        event.preventDefault();
+        const texto=textarea.value.trim();const file=arquivo.files[0];
+        if(!texto&&!file){aviso.textContent="Escreva uma resposta ou escolha um arquivo.";return;}
+        if(file&&file.size>25*1024*1024){aviso.textContent="O arquivo ultrapassa o limite de 25 MB.";return;}
+        botao.disabled=true;botao.textContent="Enviando...";
+        let caminho=null;
+        if(file){
+          const nomeSeguro=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+          caminho=user.id+"/"+Date.now()+"-"+nomeSeguro;
+          const {error:erroUpload}=await supabaseClient.storage.from("entregas-atividades").upload(caminho,file,{upsert:false});
+          if(erroUpload){aviso.textContent="Erro ao enviar arquivo: "+erroUpload.message;botao.disabled=false;botao.textContent="Tentar novamente";return;}
         }
-
-        atividades.forEach(function(atividade) {
-            const botao = atividade.querySelector(".botao");
-            const status = atividade.querySelector(".status");
-            const prazo = atividade.querySelector(".prazo");
-
-            botao.addEventListener("click", function() {
-                if (atividade.dataset.status === "pendente") {
-                    atividade.dataset.status = "entregue";
-                    atividade.classList.add("entregue");
-                    atividade.classList.remove("atrasada");
-                    status.textContent = "Entregue";
-                    prazo.textContent = "✅ Atividade concluída";
-                    botao.textContent = "Desfazer entrega";
-                } else {
-                    atividade.dataset.status = "pendente";
-                    atividade.classList.remove("entregue");
-                    status.textContent = "Pendente";
-                    prazo.textContent = "📅 Consulte o prazo da atividade";
-                    botao.textContent = "Marcar como entregue";
-                }
-
-                atualizarResumo();
-            });
+        const {error:erroInsert}=await supabaseClient.from("respostas_atividades").insert({
+          atividade_id:atividade.id,aluno_id:user.id,resposta_texto:texto||null,arquivo_url:caminho,status:"enviada"
         });
-
-        atualizarResumo();
-    </script>
+        if(erroInsert){
+          aviso.textContent="Não foi possível registrar a entrega: "+erroInsert.message;
+          if(caminho)await supabaseClient.storage.from("entregas-atividades").remove([caminho]);
+          botao.disabled=false;botao.textContent="Tentar novamente";return;
+        }
+        aviso.textContent="Atividade enviada com sucesso!";
+        await carregarAtividades(user);
+      });
+      card.appendChild(form);
+    }
+    lista.appendChild(card);
+  }
+}
+iniciar();
+</script>
 </body>
 </html>
