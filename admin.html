@@ -211,6 +211,20 @@
             required
           ></textarea>
 
+          <label for="arquivo">Anexar PDF ou imagem (até 25 MB)</label>
+          <input
+            id="arquivo"
+            type="file"
+            accept="application/pdf,image/jpeg,image/png,image/webp"
+          >
+
+          <label for="videoUrl">Link de vídeo (YouTube ou outro)</label>
+          <input
+            id="videoUrl"
+            type="url"
+            placeholder="https://..."
+          >
+
           <button type="submit">
             Cadastrar aula
           </button>
@@ -468,6 +482,27 @@
 
         div.appendChild(conteudo);
 
+        if (aula.arquivo_url) {
+          const linkArquivo = document.createElement("a");
+          linkArquivo.href = aula.arquivo_url;
+          linkArquivo.target = "_blank";
+          linkArquivo.rel = "noopener noreferrer";
+          linkArquivo.textContent = "Abrir material: " + (aula.arquivo_nome || "arquivo anexado");
+          linkArquivo.style.display = "block";
+          div.appendChild(linkArquivo);
+        }
+
+        if (aula.video_url) {
+          const linkVideo = document.createElement("a");
+          linkVideo.href = aula.video_url;
+          linkVideo.target = "_blank";
+          linkVideo.rel = "noopener noreferrer";
+          linkVideo.textContent = "Assistir vídeo da aula";
+          linkVideo.style.display = "block";
+          linkVideo.style.marginTop = "10px";
+          div.appendChild(linkVideo);
+        }
+
         const btnExcluir = document.createElement("button");
         btnExcluir.type = "button";
         btnExcluir.className = "btn-excluir";
@@ -536,33 +571,51 @@
       const conteudo =
         document.getElementById("conteudo").value;
 
+      const arquivo = document.getElementById("arquivo").files[0];
+      const videoUrl = document.getElementById("videoUrl").value.trim();
+      let arquivoUrl = null;
+      let arquivoNome = null;
 
-      const { error } =
-        await supabaseClient
-          .from("aulas")
-          .insert({
-            titulo: titulo,
-            descricao: descricao,
-            conteudo: conteudo
-          });
+      if (arquivo) {
+        mensagem.textContent = "Enviando arquivo...";
+        const nomeSeguro = arquivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const caminho = Date.now() + "-" + nomeSeguro;
+        const { error: erroUpload } = await supabaseClient.storage
+          .from("materiais-aulas")
+          .upload(caminho, arquivo, { upsert: false });
 
+        if (erroUpload) {
+          mensagem.textContent = "Erro ao enviar arquivo: " + erroUpload.message;
+          return;
+        }
+
+        const { data: urlPublica } = supabaseClient.storage
+          .from("materiais-aulas")
+          .getPublicUrl(caminho);
+        arquivoUrl = urlPublica.publicUrl;
+        arquivoNome = arquivo.name;
+      }
+
+      mensagem.textContent = "Salvando aula...";
+
+      const { error } = await supabaseClient
+        .from("aulas")
+        .insert({
+          titulo: titulo,
+          descricao: descricao,
+          conteudo: conteudo,
+          arquivo_url: arquivoUrl,
+          arquivo_nome: arquivoNome,
+          video_url: videoUrl || null
+        });
 
       if (error) {
-
-        mensagem.textContent =
-          "Erro ao salvar: " +
-          error.message;
-
+        mensagem.textContent = "Erro ao salvar: " + error.message;
         return;
       }
 
-
-      mensagem.textContent =
-        "Aula cadastrada com sucesso!";
-
-
+      mensagem.textContent = "Aula cadastrada com sucesso!";
       formAula.reset();
-
       carregarAulas();
 
     });
