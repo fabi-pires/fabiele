@@ -389,6 +389,7 @@
       painelProfessora.classList.remove("oculto");
       carregarAulas();
       carregarSolicitacoes();
+      await garantirAtividadeTeste();
       carregarAtividadesProf();
       carregarRespostas();
     }
@@ -441,6 +442,41 @@
         item.appendChild(botao);
         lista.appendChild(item);
       });
+    }
+
+    // CRIAR UMA ATIVIDADE DE TESTE AUTOMATICAMENTE (APENAS UMA VEZ)
+    async function garantirAtividadeTeste() {
+      const aviso = document.getElementById("mensagemAtividade");
+      const { data: existente, error: erroBusca } = await supabaseClient
+        .from("atividades_escolares")
+        .select("id")
+        .eq("titulo", "Introdução à Biologia")
+        .eq("materia", "Biologia")
+        .limit(1)
+        .maybeSingle();
+
+      if (erroBusca) {
+        aviso.textContent = "Não foi possível preparar a atividade de teste: " + erroBusca.message;
+        return;
+      }
+
+      if (existente) return;
+
+      const { error } = await supabaseClient
+        .from("atividades_escolares")
+        .insert({
+          titulo: "Introdução à Biologia",
+          materia: "Biologia",
+          descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
+          prazo_entrega: null,
+          publicada: true
+        });
+
+      if (error) {
+        aviso.textContent = "Não foi possível criar a atividade de teste: " + error.message;
+      } else {
+        aviso.textContent = "Atividade de teste “Introdução à Biologia” publicada automaticamente para os alunos.";
+      }
     }
 
     // ATIVIDADES E RESPOSTAS DOS ALUNOS
