@@ -237,6 +237,32 @@
 
 
       <section class="card">
+        <h2>📝 Cadastrar atividade</h2>
+        <form id="formAtividade">
+          <label for="atividadeTitulo">Título</label>
+          <input id="atividadeTitulo" type="text" required>
+          <label for="atividadeMateria">Matéria</label>
+          <input id="atividadeMateria" type="text" placeholder="Ex.: Biologia, Matemática, Português" required>
+          <label for="atividadeDescricao">Instruções da atividade</label>
+          <textarea id="atividadeDescricao" required></textarea>
+          <label for="atividadePrazo">Prazo de entrega</label>
+          <input id="atividadePrazo" type="date">
+          <button type="submit">Publicar atividade</button>
+          <p id="mensagemAtividade" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Atividades publicadas</h2>
+        <div id="listaAtividadesProf">Carregando atividades...</div>
+      </section>
+
+      <section class="card">
+        <h2>📥 Respostas dos alunos</h2>
+        <div id="listaRespostas">Carregando respostas...</div>
+      </section>
+
+      <section class="card">
 
         <h2>Aulas cadastradas</h2>
 
@@ -363,6 +389,8 @@
       painelProfessora.classList.remove("oculto");
       carregarAulas();
       carregarSolicitacoes();
+      carregarAtividadesProf();
+      carregarRespostas();
     }
 
 
@@ -413,6 +441,136 @@
         item.appendChild(botao);
         lista.appendChild(item);
       });
+    }
+
+    // ATIVIDADES E RESPOSTAS DOS ALUNOS
+    const formAtividade = document.getElementById("formAtividade");
+    if (formAtividade) {
+      formAtividade.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        const aviso = document.getElementById("mensagemAtividade");
+        aviso.textContent = "Publicando atividade...";
+        const nova = {
+          titulo: document.getElementById("atividadeTitulo").value.trim(),
+          materia: document.getElementById("atividadeMateria").value.trim(),
+          descricao: document.getElementById("atividadeDescricao").value.trim(),
+          prazo_entrega: document.getElementById("atividadePrazo").value || null,
+          publicada: true
+        };
+        const { error } = await supabaseClient.from("atividades_escolares").insert(nova);
+        if (error) {
+          aviso.textContent = "Não foi possível publicar: " + error.message;
+          return;
+        }
+        aviso.textContent = "Atividade publicada! Ela já pode aparecer para os alunos.";
+        formAtividade.reset();
+        carregarAtividadesProf();
+      });
+    }
+
+    async function carregarAtividadesProf() {
+      const lista = document.getElementById("listaAtividadesProf");
+      if (!lista) return;
+      lista.textContent = "Carregando...";
+      const { data, error } = await supabaseClient
+        .from("atividades_escolares")
+        .select("id,titulo,materia,descricao,prazo_entrega,publicada,criado_em")
+        .order("criado_em", { ascending: false });
+      if (error) {
+        lista.textContent = "Erro ao carregar atividades: " + error.message;
+        return;
+      }
+      if (!data || data.length === 0) {
+        lista.textContent = "Nenhuma atividade cadastrada ainda.";
+        return;
+      }
+      lista.innerHTML = "";
+      data.forEach(atividade => {
+        const item = document.createElement("div");
+        item.className = "aula";
+        const titulo = document.createElement("h3");
+        titulo.textContent = atividade.titulo || "Atividade";
+        const materia = document.createElement("strong");
+        materia.textContent = atividade.materia || "Sem matéria";
+        const descricao = document.createElement("p");
+        descricao.textContent = atividade.descricao || "";
+        const prazo = document.createElement("p");
+        prazo.textContent = atividade.prazo_entrega
+          ? "Prazo: " + new Date(atividade.prazo_entrega + "T00:00:00").toLocaleDateString("pt-BR")
+          : "Sem prazo definido";
+        const situacao = document.createElement("p");
+        situacao.textContent = atividade.publicada ? "Publicada para os alunos" : "Rascunho / não publicada";
+        item.append(titulo, materia, descricao, prazo, situacao);
+        lista.appendChild(item);
+      });
+    }
+
+    async function carregarRespostas() {
+      const lista = document.getElementById("listaRespostas");
+      if (!lista) return;
+      lista.textContent = "Carregando respostas...";
+      const { data, error } = await supabaseClient
+        .from("respostas_atividades")
+        .select("id,atividade_id,aluno_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+        .order("criado_em", { ascending: false });
+      if (error) {
+        lista.textContent = "Erro ao carregar respostas: " + error.message;
+        return;
+      }
+      if (!data || data.length === 0) {
+        lista.textContent = "Ainda não há respostas enviadas.";
+        return;
+      }
+      const idsAtividades = [...new Set(data.map(r => r.atividade_id))];
+      const idsAlunos = [...new Set(data.map(r => r.aluno_id))];
+      const [{ data: atividadesInfo }, { data: alunosInfo }] = await Promise.all([
+        supabaseClient.from("atividades_escolares").select("id,titulo").in("id", idsAtividades),
+        supabaseClient.from("perfis").select("id,nome").in("id", idsAlunos)
+      ]);
+      const titulos = Object.fromEntries((atividadesInfo || []).map(x => [x.id, x.titulo]));
+      const nomes = Object.fromEntries((alunosInfo || []).map(x => [x.id, x.nome]));
+      lista.innerHTML = "";
+      for (const resposta of data) {
+        const item = document.createElement("div");
+        item.className = "aula";
+        const titulo = document.createElement("h3");
+        titulo.textContent = titulos[resposta.atividade_id] || "Atividade";
+        const aluno = document.createElement("strong");
+        aluno.textContent = "Aluno: " + (nomes[resposta.aluno_id] || "Aluno");
+        const texto = document.createElement("p");
+        texto.textContent = resposta.resposta_texto || "O aluno enviou um arquivo.";
+        const status = document.createElement("p");
+        status.textContent = "Situação: " + (resposta.status || "enviada") +
+          (resposta.nota_final !== null ? " | Nota final: " + resposta.nota_final : "");
+        item.append(titulo, aluno, texto, status);
+        if (resposta.arquivo_url) {
+          const { data: linkData, error: linkError } = await supabaseClient.storage
+            .from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 3600);
+          if (!linkError && linkData && linkData.signedUrl) {
+            const link = document.createElement("a");
+            link.href = linkData.signedUrl;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "Abrir arquivo enviado";
+            item.appendChild(link);
+          } else {
+            const avisoArquivo = document.createElement("p");
+            avisoArquivo.textContent = "Não foi possível gerar o link do arquivo.";
+            item.appendChild(avisoArquivo);
+          }
+        }
+        if (resposta.correcao_ia) {
+          const correcao = document.createElement("p");
+          correcao.textContent = "Correção preliminar: " + resposta.correcao_ia;
+          item.appendChild(correcao);
+        }
+        if (resposta.nota_ia !== null) {
+          const notaIA = document.createElement("p");
+          notaIA.textContent = "Sugestão de nota da IA: " + resposta.nota_ia;
+          item.appendChild(notaIA);
+        }
+        lista.appendChild(item);
+      }
     }
 
     // CARREGAR AULAS
