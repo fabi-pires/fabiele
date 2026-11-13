@@ -80,7 +80,7 @@
 
             const { data, error } = await bancoAulas
                 .from("aulas")
-                .select("id, titulo, descricao, conteudo")
+                .select("id, titulo, descricao, conteudo, arquivo_url, arquivo_nome, video_url")
                 .order("id", { ascending: false });
 
             botaoAtualizar.disabled = false;
@@ -109,6 +109,29 @@
                 card.appendChild(criarElemento("h3", aula.titulo || "Aula sem título"));
                 if (aula.descricao) card.appendChild(criarElemento("p", aula.descricao));
                 card.appendChild(criarElemento("p", aula.conteudo || "Conteúdo não informado."));
+
+                if (aula.arquivo_url) {
+                    const linkArquivo = document.createElement("a");
+                    linkArquivo.href = aula.arquivo_url;
+                    linkArquivo.target = "_blank";
+                    linkArquivo.rel = "noopener noreferrer";
+                    linkArquivo.textContent = "📎 Abrir ou baixar " + (aula.arquivo_nome || "material da aula");
+                    linkArquivo.style.display = "inline-block";
+                    linkArquivo.style.marginTop = "10px";
+                    card.appendChild(linkArquivo);
+                }
+
+                if (aula.video_url) {
+                    const linkVideo = document.createElement("a");
+                    linkVideo.href = aula.video_url;
+                    linkVideo.target = "_blank";
+                    linkVideo.rel = "noopener noreferrer";
+                    linkVideo.textContent = "▶ Assistir vídeo da aula";
+                    linkVideo.style.display = "inline-block";
+                    linkVideo.style.marginTop = "10px";
+                    card.appendChild(linkVideo);
+                }
+
                 listaAulas.appendChild(card);
             });
 
