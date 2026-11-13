@@ -582,17 +582,17 @@
       const idsAtividades = [...new Set(data.map(r => r.atividade_id))];
       const idsAlunos = [...new Set(data.map(r => r.aluno_id))];
       const [{ data: atividadesInfo }, { data: alunosInfo }] = await Promise.all([
-        supabaseClient.from("atividades_escolares").select("id,titulo").in("id", idsAtividades),
+        supabaseClient.from("atividades_escolares").select("id,titulo,descricao,materia").in("id", idsAtividades),
         supabaseClient.from("perfis").select("id,nome").in("id", idsAlunos)
       ]);
-      const titulos = Object.fromEntries((atividadesInfo || []).map(x => [x.id, x.titulo]));
+      const atividadesMap = Object.fromEntries((atividadesInfo || []).map(x => [x.id, x]));
       const nomes = Object.fromEntries((alunosInfo || []).map(x => [x.id, x.nome]));
       lista.innerHTML = "";
       for (const resposta of data) {
         const item = document.createElement("div");
         item.className = "aula";
         const titulo = document.createElement("h3");
-        titulo.textContent = titulos[resposta.atividade_id] || "Atividade";
+        titulo.textContent = atividadesMap[resposta.atividade_id]?.titulo || "Atividade";
         const aluno = document.createElement("strong");
         aluno.textContent = "Aluno: " + (nomes[resposta.aluno_id] || "Aluno");
         const texto = document.createElement("p");
@@ -626,6 +626,61 @@
           const notaIA = document.createElement("p");
           notaIA.textContent = "Sugestão de nota da IA: " + resposta.nota_ia;
           item.appendChild(notaIA);
+        }
+        if (resposta.resposta_texto && !resposta.nota_ia && !resposta.correcao_ia) {
+          const btnIA = document.createElement("button");
+          btnIA.type = "button";
+          btnIA.textContent = "✨ Corrigir com IA";
+          const retornoIA = document.createElement("p");
+          retornoIA.setAttribute("role", "status");
+          btnIA.addEventListener("click", async () => {
+            btnIA.disabled = true;
+            btnIA.textContent = "A IA está corrigindo...";
+            retornoIA.textContent = "Analisando a resposta escrita. A IA fará apenas uma avaliação preliminar.";
+            const atividadeInfo = atividadesMap[resposta.atividade_id] || {};
+            const { data: resultadoIA, error: erroIA } = await supabaseClient.functions.invoke(
+              "corrigir-atividade",
+              { body: { enunciado: atividadeInfo.descricao || atividadeInfo.titulo || "Atividade escolar", resposta: resposta.resposta_texto } }
+            );
+            if (erroIA) {
+              retornoIA.textContent = "Não foi possível corrigir: " + (erroIA.message || "verifique a função e tente novamente.");
+              btnIA.disabled = false;
+              btnIA.textContent = "Tentar novamente";
+              return;
+            }
+            const resultado = resultadoIA && resultadoIA.resultado ? resultadoIA.resultado : (resultadoIA || {});
+            const formatar = valor => Array.isArray(valor) ? valor.map(x => "• " + String(x)).join("\\n") : (valor && typeof valor === "object" ? JSON.stringify(valor) : String(valor || ""));
+            const blocos = [];
+            if (resultado.acertos) blocos.push("ACERTOS:\\n" + formatar(resultado.acertos));
+            if (resultado.erros) blocos.push("PONTOS A CORRIGIR:\\n" + formatar(resultado.erros));
+            if (resultado.orientacoes) blocos.push("ORIENTAÇÕES:\\n" + formatar(resultado.orientacoes));
+            const correcao = blocos.join("\\n\\n") || resultado.correcao || resultado.feedback || JSON.stringify(resultado);
+            const notaBruta = resultado.nota_sugerida ?? resultado.nota_ia ?? resultado.nota;
+            const nota = notaBruta === null || notaBruta === undefined || notaBruta === "" ? null : Number(notaBruta);
+            if (!correcao || (nota !== null && (!Number.isFinite(nota) || nota < 0 || nota > 10))) {
+              retornoIA.textContent = "A resposta da IA veio em um formato inesperado. Nenhuma nota foi salva.";
+              btnIA.disabled = false;
+              btnIA.textContent = "Tentar novamente";
+              return;
+            }
+            const { error: erroSalvar } = await supabaseClient.from("respostas_atividades")
+              .update({ correcao_ia: correcao, nota_ia: nota })
+              .eq("id", resposta.id);
+            if (erroSalvar) {
+              retornoIA.textContent = "A IA corrigiu, mas não foi possível salvar no banco: " + erroSalvar.message;
+              btnIA.disabled = false;
+              btnIA.textContent = "Tentar salvar novamente";
+              return;
+            }
+            retornoIA.textContent = "Correção preliminar salva. A nota final continua sendo decisão da professora.";
+            btnIA.remove();
+            await carregarRespostas();
+          });
+          item.append(btnIA, retornoIA);
+        } else if (!resposta.resposta_texto && resposta.arquivo_url && !resposta.correcao_ia) {
+          const avisoIA = document.createElement("p");
+          avisoIA.textContent = "Esta entrega contém apenas arquivo. A correção por IA ainda aceita respostas em texto; a análise de foto/PDF será adicionada depois.";
+          item.appendChild(avisoIA);
         }
         lista.appendChild(item);
       }
