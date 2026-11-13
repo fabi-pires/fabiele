@@ -444,38 +444,60 @@
       });
     }
 
-    // CRIAR UMA ATIVIDADE DE TESTE AUTOMATICAMENTE (APENAS UMA VEZ)
+    // GARANTIR QUE A ATIVIDADE DE TESTE EXISTA E ESTEJA PUBLICADA
     async function garantirAtividadeTeste() {
       const aviso = document.getElementById("mensagemAtividade");
-      const { data: existente, error: erroBusca } = await supabaseClient
-        .from("atividades_escolares")
-        .select("id")
-        .eq("titulo", "Introdução à Biologia")
-        .eq("materia", "Biologia")
-        .limit(1)
-        .maybeSingle();
+      aviso.textContent = "Verificando atividade de teste...";
 
-      if (erroBusca) {
-        aviso.textContent = "Não foi possível preparar a atividade de teste: " + erroBusca.message;
-        return;
-      }
+      try {
+        const { data: existente, error: erroBusca } = await supabaseClient
+          .from("atividades_escolares")
+          .select("id")
+          .eq("titulo", "Introdução à Biologia")
+          .eq("materia", "Biologia")
+          .limit(1)
+          .maybeSingle();
 
-      if (existente) return;
+        if (erroBusca) {
+          aviso.textContent = "Não foi possível verificar a atividade: " + erroBusca.message;
+          return;
+        }
 
-      const { error } = await supabaseClient
-        .from("atividades_escolares")
-        .insert({
-          titulo: "Introdução à Biologia",
-          materia: "Biologia",
-          descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
-          prazo_entrega: null,
-          publicada: true
-        });
+        if (existente) {
+          const { error: erroAtualizacao } = await supabaseClient
+            .from("atividades_escolares")
+            .update({
+              descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
+              publicada: true
+            })
+            .eq("id", existente.id);
 
-      if (error) {
-        aviso.textContent = "Não foi possível criar a atividade de teste: " + error.message;
-      } else {
-        aviso.textContent = "Atividade de teste “Introdução à Biologia” publicada automaticamente para os alunos.";
+          if (erroAtualizacao) {
+            aviso.textContent = "A atividade existe, mas não foi possível publicá-la: " + erroAtualizacao.message;
+            return;
+          }
+
+          aviso.textContent = "Atividade “Introdução à Biologia” confirmada e publicada.";
+          return;
+        }
+
+        const { error: erroCriacao } = await supabaseClient
+          .from("atividades_escolares")
+          .insert({
+            titulo: "Introdução à Biologia",
+            materia: "Biologia",
+            descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
+            prazo_entrega: null,
+            publicada: true
+          });
+
+        if (erroCriacao) {
+          aviso.textContent = "Não foi possível criar a atividade de teste: " + erroCriacao.message;
+        } else {
+          aviso.textContent = "Atividade de teste “Introdução à Biologia” publicada automaticamente para os alunos.";
+        }
+      } catch (erro) {
+        aviso.textContent = "Erro ao preparar a atividade: " + (erro.message || erro);
       }
     }
 
