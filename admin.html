@@ -649,12 +649,12 @@
               return;
             }
             const resultado = resultadoIA && resultadoIA.resultado ? resultadoIA.resultado : (resultadoIA || {});
-            const formatar = valor => Array.isArray(valor) ? valor.map(x => "• " + String(x)).join("\\n") : (valor && typeof valor === "object" ? JSON.stringify(valor) : String(valor || ""));
+            const formatar = valor => Array.isArray(valor) ? valor.map(x => "• " + String(x)).join("\n") : (valor && typeof valor === "object" ? JSON.stringify(valor) : String(valor || ""));
             const blocos = [];
-            if (resultado.acertos) blocos.push("ACERTOS:\\n" + formatar(resultado.acertos));
-            if (resultado.erros) blocos.push("PONTOS A CORRIGIR:\\n" + formatar(resultado.erros));
-            if (resultado.orientacoes) blocos.push("ORIENTAÇÕES:\\n" + formatar(resultado.orientacoes));
-            const correcao = blocos.join("\\n\\n") || resultado.correcao || resultado.feedback || JSON.stringify(resultado);
+            if (resultado.acertos) blocos.push("ACERTOS:\n" + formatar(resultado.acertos));
+            if (resultado.erros) blocos.push("PONTOS A CORRIGIR:\n" + formatar(resultado.erros));
+            if (resultado.orientacoes) blocos.push("ORIENTAÇÕES:\n" + formatar(resultado.orientacoes));
+            const correcao = blocos.join("\n\n") || resultado.correcao || resultado.feedback || JSON.stringify(resultado);
             const notaBruta = resultado.nota_sugerida ?? resultado.nota_ia ?? resultado.nota;
             const nota = notaBruta === null || notaBruta === undefined || notaBruta === "" ? null : Number(notaBruta);
             if (!correcao || (nota !== null && (!Number.isFinite(nota) || nota < 0 || nota > 10))) {
