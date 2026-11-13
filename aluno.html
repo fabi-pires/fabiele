@@ -8,8 +8,8 @@ const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 (async()=>{const {data:{user}}=await db.auth.getUser();if(!user){location.replace("login.html");return;}
-const {data:perfil,error}=await db.from("perfis").select("nome,aprovado").eq("id",user.id).maybeSingle();
-if(error||!perfil||perfil.aprovado!==true){await db.auth.signOut();location.replace("login.html");return;}
+const {data:perfil,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
+if(error||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){await db.auth.signOut();location.replace("login.html");return;}
 document.getElementById("nomeAluno").textContent=perfil.nome||user.user_metadata?.nome||"aluno";
 document.getElementById("statusAluno").textContent="Acesso liberado.";
 })();
