@@ -23,8 +23,10 @@ document.getElementById("formLogin").addEventListener("submit",async e=>{
 e.preventDefault();const btn=document.getElementById("btnEntrar");btn.disabled=true;btn.textContent="Verificando...";
 let data,error; try { ({data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim().toLowerCase(),password:document.getElementById("senha").value})); } catch(e) { error=e; }
 if(error){msg.textContent="Não foi possível entrar. Confira seus dados e confirme seu e-mail, se solicitado.";btn.disabled=false;btn.textContent="Entrar";return;}
-const {data:perfil,error:pe}=await db.from("perfis").select("nome,aprovado").eq("id",data.user.id).maybeSingle();
-if(pe||!perfil||perfil.aprovado!==true){msg.textContent=pe?"Não foi possível verificar sua matrícula. Fale com a professora.":"Sua solicitação ainda aguarda aprovação da professora.";await db.auth.signOut();btn.disabled=false;btn.textContent="Entrar";return;}
+const {data:perfil,error:pe}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",data.user.id).maybeSingle();
+if(pe||!perfil||perfil.aprovado!==true){msg.textContent=pe?"Não foi possível verificar seu cadastro. Fale com a professora.":"Sua solicitação ainda aguarda aprovação da professora.";await db.auth.signOut();btn.disabled=false;btn.textContent="Entrar";return;}
+if(perfil.tipo_usuario==="professora"){location.href="admin.html";return;}
+if(perfil.tipo_usuario!=="aluno"){msg.textContent="Tipo de acesso não configurado. Fale com a professora.";await db.auth.signOut();btn.disabled=false;btn.textContent="Entrar";return;}
 location.href="aluno.html";
 });
 </script></body></html>
