@@ -172,7 +172,7 @@ ${temTexto ? (resposta as string).trim() : 'O aluno enviou somente um arquivo PD
 
     let correction: unknown
     try {
-      const normalized = rawText.trim().replace(/^\`\`\`(?:json)?\\s*/i, '').replace(/\\s*\`\`\`$/, '')
+      const normalized = rawText.trim().replace(/^\`\`\`(?:json)?\s*/i, '').replace(/\s*\`\`\`$/, '')
       correction = JSON.parse(normalized)
     } catch {
       return jsonResponse({ error: 'O serviço de correção retornou um formato inválido.' }, 502)
