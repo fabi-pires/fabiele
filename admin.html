@@ -637,7 +637,7 @@
             btnIA.disabled = true;
             btnIA.textContent = "A IA está corrigindo...";
             retornoIA.textContent = resposta.arquivo_url
-              ? "Preparando o PDF para leitura. A IA fará uma avaliação preliminar."
+              ? "Preparando o arquivo para leitura. A IA fará uma avaliação preliminar."
               : "Analisando a resposta escrita. A IA fará apenas uma avaliação preliminar.";
             const atividadeInfo = atividadesMap[resposta.atividade_id] || {};
             const body = {
@@ -645,8 +645,14 @@
               resposta: resposta.resposta_texto || ""
             };
             if (resposta.arquivo_url) {
-              if (!/\.pdf$/i.test(resposta.arquivo_url)) {
-                retornoIA.textContent = "Por enquanto, a leitura automática aceita PDF. Arquivos de imagem ainda não são analisados.";
+              const extensao = resposta.arquivo_url.split("?")[0].toLowerCase();
+              let tipoArquivo = null;
+              if (extensao.endsWith(".pdf")) tipoArquivo = "application/pdf";
+              else if (extensao.endsWith(".jpg") || extensao.endsWith(".jpeg")) tipoArquivo = "image/jpeg";
+              else if (extensao.endsWith(".png")) tipoArquivo = "image/png";
+              else if (extensao.endsWith(".webp")) tipoArquivo = "image/webp";
+              if (!tipoArquivo) {
+                retornoIA.textContent = "Formato não aceito. Envie PDF, JPG, PNG ou WEBP.";
                 btnIA.disabled = false;
                 btnIA.textContent = "Tentar novamente";
                 return;
@@ -660,7 +666,7 @@
                 return;
               }
               body.arquivo_url = arquivoAssinado.signedUrl;
-              body.arquivo_mime_type = "application/pdf";
+              body.arquivo_mime_type = tipoArquivo;
             }
             const { data: resultadoIA, error: erroIA } = await supabaseClient.functions.invoke(
               "corrigir-atividade", { body }
@@ -702,7 +708,7 @@
           item.append(btnIA, retornoIA);
         } else if (!resposta.resposta_texto && resposta.arquivo_url && !resposta.correcao_ia) {
           const avisoIA = document.createElement("p");
-          avisoIA.textContent = "Use o botão “Corrigir com IA” para analisar o PDF enviado. A leitura automática de fotos será adicionada depois.";
+          avisoIA.textContent = "Use o botão “Corrigir com IA” para analisar o arquivo enviado (PDF ou imagem).";
           item.appendChild(avisoIA);
         }
         lista.appendChild(item);
