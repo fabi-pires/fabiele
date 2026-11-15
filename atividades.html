@@ -105,7 +105,7 @@ async function carregarAtividades(user){
   ]=await Promise.all([
     supabaseClient.from("atividades_escolares")
       .select("id,titulo,descricao,materia,prazo_entrega,criado_em")
-      .eq("publicada",true)
+      .eq("publicado",true)
       .order("criado_em",{ascending:false}),
 
     supabaseClient.from("respostas_atividades")
