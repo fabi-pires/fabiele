@@ -468,7 +468,7 @@
             .from("atividades_escolares")
             .update({
               descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
-              publicada: true
+              publicado: true
             })
             .eq("id", existente.id);
 
@@ -488,7 +488,7 @@
             materia: "Biologia",
             descricao: "Responda com suas palavras: O que é Biologia e por que ela é importante para nossa vida? Você pode escrever a resposta ou enviar uma foto/PDF do seu trabalho.",
             prazo_entrega: null,
-            publicada: true
+            publicado: true
           });
 
         if (erroCriacao) {
@@ -513,7 +513,7 @@
           materia: document.getElementById("atividadeMateria").value.trim(),
           descricao: document.getElementById("atividadeDescricao").value.trim(),
           prazo_entrega: document.getElementById("atividadePrazo").value || null,
-          publicada: true
+          publicado: true
         };
         const { error } = await supabaseClient.from("atividades_escolares").insert(nova);
         if (error) {
@@ -532,7 +532,7 @@
       lista.textContent = "Carregando...";
       const { data, error } = await supabaseClient
         .from("atividades_escolares")
-        .select("id,titulo,materia,descricao,prazo_entrega,publicada,criado_em")
+        .select("id,titulo,materia,descricao,prazo_entrega,publicado,criado_em")
         .order("criado_em", { ascending: false });
       if (error) {
         lista.textContent = "Erro ao carregar atividades: " + error.message;
@@ -557,8 +557,49 @@
           ? "Prazo: " + new Date(atividade.prazo_entrega + "T00:00:00").toLocaleDateString("pt-BR")
           : "Sem prazo definido";
         const situacao = document.createElement("p");
-        situacao.textContent = atividade.publicada ? "Publicada para os alunos" : "Rascunho / não publicada";
-        item.append(titulo, materia, descricao, prazo, situacao);
+        situacao.textContent = atividade.publicado ? "Publicada para os alunos" : "Rascunho / não publicada";
+        const btnExcluir = document.createElement("button");
+        btnExcluir.type = "button";
+        btnExcluir.className = "btn-excluir";
+        btnExcluir.textContent = "Excluir atividade";
+
+        const statusExclusao = document.createElement("p");
+        statusExclusao.className = "mensagem-exclusao";
+        statusExclusao.setAttribute("role", "status");
+        statusExclusao.setAttribute("aria-live", "polite");
+
+        btnExcluir.addEventListener("click", async function() {
+          const confirmar = window.confirm(
+            'Tem certeza de que deseja excluir a atividade "' +
+            (atividade.titulo || "sem título") +
+            '"? Essa ação não pode ser desfeita.'
+          );
+          if (!confirmar) return;
+
+          btnExcluir.disabled = true;
+          btnExcluir.textContent = "Excluindo...";
+          statusExclusao.textContent = "";
+
+          const { data: excluida, error: erroExclusao } = await supabaseClient
+            .from("atividades_escolares")
+            .delete()
+            .eq("id", atividade.id)
+            .select("id");
+
+          if (erroExclusao || !excluida || excluida.length === 0) {
+            btnExcluir.disabled = false;
+            btnExcluir.textContent = "Tentar excluir novamente";
+            statusExclusao.textContent = erroExclusao
+              ? "Não foi possível excluir. Pode haver respostas vinculadas ou faltar permissão DELETE: " + erroExclusao.message
+              : "O Supabase não confirmou a exclusão. Verifique a permissão DELETE.";
+            return;
+          }
+
+          statusExclusao.textContent = "Atividade excluída.";
+          await carregarAtividadesProf();
+        });
+
+        item.append(titulo, materia, descricao, prazo, situacao, btnExcluir, statusExclusao);
         lista.appendChild(item);
       });
     }
@@ -569,7 +610,7 @@
       lista.textContent = "Carregando respostas...";
       const { data, error } = await supabaseClient
         .from("respostas_atividades")
-        .select("id,atividade_id,aluno_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+        .select("id,atividade_id,aluno_id,resposta_texto,url_do_arquivo,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
         .order("criado_em", { ascending: false });
       if (error) {
         lista.textContent = "Erro ao carregar respostas: " + error.message;
@@ -601,9 +642,9 @@
         status.textContent = "Situação: " + (resposta.status || "enviada") +
           (resposta.nota_final !== null ? " | Nota final: " + resposta.nota_final : "");
         item.append(titulo, aluno, texto, status);
-        if (resposta.arquivo_url) {
+        if (resposta.url_do_arquivo) {
           const { data: linkData, error: linkError } = await supabaseClient.storage
-            .from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 3600);
+            .from("entregas-atividades").createSignedUrl(resposta.url_do_arquivo, 3600);
           if (!linkError && linkData && linkData.signedUrl) {
             const link = document.createElement("a");
             link.href = linkData.signedUrl;
@@ -627,7 +668,7 @@
           notaIA.textContent = "Sugestão de nota da IA: " + resposta.nota_ia;
           item.appendChild(notaIA);
         }
-        if ((resposta.resposta_texto || resposta.arquivo_url) && !resposta.nota_ia && !resposta.correcao_ia) {
+        if ((resposta.resposta_texto || resposta.url_do_arquivo) && !resposta.nota_ia && !resposta.correcao_ia) {
           const btnIA = document.createElement("button");
           btnIA.type = "button";
           btnIA.textContent = "✨ Corrigir com IA";
@@ -636,7 +677,7 @@
           btnIA.addEventListener("click", async () => {
             btnIA.disabled = true;
             btnIA.textContent = "A IA está corrigindo...";
-            retornoIA.textContent = resposta.arquivo_url
+            retornoIA.textContent = resposta.url_do_arquivo
               ? "Preparando o arquivo para leitura. A IA fará uma avaliação preliminar."
               : "Analisando a resposta escrita. A IA fará apenas uma avaliação preliminar.";
             const atividadeInfo = atividadesMap[resposta.atividade_id] || {};
@@ -644,8 +685,8 @@
               enunciado: atividadeInfo.descricao || atividadeInfo.titulo || "Atividade escolar",
               resposta: resposta.resposta_texto || ""
             };
-            if (resposta.arquivo_url) {
-              const extensao = resposta.arquivo_url.split("?")[0].toLowerCase();
+            if (resposta.url_do_arquivo) {
+              const extensao = resposta.url_do_arquivo.split("?")[0].toLowerCase();
               let tipoArquivo = null;
               if (extensao.endsWith(".pdf")) tipoArquivo = "application/pdf";
               else if (extensao.endsWith(".jpg") || extensao.endsWith(".jpeg")) tipoArquivo = "image/jpeg";
@@ -658,7 +699,7 @@
                 return;
               }
               const { data: arquivoAssinado, error: erroLink } = await supabaseClient.storage
-                .from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 300);
+                .from("entregas-atividades").createSignedUrl(resposta.url_do_arquivo, 300);
               if (erroLink || !arquivoAssinado?.signedUrl) {
                 retornoIA.textContent = "Não foi possível abrir o PDF enviado: " + (erroLink?.message || "link indisponível");
                 btnIA.disabled = false;
@@ -706,7 +747,7 @@
             await carregarRespostas();
           });
           item.append(btnIA, retornoIA);
-        } else if (!resposta.resposta_texto && resposta.arquivo_url && !resposta.correcao_ia) {
+        } else if (!resposta.resposta_texto && resposta.url_do_arquivo && !resposta.correcao_ia) {
           const avisoIA = document.createElement("p");
           avisoIA.textContent = "Use o botão “Corrigir com IA” para analisar o arquivo enviado (PDF ou imagem).";
           item.appendChild(avisoIA);
