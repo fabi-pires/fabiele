@@ -105,11 +105,11 @@ async function carregarAtividades(user){
   ]=await Promise.all([
     supabaseClient.from("atividades_escolares")
       .select("id,titulo,descricao,materia,prazo_entrega,criado_em")
-      .eq("publicado",true)
+      .eq("publicada",true)
       .order("criado_em",{ascending:false}),
 
     supabaseClient.from("respostas_atividades")
-      .select("id,atividade_id,resposta_texto,url_do_arquivo,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+      .select("id,atividade_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
       .eq("aluno_id",user.id)
   ]);
 
@@ -171,10 +171,10 @@ async function carregarAtividades(user){
         card.appendChild(texto);
       }
 
-      if(resposta.url_do_arquivo){
+      if(resposta.arquivo_url){
         const {data:linkData,error:linkError}=await supabaseClient
           .storage.from("entregas-atividades")
-          .createSignedUrl(resposta.url_do_arquivo,3600);
+          .createSignedUrl(resposta.arquivo_url,3600);
 
         if(!linkError&&linkData&&linkData.signedUrl){
           const link=document.createElement("a");
@@ -235,10 +235,10 @@ async function carregarAtividades(user){
           return;
         }
 
-        if(resposta.url_do_arquivo){
+        if(resposta.arquivo_url){
           await supabaseClient.storage
             .from("entregas-atividades")
-            .remove([resposta.url_do_arquivo]);
+            .remove([resposta.arquivo_url]);
         }
 
         await carregarAtividades(user);
@@ -315,7 +315,7 @@ async function carregarAtividades(user){
             atividade_id:atividade.id,
             aluno_id:user.id,
             resposta_texto:texto||null,
-            url_do_arquivo:caminho,
+            arquivo_url:caminho,
             status:"enviada"
           })
           .select("id")
