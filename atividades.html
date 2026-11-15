@@ -1,44 +1,69 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minhas atividades | Bio sem mistério</title>
+<title>Minhas atividades | Bio sem Mistério</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f0f7ef;color:#183b20}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f0f7ef;color:#183b20}
 header{background:#1b5e20;color:white;text-align:center;padding:26px 16px}
-header h1{margin:0 0 8px}.container{max-width:850px;margin:24px auto;padding:0 15px 35px}
+header h1{margin:0 0 8px}
+.container{max-width:850px;margin:24px auto;padding:0 15px 35px}
 .resumo{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
 .resumo-card,.atividade,.aviso{background:white;border-radius:14px;padding:18px;box-shadow:0 4px 16px #173b2012}
-.resumo-card{text-align:center}.resumo-card p{margin:0 0 8px;color:#607261}.resumo-card strong{font-size:27px;color:#1b5e20}
-.lista{display:grid;gap:16px}.atividade{border-left:5px solid #1b5e20}
-.atividade h2{margin:0 0 8px;font-size:20px}.materia{color:#28723a;font-weight:bold;margin:0 0 10px}
-.descricao{white-space:pre-wrap;line-height:1.6;color:#526354}.prazo,.status{font-size:14px;color:#526354}
-label{display:block;font-weight:bold;margin:14px 0 6px}textarea,input[type=file]{width:100%;font:inherit}
+.resumo-card{text-align:center}
+.resumo-card p{margin:0 0 8px;color:#607261}
+.resumo-card strong{font-size:27px;color:#1b5e20}
+.lista{display:grid;gap:16px}
+.atividade{border-left:5px solid #1b5e20}
+.atividade h2{margin:0 0 8px;font-size:20px}
+.materia{color:#28723a;font-weight:bold;margin:0 0 10px}
+.descricao{white-space:pre-wrap;line-height:1.6;color:#526354}
+.prazo,.status{font-size:14px;color:#526354}
+label{display:block;font-weight:bold;margin:14px 0 6px}
+textarea,input[type=file]{width:100%;font:inherit}
 textarea{min-height:110px;padding:11px;border:1px solid #b8cbb9;border-radius:8px;resize:vertical}
 input[type=file]{padding:10px;background:#f7fbf7;border:1px solid #b8cbb9;border-radius:8px}
 button,.voltar{display:block;margin-top:14px;padding:12px 16px;border:0;border-radius:8px;background:#1b5e20;color:white;font-weight:bold;font-size:15px;text-align:center;text-decoration:none;cursor:pointer}
-button:disabled{opacity:.6;cursor:wait}.botao-apagar{background:#b42318;margin-top:10px}.entregue{border-left-color:#198754}.mensagem{font-weight:bold;margin-top:10px}
-.aviso{margin:18px 0;line-height:1.5;color:#526354}.vazio{background:white;padding:20px;border-radius:12px}
+button:disabled{opacity:.6;cursor:wait}
+.botao-apagar{background:#b42318;margin-top:10px}
+.entregue{border-left-color:#198754}
+.mensagem{font-weight:bold;margin-top:10px;line-height:1.5}
+.aviso{margin:18px 0;line-height:1.5;color:#526354}
+.vazio{background:white;padding:20px;border-radius:12px}
+.resultado-ia{background:#f2f8f2;padding:12px;border-radius:8px;margin-top:12px;line-height:1.5}
 @media(max-width:420px){.atividade{padding:15px}}
 </style>
 </head>
 <body>
-<header><h1>🌿 Minhas atividades</h1><p>Bio sem mistério | Área do aluno</p></header>
+<header>
+<h1>🌿 Minhas atividades</h1>
+<p>Bio sem Mistério | Área do aluno</p>
+</header>
+
 <main class="container">
 <section class="resumo">
 <div class="resumo-card"><p>Pendentes</p><strong id="pendentes">0</strong></div>
 <div class="resumo-card"><p>Entregues</p><strong id="entregues">0</strong></div>
 </section>
+
 <div id="mensagemGeral" class="aviso">Verificando seu acesso...</div>
 <section class="lista" id="listaAtividades"></section>
 <a class="voltar" href="aluno.html">← Voltar ao painel do aluno</a>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+const supabaseClient=window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
 const lista=document.getElementById("listaAtividades");
 const mensagemGeral=document.getElementById("mensagemGeral");
 
@@ -46,117 +71,325 @@ function dataBR(valor){
   if(!valor)return "Sem prazo definido";
   return new Date(valor+"T00:00:00").toLocaleDateString("pt-BR");
 }
+
 async function iniciar(){
   const {data:{user},error:erroUsuario}=await supabaseClient.auth.getUser();
+
   if(erroUsuario||!user){
     mensagemGeral.textContent="Faça login para consultar e enviar suas atividades.";
     setTimeout(()=>location.href="login.html",1200);
     return;
   }
-  const {data:perfil,error:erroPerfil}=await supabaseClient.from("perfis")
-    .select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
+
+  const {data:perfil,error:erroPerfil}=await supabaseClient
+    .from("perfis")
+    .select("nome,aprovado,tipo_usuario")
+    .eq("id",user.id)
+    .maybeSingle();
+
   if(erroPerfil||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){
     mensagemGeral.textContent="Esta página é exclusiva para alunos com cadastro aprovado.";
     return;
   }
-  mensagemGeral.textContent="Olá, "+(perfil.nome||"aluno")+"! Aqui estão as atividades publicadas pela professora.";
+
+  mensagemGeral.textContent="Olá, "+(perfil.nome||"aluno")+"! Aqui estão suas atividades.";
   await carregarAtividades(user);
 }
+
 async function carregarAtividades(user){
   lista.textContent="Carregando atividades...";
-  const [{data:atividades,error:erroAtividades},{data:respostas,error:erroRespostas}]=await Promise.all([
+
+  const [
+    {data:atividades,error:erroAtividades},
+    {data:respostas,error:erroRespostas}
+  ]=await Promise.all([
     supabaseClient.from("atividades_escolares")
       .select("id,titulo,descricao,materia,prazo_entrega,criado_em")
-      .eq("publicada",true).order("criado_em",{ascending:false}),
+      .eq("publicada",true)
+      .order("criado_em",{ascending:false}),
+
     supabaseClient.from("respostas_atividades")
-      .select("id,atividade_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+      .select("id,atividade_id,resposta_texto,url_do_arquivo,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
       .eq("aluno_id",user.id)
   ]);
-  if(erroAtividades){lista.textContent="Erro ao carregar atividades: "+erroAtividades.message;return;}
-  if(erroRespostas){lista.textContent="Erro ao consultar suas entregas: "+erroRespostas.message;return;}
+
+  if(erroAtividades){
+    lista.textContent="Erro ao carregar atividades: "+erroAtividades.message;
+    return;
+  }
+
+  if(erroRespostas){
+    lista.textContent="Erro ao consultar suas entregas: "+erroRespostas.message;
+    return;
+  }
+
   const mapa=new Map((respostas||[]).map(r=>[String(r.atividade_id),r]));
   const pendentes=(atividades||[]).filter(a=>!mapa.has(String(a.id))).length;
+
   document.getElementById("pendentes").textContent=pendentes;
   document.getElementById("entregues").textContent=(respostas||[]).length;
-  if(!atividades||atividades.length===0){lista.innerHTML='<div class="vazio">A professora ainda não publicou atividades.</div>';return;}
+
+  if(!atividades||atividades.length===0){
+    lista.innerHTML='<div class="vazio">A professora ainda não publicou atividades.</div>';
+    return;
+  }
+
   lista.innerHTML="";
+
   for(const atividade of atividades){
     const resposta=mapa.get(String(atividade.id));
     const card=document.createElement("article");
     card.className="atividade"+(resposta?" entregue":"");
-    const titulo=document.createElement("h2");titulo.textContent=atividade.titulo||"Atividade";
-    const materia=document.createElement("p");materia.className="materia";materia.textContent=atividade.materia||"Atividade escolar";
-    const descricao=document.createElement("p");descricao.className="descricao";descricao.textContent=atividade.descricao||"";
-    const prazo=document.createElement("p");prazo.className="prazo";prazo.textContent="📅 Prazo: "+dataBR(atividade.prazo_entrega);
-    const status=document.createElement("p");status.className="status";
-    status.textContent=resposta?"✅ Enviada — aguardando correção da professora":"📝 Pendente";
+
+    const titulo=document.createElement("h2");
+    titulo.textContent=atividade.titulo||"Atividade";
+
+    const materia=document.createElement("p");
+    materia.className="materia";
+    materia.textContent=atividade.materia||"Biologia";
+
+    const descricao=document.createElement("p");
+    descricao.className="descricao";
+    descricao.textContent=atividade.descricao||"";
+
+    const prazo=document.createElement("p");
+    prazo.className="prazo";
+    prazo.textContent="📅 Prazo: "+dataBR(atividade.prazo_entrega);
+
+    const status=document.createElement("p");
+    status.className="status";
+    status.textContent=resposta
+      ?"✅ Entrega registrada — "+(resposta.status||"aguardando correção")
+      :"📝 Pendente";
+
     card.append(titulo,materia,descricao,prazo,status);
+
     if(resposta){
-      if(resposta.resposta_texto){const texto=document.createElement("p");texto.textContent="Sua resposta: "+resposta.resposta_texto;card.appendChild(texto);}
-      if(resposta.arquivo_url){
-        const {data:linkData}=await supabaseClient.storage.from("entregas-atividades").createSignedUrl(resposta.arquivo_url,3600);
-        if(linkData&&linkData.signedUrl){const link=document.createElement("a");link.href=linkData.signedUrl;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Abrir arquivo enviado";card.appendChild(link);}
+      if(resposta.resposta_texto){
+        const texto=document.createElement("p");
+        texto.textContent="Sua resposta: "+resposta.resposta_texto;
+        card.appendChild(texto);
       }
-      if(resposta.correcao_ia){const c=document.createElement("p");c.textContent="Correção preliminar: "+resposta.correcao_ia;card.appendChild(c);}
-      if(resposta.nota_ia!==null&&resposta.nota_ia!==undefined){const n=document.createElement("p");n.textContent="Sugestão de nota: "+resposta.nota_ia;card.appendChild(n);}
-      if(resposta.nota_final!==null&&resposta.nota_final!==undefined){const n=document.createElement("p");n.textContent="Nota final: "+resposta.nota_final;card.appendChild(n);}
-      if(resposta.comentario_professora){const c=document.createElement("p");c.textContent="Comentário da professora: "+resposta.comentario_professora;card.appendChild(c);}
+
+      if(resposta.url_do_arquivo){
+        const {data:linkData,error:linkError}=await supabaseClient
+          .storage.from("entregas-atividades")
+          .createSignedUrl(resposta.url_do_arquivo,3600);
+
+        if(!linkError&&linkData&&linkData.signedUrl){
+          const link=document.createElement("a");
+          link.href=linkData.signedUrl;
+          link.target="_blank";
+          link.rel="noopener noreferrer";
+          link.textContent="📎 Abrir arquivo enviado";
+          card.appendChild(link);
+        }
+      }
+
+      if(resposta.correcao_ia){
+        const c=document.createElement("div");
+        c.className="resultado-ia";
+        c.textContent="Correção preliminar da IA: "+resposta.correcao_ia;
+        card.appendChild(c);
+      }
+
+      if(resposta.nota_ia!==null&&resposta.nota_ia!==undefined){
+        const n=document.createElement("p");
+        n.textContent="Sugestão de nota da IA: "+resposta.nota_ia;
+        card.appendChild(n);
+      }
+
+      if(resposta.nota_final!==null&&resposta.nota_final!==undefined){
+        const n=document.createElement("p");
+        n.textContent="Nota final da professora: "+resposta.nota_final;
+        card.appendChild(n);
+      }
+
+      if(resposta.comentario_professora){
+        const c=document.createElement("p");
+        c.textContent="Comentário da professora: "+resposta.comentario_professora;
+        card.appendChild(c);
+      }
+
       const apagar=document.createElement("button");
-      apagar.type="button";apagar.className="botao-apagar";apagar.textContent="Apagar minha resposta";
+      apagar.type="button";
+      apagar.className="botao-apagar";
+      apagar.textContent="Apagar minha resposta";
+
       apagar.addEventListener("click",async()=>{
-        if(!confirm("Tem certeza de que deseja apagar sua resposta desta atividade? Essa ação não poderá ser desfeita."))return;
-        apagar.disabled=true;apagar.textContent="Apagando...";
-        const {error:erroExcluir}=await supabaseClient.from("respostas_atividades")
-          .delete().eq("id",resposta.id).eq("aluno_id",user.id);
+        if(!confirm("Tem certeza de que deseja apagar sua resposta? Essa ação não poderá ser desfeita."))return;
+
+        apagar.disabled=true;
+        apagar.textContent="Apagando...";
+
+        const {error:erroExcluir}=await supabaseClient
+          .from("respostas_atividades")
+          .delete()
+          .eq("id",resposta.id)
+          .eq("aluno_id",user.id);
+
         if(erroExcluir){
           status.textContent="Não foi possível apagar. Verifique a permissão de exclusão do aluno.";
-          apagar.disabled=false;apagar.textContent="Tentar novamente";return;
+          apagar.disabled=false;
+          apagar.textContent="Tentar novamente";
+          return;
         }
-        if(resposta.arquivo_url){
-          const {error:erroArquivo}=await supabaseClient.storage.from("entregas-atividades").remove([resposta.arquivo_url]);
-          if(erroArquivo)console.warn("A resposta foi apagada, mas o arquivo armazenado não pôde ser removido.");
+
+        if(resposta.url_do_arquivo){
+          await supabaseClient.storage
+            .from("entregas-atividades")
+            .remove([resposta.url_do_arquivo]);
         }
+
         await carregarAtividades(user);
       });
+
       card.appendChild(apagar);
+
     }else{
       const form=document.createElement("form");
-      const labelTexto=document.createElement("label");labelTexto.textContent="Escreva sua resposta";
-      const textarea=document.createElement("textarea");textarea.placeholder="Digite sua resposta aqui...";
-      const labelArquivo=document.createElement("label");labelArquivo.textContent="Ou anexe uma foto/PDF (máximo 25 MB)";
-      const arquivo=document.createElement("input");arquivo.type="file";arquivo.accept="application/pdf,image/jpeg,image/png,image/webp";
-      const botao=document.createElement("button");botao.type="submit";botao.textContent="Enviar atividade";
-      const aviso=document.createElement("p");aviso.className="mensagem";aviso.setAttribute("role","status");
+
+      const labelTexto=document.createElement("label");
+      labelTexto.textContent="Escreva sua resposta";
+
+      const textarea=document.createElement("textarea");
+      textarea.placeholder="Digite sua resposta aqui...";
+
+      const labelArquivo=document.createElement("label");
+      labelArquivo.textContent="Ou anexe uma foto/PDF (máximo 25 MB)";
+
+      const arquivo=document.createElement("input");
+      arquivo.type="file";
+      arquivo.accept="application/pdf,image/jpeg,image/png,image/webp";
+
+      const botao=document.createElement("button");
+      botao.type="submit";
+      botao.textContent="Enviar atividade";
+
+      const aviso=document.createElement("p");
+      aviso.className="mensagem";
+      aviso.setAttribute("role","status");
+
       form.append(labelTexto,textarea,labelArquivo,arquivo,botao,aviso);
+
       form.addEventListener("submit",async(event)=>{
         event.preventDefault();
-        const texto=textarea.value.trim();const file=arquivo.files[0];
-        if(!texto&&!file){aviso.textContent="Escreva uma resposta ou escolha um arquivo.";return;}
-        if(file&&file.size>25*1024*1024){aviso.textContent="O arquivo ultrapassa o limite de 25 MB.";return;}
-        botao.disabled=true;botao.textContent="Enviando...";
+
+        const texto=textarea.value.trim();
+        const file=arquivo.files[0];
+
+        if(!texto&&!file){
+          aviso.textContent="Escreva uma resposta ou escolha um arquivo.";
+          return;
+        }
+
+        if(file&&file.size>25*1024*1024){
+          aviso.textContent="O arquivo ultrapassa o limite de 25 MB.";
+          return;
+        }
+
+        botao.disabled=true;
+        botao.textContent="Enviando...";
+
         let caminho=null;
+
         if(file){
           const nomeSeguro=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
           caminho=user.id+"/"+Date.now()+"-"+nomeSeguro;
-          const {error:erroUpload}=await supabaseClient.storage.from("entregas-atividades").upload(caminho,file,{upsert:false});
-          if(erroUpload){aviso.textContent="Erro ao enviar arquivo: "+erroUpload.message;botao.disabled=false;botao.textContent="Tentar novamente";return;}
+
+          const {error:erroUpload}=await supabaseClient
+            .storage.from("entregas-atividades")
+            .upload(caminho,file,{upsert:false});
+
+          if(erroUpload){
+            aviso.textContent="Erro ao enviar arquivo: "+erroUpload.message;
+            botao.disabled=false;
+            botao.textContent="Tentar novamente";
+            return;
+          }
         }
-        const {error:erroInsert}=await supabaseClient.from("respostas_atividades").insert({
-          atividade_id:atividade.id,aluno_id:user.id,resposta_texto:texto||null,arquivo_url:caminho,status:"enviada"
-        });
+
+        const {data:entrega,error:erroInsert}=await supabaseClient
+          .from("respostas_atividades")
+          .insert({
+            atividade_id:atividade.id,
+            aluno_id:user.id,
+            resposta_texto:texto||null,
+            url_do_arquivo:caminho,
+            status:"enviada"
+          })
+          .select("id")
+          .single();
+
         if(erroInsert){
           aviso.textContent="Não foi possível registrar a entrega: "+erroInsert.message;
-          if(caminho)await supabaseClient.storage.from("entregas-atividades").remove([caminho]);
-          botao.disabled=false;botao.textContent="Tentar novamente";return;
+
+          if(caminho){
+            await supabaseClient.storage
+              .from("entregas-atividades")
+              .remove([caminho]);
+          }
+
+          botao.disabled=false;
+          botao.textContent="Tentar novamente";
+          return;
         }
-        aviso.textContent="Atividade enviada com sucesso!";
+
+        if(texto){
+          aviso.textContent="Resposta enviada! A IA está preparando a correção...";
+          botao.textContent="Corrigindo...";
+
+          const {data:correcao,error:erroIA}=await supabaseClient.functions.invoke(
+            "corrigir-atividade",
+            {
+              body:{
+                enunciado:(atividade.titulo||"Atividade")+"\n\n"+(atividade.descricao||""),
+                resposta:texto
+              }
+            }
+          );
+
+          if(erroIA||!correcao){
+            aviso.textContent="Sua resposta foi salva, mas a correção automática não foi concluída. A professora poderá verificar sua entrega.";
+          }else if(correcao.tipo==="correcao_preliminar"){
+            const textoCorrecao=[
+              "Acertos: "+(correcao.acertos||[]).join("; "),
+              "Pontos a melhorar: "+(correcao.erros||[]).join("; "),
+              "Orientações: "+(correcao.orientacoes||[]).join("; ")
+            ].join("\n");
+
+            const {error:erroAtualizar}=await supabaseClient
+              .from("respostas_atividades")
+              .update({
+                correcao_ia:textoCorrecao,
+                nota_ia:correcao.nota_sugerida,
+                status:"corrigida_ia"
+              })
+              .eq("id",entrega.id)
+              .eq("aluno_id",user.id);
+
+            if(erroAtualizar){
+              aviso.textContent="A IA analisou a resposta, mas não foi possível salvar a correção. A entrega foi registrada.";
+            }else{
+              aviso.textContent="Resposta enviada e correção preliminar da IA registrada! A nota final depende da professora.";
+            }
+          }else{
+            aviso.textContent="Sua resposta foi salva. A IA não retornou o formato de correção esperado.";
+          }
+        }else{
+          aviso.textContent="Arquivo enviado com sucesso! A leitura e correção automática do arquivo ainda não está disponível.";
+        }
+
         await carregarAtividades(user);
       });
+
       card.appendChild(form);
     }
+
     lista.appendChild(card);
   }
 }
+
 iniciar();
 </script>
 </body>
