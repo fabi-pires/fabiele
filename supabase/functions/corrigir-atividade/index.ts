@@ -143,9 +143,14 @@ ${temTexto ? (resposta as string).trim() : 'O aluno enviou somente um arquivo; a
         }),
         signal: AbortSignal.timeout(60000),
       })
-    } catch {
-      console.error('Falha na chamada ao serviço de correção Gemini.')
-      return jsonResponse({ error: 'Não foi possível gerar a correção neste momento.' }, 502)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const name = error instanceof Error ? error.name : 'UnknownError'
+      console.error('Falha na chamada ao serviço de correção Gemini:', { name, message })
+      return jsonResponse({
+        error: 'Não foi possível gerar a correção neste momento.',
+        details: message,
+      }, 502)
     }
 
     if (!geminiResponse.ok) {
