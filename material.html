@@ -68,10 +68,10 @@
         const url = db.storage.from("materiais-aulas").getPublicUrl(caminho).data.publicUrl;
         const card = document.createElement("article");
         card.className = "material-card";
-        if (/\\.(png|jpe?g|webp)$/i.test(arquivo.name)) {
+        if (/\.(png|jpe?g|webp)$/i.test(arquivo.name)) {
           const imagem = document.createElement("img");
           imagem.src = url;
-          imagem.alt = "Slide: " + arquivo.name.replace(/^\\d+-/, "");
+          imagem.alt = "Slide: " + arquivo.name.replace(/^\d+-/, "");
           imagem.loading = "lazy";
           imagem.style.display = "block";
           imagem.style.width = "100%";
@@ -85,7 +85,7 @@
         link.href = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = "📄 Abrir / baixar: " + arquivo.name.replace(/^\\d+-/, "");
+        link.textContent = "📄 Abrir / baixar: " + arquivo.name.replace(/^\d+-/, "");
         link.setAttribute("download", "");
         card.appendChild(link);
         lista.appendChild(card);
