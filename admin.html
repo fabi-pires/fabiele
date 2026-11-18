@@ -608,18 +608,11 @@
       const lista = document.getElementById("listaRespostas");
       if (!lista) return;
       lista.textContent = "Carregando respostas...";
-      const { data, error } = await supabaseClient
-        .from("respostas_atividades")
-        .select("id,atividade_id,aluno_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+      const { data, error } = await supabaseClient.from("respostas_atividades")
+        .select("id,atividade_id,aluno_id,resposta_texto,arquivo_url,status,nota_final,comentario_professora,criado_em")
         .order("criado_em", { ascending: false });
-      if (error) {
-        lista.textContent = "Erro ao carregar respostas: " + error.message;
-        return;
-      }
-      if (!data || data.length === 0) {
-        lista.textContent = "Ainda não há respostas enviadas.";
-        return;
-      }
+      if (error) { lista.textContent = "Erro ao carregar respostas: " + error.message; return; }
+      if (!data || data.length === 0) { lista.textContent = "Ainda não há respostas enviadas."; return; }
       const idsAtividades = [...new Set(data.map(r => r.atividade_id))];
       const idsAlunos = [...new Set(data.map(r => r.aluno_id))];
       const [{ data: atividadesInfo }, { data: alunosInfo }] = await Promise.all([
@@ -630,128 +623,41 @@
       const nomes = Object.fromEntries((alunosInfo || []).map(x => [x.id, x.nome]));
       lista.innerHTML = "";
       for (const resposta of data) {
-        const item = document.createElement("div");
-        item.className = "aula";
-        const titulo = document.createElement("h3");
-        titulo.textContent = atividadesMap[resposta.atividade_id]?.titulo || "Atividade";
-        const aluno = document.createElement("strong");
-        aluno.textContent = "Aluno: " + (nomes[resposta.aluno_id] || "Aluno");
-        const texto = document.createElement("p");
-        texto.textContent = resposta.resposta_texto || "O aluno enviou um arquivo.";
+        const item = document.createElement("div"); item.className = "aula";
+        const titulo = document.createElement("h3"); titulo.textContent = atividadesMap[resposta.atividade_id]?.titulo || "Atividade";
+        const aluno = document.createElement("strong"); aluno.textContent = "Aluno: " + (nomes[resposta.aluno_id] || "Aluno");
+        const texto = document.createElement("p"); texto.textContent = resposta.resposta_texto || "O aluno enviou um arquivo.";
         const status = document.createElement("p");
-        status.textContent = "Situação: " + (resposta.status || "enviada") +
-          (resposta.nota_final !== null ? " | Nota final: " + resposta.nota_final : "");
+        status.textContent = "Situação: " + (resposta.nota_final !== null ? "Avaliada | Nota: " + resposta.nota_final : "Aguardando avaliação");
         item.append(titulo, aluno, texto, status);
         if (resposta.arquivo_url) {
-          const { data: linkData, error: linkError } = await supabaseClient.storage
-            .from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 3600);
-          if (!linkError && linkData && linkData.signedUrl) {
-            const link = document.createElement("a");
-            link.href = linkData.signedUrl;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            link.textContent = "Abrir arquivo enviado";
-            item.appendChild(link);
-          } else {
-            const avisoArquivo = document.createElement("p");
-            avisoArquivo.textContent = "Não foi possível gerar o link do arquivo.";
-            item.appendChild(avisoArquivo);
-          }
+          const { data: linkData, error: linkError } = await supabaseClient.storage.from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 3600);
+          if (!linkError && linkData?.signedUrl) {
+            const link = document.createElement("a"); link.href = linkData.signedUrl; link.target = "_blank";
+            link.rel = "noopener noreferrer"; link.textContent = "Abrir arquivo enviado"; item.appendChild(link);
+          } else { const aviso = document.createElement("p"); aviso.textContent = "Não foi possível gerar o link do arquivo."; item.appendChild(aviso); }
         }
-        if (resposta.correcao_ia) {
-          const correcao = document.createElement("p");
-          correcao.textContent = "Correção preliminar: " + resposta.correcao_ia;
-          item.appendChild(correcao);
-        }
-        if (resposta.nota_ia !== null) {
-          const notaIA = document.createElement("p");
-          notaIA.textContent = "Sugestão de nota da IA: " + resposta.nota_ia;
-          item.appendChild(notaIA);
-        }
-        if ((resposta.resposta_texto || resposta.arquivo_url) && !resposta.nota_ia && !resposta.correcao_ia) {
-          const btnIA = document.createElement("button");
-          btnIA.type = "button";
-          btnIA.textContent = "✨ Corrigir com IA";
-          const retornoIA = document.createElement("p");
-          retornoIA.setAttribute("role", "status");
-          btnIA.addEventListener("click", async () => {
-            btnIA.disabled = true;
-            btnIA.textContent = "A IA está corrigindo...";
-            retornoIA.textContent = resposta.arquivo_url
-              ? "Preparando o arquivo para leitura. A IA fará uma avaliação preliminar."
-              : "Analisando a resposta escrita. A IA fará apenas uma avaliação preliminar.";
-            const atividadeInfo = atividadesMap[resposta.atividade_id] || {};
-            const body = {
-              enunciado: atividadeInfo.descricao || atividadeInfo.titulo || "Atividade escolar",
-              resposta: resposta.resposta_texto || ""
-            };
-            if (resposta.arquivo_url) {
-              const extensao = resposta.arquivo_url.split("?")[0].toLowerCase();
-              let tipoArquivo = null;
-              if (extensao.endsWith(".pdf")) tipoArquivo = "application/pdf";
-              else if (extensao.endsWith(".jpg") || extensao.endsWith(".jpeg")) tipoArquivo = "image/jpeg";
-              else if (extensao.endsWith(".png")) tipoArquivo = "image/png";
-              else if (extensao.endsWith(".webp")) tipoArquivo = "image/webp";
-              if (!tipoArquivo) {
-                retornoIA.textContent = "Formato não aceito. Envie PDF, JPG, PNG ou WEBP.";
-                btnIA.disabled = false;
-                btnIA.textContent = "Tentar novamente";
-                return;
-              }
-              const { data: arquivoAssinado, error: erroLink } = await supabaseClient.storage
-                .from("entregas-atividades").createSignedUrl(resposta.arquivo_url, 300);
-              if (erroLink || !arquivoAssinado?.signedUrl) {
-                retornoIA.textContent = "Não foi possível abrir o PDF enviado: " + (erroLink?.message || "link indisponível");
-                btnIA.disabled = false;
-                btnIA.textContent = "Tentar novamente";
-                return;
-              }
-              body.arquivo_url = arquivoAssinado.signedUrl;
-              body.arquivo_mime_type = tipoArquivo;
-            }
-            const { data: resultadoIA, error: erroIA } = await supabaseClient.functions.invoke(
-              "corrigir-atividade", { body }
-            );
-            if (erroIA) {
-              retornoIA.textContent = "Não foi possível corrigir: " + (erroIA.message || "verifique a função e tente novamente.");
-              btnIA.disabled = false;
-              btnIA.textContent = "Tentar novamente";
-              return;
-            }
-            const resultado = resultadoIA && resultadoIA.resultado ? resultadoIA.resultado : (resultadoIA || {});
-            const formatar = valor => Array.isArray(valor) ? valor.map(x => "• " + String(x)).join("\n") : (valor && typeof valor === "object" ? JSON.stringify(valor) : String(valor || ""));
-            const blocos = [];
-            if (resultado.acertos) blocos.push("ACERTOS:\n" + formatar(resultado.acertos));
-            if (resultado.erros) blocos.push("PONTOS A CORRIGIR:\n" + formatar(resultado.erros));
-            if (resultado.orientacoes) blocos.push("ORIENTAÇÕES:\n" + formatar(resultado.orientacoes));
-            const correcao = blocos.join("\n\n") || resultado.correcao || resultado.feedback || JSON.stringify(resultado);
-            const notaBruta = resultado.nota_sugerida ?? resultado.nota_ia ?? resultado.nota;
-            const nota = notaBruta === null || notaBruta === undefined || notaBruta === "" ? null : Number(notaBruta);
-            if (!correcao || (nota !== null && (!Number.isFinite(nota) || nota < 0 || nota > 10))) {
-              retornoIA.textContent = "A resposta da IA veio em um formato inesperado. Nenhuma nota foi salva.";
-              btnIA.disabled = false;
-              btnIA.textContent = "Tentar novamente";
-              return;
-            }
-            const { error: erroSalvar } = await supabaseClient.from("respostas_atividades")
-              .update({ correcao_ia: correcao, nota_ia: nota })
-              .eq("id", resposta.id);
-            if (erroSalvar) {
-              retornoIA.textContent = "A IA corrigiu, mas não foi possível salvar no banco: " + erroSalvar.message;
-              btnIA.disabled = false;
-              btnIA.textContent = "Tentar salvar novamente";
-              return;
-            }
-            retornoIA.textContent = "Correção preliminar salva. A nota final continua sendo decisão da professora.";
-            btnIA.remove();
-            await carregarRespostas();
-          });
-          item.append(btnIA, retornoIA);
-        } else if (!resposta.resposta_texto && resposta.arquivo_url && !resposta.correcao_ia) {
-          const avisoIA = document.createElement("p");
-          avisoIA.textContent = "Use o botão “Corrigir com IA” para analisar o arquivo enviado (PDF ou imagem).";
-          item.appendChild(avisoIA);
-        }
+        const rotuloNota = document.createElement("label"); rotuloNota.textContent = "Nota final (0 a 10)";
+        const campoNota = document.createElement("input"); campoNota.type = "number"; campoNota.min = "0"; campoNota.max = "10";
+        campoNota.step = "0.1"; campoNota.value = resposta.nota_final === null ? "" : resposta.nota_final;
+        campoNota.placeholder = "Ex.: 8,5"; campoNota.style.maxWidth = "180px";
+        const rotuloComentario = document.createElement("label"); rotuloComentario.textContent = "Comentário / feedback para o aluno";
+        const campoComentario = document.createElement("textarea"); campoComentario.value = resposta.comentario_professora || "";
+        campoComentario.placeholder = "Escreva uma orientação para o aluno...";
+        const botao = document.createElement("button"); botao.type = "button"; botao.textContent = "Salvar avaliação";
+        const avisoSalvar = document.createElement("p"); avisoSalvar.setAttribute("role", "status");
+        botao.addEventListener("click", async () => {
+          const valor = campoNota.value.trim(); const nota = valor === "" ? null : Number(valor);
+          if (nota !== null && (!Number.isFinite(nota) || nota < 0 || nota > 10)) { avisoSalvar.textContent = "Digite uma nota entre 0 e 10."; return; }
+          botao.disabled = true; botao.textContent = "Salvando...";
+          const { error: erroSalvar } = await supabaseClient.from("respostas_atividades")
+            .update({ nota_final: nota, comentario_professora: campoComentario.value.trim() || null }).eq("id", resposta.id);
+          if (erroSalvar) { avisoSalvar.textContent = "Não foi possível salvar: " + erroSalvar.message; botao.disabled = false; botao.textContent = "Tentar novamente"; return; }
+          avisoSalvar.textContent = "Avaliação salva. O aluno poderá consultar a nota e o comentário.";
+          botao.disabled = false; botao.textContent = "Salvar avaliação";
+          status.textContent = nota === null ? "Comentário salvo" : "Avaliada | Nota: " + nota;
+        });
+        item.append(rotuloNota, campoNota, rotuloComentario, campoComentario, botao, avisoSalvar);
         lista.appendChild(item);
       }
     }
