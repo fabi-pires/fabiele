@@ -760,12 +760,26 @@
       arquivos.forEach(arquivo => {
         const caminho = "apoio/" + arquivo.name;
         const url = supabaseClient.storage.from("materiais-aulas").getPublicUrl(caminho).data.publicUrl;
-        const item = document.createElement("p");
+        const item = document.createElement("div");
+        item.className = "aula";
         const link = document.createElement("a");
         link.href = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = arquivo.name.replace(/^\\d+-/, "");
+        link.textContent = "Abrir / baixar: " + arquivo.name.replace(/^\\d+-/, "");
+        if (/\\.(png|jpe?g|webp)$/i.test(arquivo.name)) {
+          const imagem = document.createElement("img");
+          imagem.src = url;
+          imagem.alt = "Prévia de " + arquivo.name;
+          imagem.loading = "lazy";
+          imagem.style.display = "block";
+          imagem.style.maxWidth = "100%";
+          imagem.style.height = "auto";
+          imagem.style.maxHeight = "520px";
+          imagem.style.objectFit = "contain";
+          imagem.style.margin = "12px 0";
+          item.appendChild(imagem);
+        }
         item.appendChild(link);
         lista.appendChild(item);
       });
