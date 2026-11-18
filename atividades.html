@@ -109,7 +109,7 @@ async function carregarAtividades(user){
       .order("criado_em",{ascending:false}),
 
     supabaseClient.from("respostas_atividades")
-      .select("id,atividade_id,resposta_texto,arquivo_url,status,correcao_ia,nota_ia,nota_final,comentario_professora,criado_em")
+      .select("id,atividade_id,resposta_texto,arquivo_url,status,nota_final,comentario_professora,criado_em")
       .eq("aluno_id",user.id)
   ]);
 
@@ -159,7 +159,7 @@ async function carregarAtividades(user){
     const status=document.createElement("p");
     status.className="status";
     status.textContent=resposta
-      ?"✅ Entrega registrada — "+(resposta.status||"aguardando correção")
+      ?"✅ Entrega registrada — "+(resposta.nota_final!==null?"avaliação concluída":"aguardando avaliação da professora")
       :"📝 Pendente";
 
     card.append(titulo,materia,descricao,prazo,status);
@@ -184,19 +184,6 @@ async function carregarAtividades(user){
           link.textContent="📎 Abrir arquivo enviado";
           card.appendChild(link);
         }
-      }
-
-      if(resposta.correcao_ia){
-        const c=document.createElement("div");
-        c.className="resultado-ia";
-        c.textContent="Correção preliminar da IA: "+resposta.correcao_ia;
-        card.appendChild(c);
-      }
-
-      if(resposta.nota_ia!==null&&resposta.nota_ia!==undefined){
-        const n=document.createElement("p");
-        n.textContent="Sugestão de nota da IA: "+resposta.nota_ia;
-        card.appendChild(n);
       }
 
       if(resposta.nota_final!==null&&resposta.nota_final!==undefined){
@@ -335,50 +322,7 @@ async function carregarAtividades(user){
           return;
         }
 
-        if(texto){
-          aviso.textContent="Resposta enviada! A IA está preparando a correção...";
-          botao.textContent="Corrigindo...";
-
-          const {data:correcao,error:erroIA}=await supabaseClient.functions.invoke(
-            "corrigir-atividade",
-            {
-              body:{
-                enunciado:(atividade.titulo||"Atividade")+"\n\n"+(atividade.descricao||""),
-                resposta:texto
-              }
-            }
-          );
-
-          if(erroIA||!correcao){
-            aviso.textContent="Sua resposta foi salva, mas a correção automática não foi concluída. A professora poderá verificar sua entrega.";
-          }else if(correcao.tipo==="correcao_preliminar"){
-            const textoCorrecao=[
-              "Acertos: "+(correcao.acertos||[]).join("; "),
-              "Pontos a melhorar: "+(correcao.erros||[]).join("; "),
-              "Orientações: "+(correcao.orientacoes||[]).join("; ")
-            ].join("\n");
-
-            const {error:erroAtualizar}=await supabaseClient
-              .from("respostas_atividades")
-              .update({
-                correcao_ia:textoCorrecao,
-                nota_ia:correcao.nota_sugerida,
-                status:"corrigida_ia"
-              })
-              .eq("id",entrega.id)
-              .eq("aluno_id",user.id);
-
-            if(erroAtualizar){
-              aviso.textContent="A IA analisou a resposta, mas não foi possível salvar a correção. A entrega foi registrada.";
-            }else{
-              aviso.textContent="Resposta enviada e correção preliminar da IA registrada! A nota final depende da professora.";
-            }
-          }else{
-            aviso.textContent="Sua resposta foi salva. A IA não retornou o formato de correção esperado.";
-          }
-        }else{
-          aviso.textContent="Arquivo enviado com sucesso! A leitura e correção automática do arquivo ainda não está disponível.";
-        }
+        aviso.textContent="Entrega registrada com sucesso! Aguarde a avaliação da professora.";
 
         await carregarAtividades(user);
       });
