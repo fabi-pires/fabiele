@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Material de Apoio | Bio sem Mistério</title>
+  <link rel="stylesheet" href="aluno.css">
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .materiais { max-width: 850px; margin: 24px auto; padding: 0 16px 32px; }
+    .material-card { background: #fff; border-radius: 14px; padding: 18px; margin: 14px 0; box-shadow: 0 4px 14px #173b2012; }
+    .material-card a { color: #1b5e20; font-weight: bold; overflow-wrap: anywhere; }
+    .voltar { display: inline-block; margin: 18px 0; color: #1b5e20; font-weight: bold; }
+    #aviso { color: #526354; }
+  </style>
+</head>
+<body>
+  <header class="topo-aluno">
+    <h1>📚 Material de Apoio</h1>
+  </header>
+  <main class="materiais">
+    <section class="boas-vindas">
+      <h2>Materiais para estudar</h2>
+      <p>Acesse e baixe os arquivos disponibilizados pela professora.</p>
+    </section>
+    <p id="aviso" role="status" aria-live="polite">Verificando acesso...</p>
+    <section id="listaMateriais"></section>
+    <a class="voltar" href="aluno.html">← Voltar ao painel do aluno</a>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ishkkvikgwwstisspgjc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function carregarMateriais() {
+      const aviso = document.getElementById("aviso");
+      const lista = document.getElementById("listaMateriais");
+      const { data: { user } } = await db.auth.getUser();
+      if (!user) { location.replace("login.html"); return; }
+
+      const { data: perfil, error: erroPerfil } = await db.from("perfis")
+        .select("aprovado,tipo_usuario").eq("id", user.id).maybeSingle();
+      if (erroPerfil || !perfil || perfil.aprovado !== true || perfil.tipo_usuario !== "aluno") {
+        await db.auth.signOut();
+        location.replace("login.html");
+        return;
+      }
+
+      aviso.textContent = "Carregando materiais...";
+      const { data, error } = await db.storage.from("materiais-aulas")
+        .list("apoio", { limit: 100, sortBy: { column: "name", order: "desc" } });
+      if (error) {
+        aviso.textContent = "Não foi possível carregar os materiais. A professora precisa liberar a visualização dos arquivos. (" + error.message + ")";
+        return;
+      }
+
+      const arquivos = (data || []).filter(item => item.name && item.id);
+      if (!arquivos.length) {
+        aviso.textContent = "Ainda não há materiais publicados. Volte em outro momento.";
+        return;
+      }
+
+      aviso.textContent = arquivos.length + (arquivos.length === 1 ? " material disponível:" : " materiais disponíveis:");
+      lista.innerHTML = "";
+      arquivos.forEach(arquivo => {
+        const caminho = "apoio/" + arquivo.name;
+        const url = db.storage.from("materiais-aulas").getPublicUrl(caminho).data.publicUrl;
+        const card = document.createElement("article");
+        card.className = "material-card";
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "📄 " + arquivo.name.replace(/^\\d+-/, "");
+        link.setAttribute("download", "");
+        card.appendChild(link);
+        lista.appendChild(card);
+      });
+    }
+
+    carregarMateriais();
+  </script>
+</body>
+</html>
