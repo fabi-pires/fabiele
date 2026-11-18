@@ -258,6 +258,8 @@
           <input id="atividadeMateria" type="text" placeholder="Ex.: Biologia, Matemática, Português" required>
           <label for="atividadeDescricao">Instruções da atividade</label>
           <textarea id="atividadeDescricao" required></textarea>
+          <label for="atividadePdf">Anexar PDF da atividade (opcional, até 25 MB)</label>
+          <input id="atividadePdf" type="file" accept="application/pdf,.pdf">
           <label for="atividadePrazo">Prazo de entrega</label>
           <input id="atividadePrazo" type="date">
           <button type="submit">Publicar atividade</button>
@@ -522,11 +524,37 @@
         event.preventDefault();
         const aviso = document.getElementById("mensagemAtividade");
         aviso.textContent = "Publicando atividade...";
+        const arquivoPdf = document.getElementById("atividadePdf").files[0];
+        if (arquivoPdf && arquivoPdf.type !== "application/pdf" && !arquivoPdf.name.toLowerCase().endsWith(".pdf")) {
+          aviso.textContent = "Selecione um arquivo PDF.";
+          return;
+        }
+        if (arquivoPdf && arquivoPdf.size > 25 * 1024 * 1024) {
+          aviso.textContent = "O PDF deve ter no máximo 25 MB.";
+          return;
+        }
+
+        let arquivoPdfUrl = null;
+        if (arquivoPdf) {
+          aviso.textContent = "Enviando PDF...";
+          const nomeSeguro = arquivoPdf.name.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
+          const caminhoPdf = "atividades/" + Date.now() + "-" + nomeSeguro;
+          const { error: erroUploadPdf } = await supabaseClient.storage
+            .from("materiais-aulas")
+            .upload(caminhoPdf, arquivoPdf, { upsert: false, contentType: "application/pdf" });
+          if (erroUploadPdf) {
+            aviso.textContent = "Não foi possível enviar o PDF: " + erroUploadPdf.message;
+            return;
+          }
+          arquivoPdfUrl = supabaseClient.storage.from("materiais-aulas").getPublicUrl(caminhoPdf).data.publicUrl;
+        }
+
         const nova = {
           titulo: document.getElementById("atividadeTitulo").value.trim(),
           materia: document.getElementById("atividadeMateria").value.trim(),
           descricao: document.getElementById("atividadeDescricao").value.trim(),
           prazo_entrega: document.getElementById("atividadePrazo").value || null,
+          arquivo_pdf_url: arquivoPdfUrl,
           publicada: true
         };
         const { error } = await supabaseClient.from("atividades_escolares").insert(nova);
@@ -546,7 +574,7 @@
       lista.textContent = "Carregando...";
       const { data, error } = await supabaseClient
         .from("atividades_escolares")
-        .select("id,titulo,materia,descricao,prazo_entrega,publicada,criado_em")
+        .select("id,titulo,materia,descricao,prazo_entrega,arquivo_pdf_url,publicada,criado_em")
         .order("criado_em", { ascending: false });
       if (error) {
         lista.textContent = "Erro ao carregar atividades: " + error.message;
@@ -572,6 +600,16 @@
           : "Sem prazo definido";
         const situacao = document.createElement("p");
         situacao.textContent = atividade.publicada ? "Publicada para os alunos" : "Rascunho / não publicada";
+        if (atividade.arquivo_pdf_url) {
+          const linkPdf = document.createElement("a");
+          linkPdf.href = atividade.arquivo_pdf_url;
+          linkPdf.target = "_blank";
+          linkPdf.rel = "noopener noreferrer";
+          linkPdf.textContent = "📄 Abrir PDF anexado";
+          linkPdf.style.display = "block";
+          linkPdf.style.margin = "10px 0";
+          item.appendChild(linkPdf);
+        }
         const btnExcluir = document.createElement("button");
         btnExcluir.type = "button";
         btnExcluir.className = "btn-excluir";
