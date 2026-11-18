@@ -104,7 +104,7 @@ async function carregarAtividades(user){
     {data:respostas,error:erroRespostas}
   ]=await Promise.all([
     supabaseClient.from("atividades_escolares")
-      .select("id,titulo,descricao,materia,prazo_entrega,criado_em")
+      .select("id,titulo,descricao,materia,prazo_entrega,arquivo_pdf_url,criado_em")
       .eq("publicada",true)
       .order("criado_em",{ascending:false}),
 
@@ -163,6 +163,19 @@ async function carregarAtividades(user){
       :"📝 Pendente";
 
     card.append(titulo,materia,descricao,prazo,status);
+
+    if(atividade.arquivo_pdf_url){
+      const linkPdf=document.createElement("a");
+      linkPdf.href=atividade.arquivo_pdf_url;
+      linkPdf.target="_blank";
+      linkPdf.rel="noopener noreferrer";
+      linkPdf.textContent="📄 Abrir ou baixar PDF da atividade";
+      linkPdf.style.display="inline-block";
+      linkPdf.style.margin="8px 0 12px";
+      linkPdf.style.color="#1b5e20";
+      linkPdf.style.fontWeight="bold";
+      card.appendChild(linkPdf);
+    }
 
     if(resposta){
       if(resposta.resposta_texto){
