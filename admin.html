@@ -184,6 +184,19 @@
       </section>
 
       <section class="card">
+        <h2>📚 Material de Apoio</h2>
+        <p>Envie arquivos para os alunos consultarem e baixarem.</p>
+        <form id="formMaterial">
+          <label for="materialArquivo">Escolher arquivo (PDF, Word, PowerPoint ou imagem — até 25 MB)</label>
+          <input id="materialArquivo" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.odt,.odp,.jpg,.jpeg,.png,.webp" required>
+          <button type="submit">Publicar material</button>
+          <p id="mensagemMaterial" role="status" aria-live="polite"></p>
+        </form>
+        <h3>Materiais publicados</h3>
+        <div id="listaMateriaisProf">Carregando materiais...</div>
+      </section>
+
+      <section class="card">
 
         <h2>Nova aula</h2>
 
@@ -392,6 +405,7 @@
       await garantirAtividadeTeste();
       carregarAtividadesProf();
       carregarRespostas();
+      carregarMateriaisProf();
     }
 
 
@@ -660,6 +674,63 @@
         item.append(rotuloNota, campoNota, rotuloComentario, campoComentario, botao, avisoSalvar);
         lista.appendChild(item);
       }
+    }
+
+    // MATERIAL DE APOIO
+    const formMaterial = document.getElementById("formMaterial");
+    if (formMaterial) {
+      formMaterial.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        const aviso = document.getElementById("mensagemMaterial");
+        const arquivo = document.getElementById("materialArquivo").files[0];
+        if (!arquivo) return;
+        if (arquivo.size > 25 * 1024 * 1024) {
+          aviso.textContent = "O arquivo deve ter no máximo 25 MB.";
+          return;
+        }
+        aviso.textContent = "Enviando arquivo...";
+        const nomeSeguro = arquivo.name.normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").replace(/[^a-zA-Z0-9._-]/g, "_");
+        const caminho = "apoio/" + Date.now() + "-" + nomeSeguro;
+        const { error } = await supabaseClient.storage.from("materiais-aulas")
+          .upload(caminho, arquivo, { upsert: false });
+        if (error) {
+          aviso.textContent = "Não foi possível enviar: " + error.message;
+          return;
+        }
+        aviso.textContent = "Material publicado com sucesso!";
+        formMaterial.reset();
+        carregarMateriaisProf();
+      });
+    }
+
+    async function carregarMateriaisProf() {
+      const lista = document.getElementById("listaMateriaisProf");
+      if (!lista) return;
+      lista.textContent = "Carregando...";
+      const { data, error } = await supabaseClient.storage.from("materiais-aulas")
+        .list("apoio", { limit: 100, sortBy: { column: "name", order: "desc" } });
+      if (error) {
+        lista.textContent = "Não foi possível listar os materiais: " + error.message;
+        return;
+      }
+      const arquivos = (data || []).filter(item => item.name && item.id);
+      if (!arquivos.length) {
+        lista.textContent = "Nenhum material publicado ainda.";
+        return;
+      }
+      lista.innerHTML = "";
+      arquivos.forEach(arquivo => {
+        const caminho = "apoio/" + arquivo.name;
+        const url = supabaseClient.storage.from("materiais-aulas").getPublicUrl(caminho).data.publicUrl;
+        const item = document.createElement("p");
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = arquivo.name.replace(/^\\d+-/, "");
+        item.appendChild(link);
+        lista.appendChild(item);
+      });
     }
 
     // CARREGAR AULAS
