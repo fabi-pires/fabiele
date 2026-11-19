@@ -80,6 +80,17 @@
           imagem.style.objectFit = "contain";
           imagem.style.marginBottom = "14px";
           card.appendChild(imagem);
+        } else if (/\.pdf$/i.test(arquivo.name)) {
+          const visualizador = document.createElement("iframe");
+          visualizador.src = url + "#toolbar=1&navpanes=0";
+          visualizador.title = "Pré-visualização do PDF: " + arquivo.name;
+          visualizador.style.width = "100%";
+          visualizador.style.height = "600px";
+          visualizador.style.border = "1px solid #d8e5d8";
+          visualizador.style.borderRadius = "10px";
+          visualizador.style.marginBottom = "14px";
+          visualizador.setAttribute("loading", "lazy");
+          card.appendChild(visualizador);
         }
         const link = document.createElement("a");
         link.href = url;
