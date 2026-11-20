@@ -342,3 +342,22 @@ footer{background:#edf7ef!important}
   body>header nav ul li a{padding:8px 10px!important;font-size:13px}
   main:not(.login){padding-top:16px;padding-bottom:30px}
 }
+
+
+/* MOVIMENTO SUAVE — animações acessíveis */
+@keyframes bioEntrada{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+body:not(:has(.hero-novo)) main{animation:bioEntrada .65s ease-out both}
+.card,.cards .card,.destaque-card,.contato-card,.cadastro-auth,.perfil,.secao,.calendario,.eventos,.atividade,.material-card,.resumo-card,.card-depoimento,.boas-vindas,.menu-professora a{
+  transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,background-color .28s ease!important;
+}
+.card:hover,.cards .card:hover,.destaque-card:hover,.material-card:hover,.card-depoimento:hover,.menu-professora a:hover{
+  transform:translateY(-5px);box-shadow:0 17px 36px rgba(0,78,48,.14)!important;border-color:#78c99a!important;
+}
+button,.btn,.botao,.voltar,a{transition:color .22s ease,background-color .22s ease,box-shadow .22s ease,transform .22s ease!important}
+button:hover,.btn:hover,.botao:hover,.voltar:hover{transform:translateY(-2px)}
+.hero-novo .hero-texto{animation:bioEntrada .8s .08s ease-out both}
+.hero-novo .hero-imagem{animation:bioEntrada .9s .2s ease-out both}
+.hero-novo .hero-etiqueta{animation:bioEntrada .65s ease-out both}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
