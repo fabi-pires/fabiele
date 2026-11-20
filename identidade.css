@@ -151,3 +151,72 @@ body{
  .hero-novo .hero-imagem{max-width:390px;margin:12px auto 0}
  .hero-novo .imagem-moldura:before{inset:12px -9px -10px 12px}
 }
+
+
+/* EXPERIÊNCIA 02 — CIÊNCIA CINEMATOGRÁFICA */
+.hero.hero-novo{
+  background:
+    radial-gradient(ellipse at 76% 42%,rgba(35,190,126,.34),transparent 27%),
+    radial-gradient(ellipse at 8% 88%,rgba(149,211,62,.18),transparent 30%),
+    linear-gradient(118deg,#071b19 0%,#0b3028 43%,#07533d 100%)!important;
+  min-height:min(790px,calc(100vh - 68px));
+}
+.hero.hero-novo:before{
+  width:650px;height:650px;right:-190px;top:-245px;
+  border:1px solid rgba(167,255,205,.34);
+  box-shadow:0 0 0 22px rgba(167,255,205,.055),0 0 0 58px rgba(167,255,205,.045),
+    0 0 0 102px rgba(167,255,205,.035),0 0 90px rgba(31,221,145,.12);
+}
+.hero.hero-novo:after{
+  width:460px;height:460px;left:36%;bottom:-360px;
+  background:radial-gradient(circle,rgba(117,255,185,.22),transparent 68%);
+}
+.hero-novo .hero-etiqueta{
+  color:#c9ff78!important;border-color:rgba(201,255,120,.5);
+  background:rgba(201,255,120,.10);box-shadow:0 0 24px rgba(201,255,120,.08);
+}
+.hero-novo .hero-texto h1{
+  text-shadow:0 5px 32px rgba(0,0,0,.24);
+  font-size:clamp(42px,5.6vw,72px)!important;
+}
+.hero-novo .hero-texto h1 em{
+  color:#c9ff78!important;text-shadow:0 0 30px rgba(201,255,120,.22);
+}
+.hero-novo .hero-texto p{color:#e1eee8!important}
+.hero-novo .hero-texto b{color:#d6ff9a!important}
+.hero-novo .botao{
+  background:linear-gradient(110deg,#d8ff8a,#a9ef69)!important;
+  color:#102d20!important;box-shadow:0 10px 34px rgba(151,239,94,.24)!important;
+}
+.hero-novo .botao:hover{background:#f0ffd5!important;box-shadow:0 12px 38px rgba(151,239,94,.34)!important}
+.hero-novo .link-secundario{color:#fff!important}
+.hero-novo .hero-nota{color:#d8eee2!important}
+.hero-novo .imagem-moldura{
+  padding:10px;border:1px solid rgba(194,255,215,.58);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.045));
+  box-shadow:0 30px 90px rgba(0,0,0,.42),0 0 48px rgba(44,225,146,.13);
+}
+.hero-novo .imagem-moldura:before{
+  border-color:rgba(201,255,120,.55);
+}
+.hero-novo .imagem-moldura img{
+  filter:saturate(1.12) contrast(1.04);
+}
+.hero-novo .selo-flutuante{
+  background:#eaffd5!important;color:#123b2a!important;
+  border:1px solid #c9ff78!important;box-shadow:0 12px 38px rgba(0,0,0,.32);
+}
+.inicio-destaques{
+  background:linear-gradient(180deg,#f7faf5 0%,#edf4e9 100%);
+}
+.inicio-destaques .secao-intro h2{color:#123b2a}
+.destaque-card{
+  border-top:3px solid #8bcf52!important;
+}
+@media(max-width:700px){
+  .hero.hero-novo{
+    background:
+      radial-gradient(ellipse at 80% 28%,rgba(35,190,126,.30),transparent 34%),
+      linear-gradient(145deg,#071b19 0%,#0b3028 58%,#07533d 100%)!important;
+  }
+}
