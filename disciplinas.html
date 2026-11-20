@@ -42,6 +42,17 @@
         <section class="disciplinas" id="aulas-publicadas">
             <h2>Aulas publicadas pela professora</h2>
             <p>Os conteúdos cadastrados pela professora aparecem aqui automaticamente.</p>
+            <label for="filtroDisciplinaAulas">Filtrar por disciplina:</label>
+            <select id="filtroDisciplinaAulas">
+                <option value="Todas">Todas as disciplinas</option>
+                <option value="Zoologia">Zoologia</option>
+                <option value="Botânica">Botânica</option>
+                <option value="Genética">Genética</option>
+                <option value="Ecologia">Ecologia</option>
+                <option value="Corpo Humano">Corpo Humano</option>
+                <option value="Citologia">Citologia</option>
+                <option value="Biologia Geral">Biologia Geral</option>
+            </select>
             <div id="listaAulasPublicadas" class="cards" aria-live="polite">
                 <div class="card"><p>Carregando aulas...</p></div>
             </div>
@@ -80,7 +91,7 @@
 
             const { data, error } = await bancoAulas
                 .from("aulas")
-                .select("id, titulo, descricao, conteudo, arquivo_url, arquivo_nome, video_url")
+                .select("id, titulo, disciplina, descricao, conteudo, arquivo_url, arquivo_nome, video_url")
                 .order("id", { ascending: false });
 
             botaoAtualizar.disabled = false;
@@ -104,9 +115,21 @@
             }
 
             listaAulas.replaceChildren();
-            data.forEach((aula) => {
+            const disciplinaSelecionada = document.getElementById("filtroDisciplinaAulas").value;
+            const aulasFiltradas = disciplinaSelecionada === "Todas"
+                ? data
+                : data.filter(aula => (aula.disciplina || "Biologia Geral") === disciplinaSelecionada);
+
+            if (!aulasFiltradas.length) {
+                listaAulas.replaceChildren(criarElemento("div", "Ainda não há aulas nesta disciplina.", "card"));
+                statusAulas.textContent = "Nenhuma aula encontrada nessa categoria.";
+                return;
+            }
+
+            aulasFiltradas.forEach((aula) => {
                 const card = criarElemento("article", "", "card");
                 card.appendChild(criarElemento("h3", aula.titulo || "Aula sem título"));
+                card.appendChild(criarElemento("strong", "📚 " + (aula.disciplina || "Biologia Geral"), "categoria-aula"));
                 if (aula.descricao) card.appendChild(criarElemento("p", aula.descricao));
                 card.appendChild(criarElemento("p", aula.conteudo || "Conteúdo não informado."));
 
@@ -135,9 +158,10 @@
                 listaAulas.appendChild(card);
             });
 
-            statusAulas.textContent = data.length + (data.length === 1 ? " aula carregada." : " aulas carregadas.");
+            statusAulas.textContent = aulasFiltradas.length + (aulasFiltradas.length === 1 ? " aula carregada." : " aulas carregadas.");
         }
 
+        document.getElementById("filtroDisciplinaAulas").addEventListener("change", carregarAulasPublicadas);
         botaoAtualizar.addEventListener("click", carregarAulasPublicadas);
         carregarAulasPublicadas();
     </script>
