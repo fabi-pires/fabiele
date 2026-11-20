@@ -220,3 +220,36 @@ body{
       linear-gradient(145deg,#071b19 0%,#0b3028 58%,#07533d 100%)!important;
   }
 }
+
+
+/* PALETA MAIS VIVA — verde esmeralda intenso */
+.hero.hero-novo{
+  background:
+    radial-gradient(circle at 78% 28%,rgba(118,255,77,.30),transparent 25%),
+    radial-gradient(circle at 15% 90%,rgba(0,214,150,.25),transparent 32%),
+    linear-gradient(125deg,#003b2d 0%,#006b45 48%,#00965e 100%)!important;
+}
+.hero-novo .hero-texto h1{color:#ffffff!important}
+.hero-novo .hero-texto h1 em{color:#d7ff45!important}
+.hero-novo .hero-etiqueta{
+  color:#e4ff80!important;background:rgba(214,255,69,.14)!important;
+  border-color:rgba(228,255,128,.65)!important;
+}
+.hero-novo .botao{
+  background:#e0ff35!important;color:#123b20!important;
+  box-shadow:0 10px 30px rgba(205,255,43,.32)!important;
+}
+.hero-novo .botao:hover{background:#f3ffad!important}
+.hero-novo .imagem-moldura{
+  border-color:rgba(218,255,91,.8)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.34),0 0 42px rgba(179,255,45,.22)!important;
+}
+.inicio-destaques{
+  background:linear-gradient(180deg,#f1f8e9 0%,#ffffff 100%)!important;
+}
+.inicio-destaques .secao-intro h2{color:#075b39!important}
+.destaque-card{
+  background:linear-gradient(145deg,#ffffff 0%,#eaf7df 100%)!important;
+  border:1px solid #cde5b8!important;border-top:4px solid #69b92e!important;
+}
+.destaque-icone{background:#dff2c9!important;color:#17683d!important}
