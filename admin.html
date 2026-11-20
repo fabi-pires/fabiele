@@ -819,6 +819,27 @@
           item.appendChild(imagem);
         }
         item.appendChild(link);
+        const excluir = document.createElement("button");
+        excluir.type = "button";
+        excluir.textContent = "🗑️ Excluir material";
+        excluir.className = "btn-excluir";
+        excluir.style.background = "#b42318";
+        excluir.style.color = "#fff";
+        excluir.addEventListener("click", async () => {
+          const nomeExibicao = arquivo.name.replace(/^\\d+-/, "");
+          if (!confirm('Excluir o material "' + nomeExibicao + '"? Ele será removido do armazenamento e da área do aluno.')) return;
+          excluir.disabled = true;
+          excluir.textContent = "Excluindo...";
+          const { error: erroExcluir } = await supabaseClient.storage.from("materiais-aulas").remove([caminho]);
+          if (erroExcluir) {
+            alert("Não foi possível excluir. " + erroExcluir.message + "\\nVerifique a permissão de exclusão no Supabase Storage.");
+            excluir.disabled = false;
+            excluir.textContent = "🗑️ Excluir material";
+            return;
+          }
+          carregarMateriaisProf();
+        });
+        item.appendChild(excluir);
         lista.appendChild(item);
       });
     }
