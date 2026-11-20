@@ -253,3 +253,92 @@ body{
   border:1px solid #cde5b8!important;border-top:4px solid #69b92e!important;
 }
 .destaque-icone{background:#dff2c9!important;color:#17683d!important}
+
+
+/* HARMONIZAÇÃO DAS PÁGINAS INTERNAS — revisão visual */
+:root{
+  --bio-verde:#008653;
+  --bio-verde-escuro:#064b35;
+  --bio-salvia:#e8f7ed;
+  --bio-fundo:#f5faf6;
+  --bio-texto:#263d31;
+  --bio-muted:#65796c;
+  --bio-linha:#d7eadc;
+  --bio-sombra:0 12px 32px rgba(0,78,48,.09);
+}
+body:not(:has(.hero-novo)){
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(0,150,88,.09),transparent 34%),
+    linear-gradient(180deg,#f5faf6 0%,#fff 75%)!important;
+}
+body>header{
+  background:rgba(255,255,255,.97)!important;
+  border-bottom:3px solid #00a66a!important;
+  box-shadow:0 8px 26px rgba(0,75,45,.08)!important;
+}
+body>header h1,body>header .logo h1{color:#064b35!important}
+body>header nav ul li a{color:#285c43!important}
+body>header nav ul li a:hover,
+body>header nav ul li a[aria-current=page]{
+  background:#e0f5e8!important;color:#006b43!important;
+}
+body>header nav ul li:last-child a{
+  background:linear-gradient(120deg,#008653,#00a86b)!important;
+  color:#fff!important;box-shadow:0 5px 14px rgba(0,134,83,.18);
+}
+main:not(.login){padding-top:clamp(18px,3vw,34px);padding-bottom:42px}
+.card,.cards .card,.contato-card,.cadastro-auth,.perfil,.secao,
+.calendario,.eventos,.atividade,.material-card,.resumo-card,.aviso,
+.card-depoimento,.boas-vindas{
+  border-color:#d7eadc!important;
+  box-shadow:0 12px 30px rgba(0,78,48,.075)!important;
+}
+.card,.atividade,.material-card,.resumo-card,.perfil,.calendario,.eventos{
+  border-top:3px solid #20a66b!important;
+}
+h1,h2,h3{color:#064b35}
+button,.btn,.voltar,.botao,.cadastro-auth button{
+  background:linear-gradient(120deg,#008653,#00a86b)!important;
+  color:#fff!important;box-shadow:0 7px 18px rgba(0,134,83,.16);
+}
+input:focus,select:focus,textarea:focus{
+  outline:3px solid rgba(0,166,106,.16)!important;
+  border-color:#00a66a!important;
+}
+#painelProfessora>.card:first-child,
+.painel>.card:first-child{
+  background:linear-gradient(125deg,#064b35 0%,#008653 62%,#00a86b 100%)!important;
+  border:0!important;color:#fff!important;
+}
+#painelProfessora>.card:first-child h1,
+#painelProfessora>.card:first-child h2,
+#painelProfessora>.card:first-child h3,
+#painelProfessora>.card:first-child p,
+.painel>.card:first-child h1,
+.painel>.card:first-child h2,
+.painel>.card:first-child p{color:#fff!important}
+.menu-professora a{
+  border:1px solid #cde8d5!important;
+  background:linear-gradient(145deg,#fff 0%,#effaf2 100%)!important;
+  box-shadow:0 8px 22px rgba(0,78,48,.07);
+}
+.menu-professora a:hover{
+  border-color:#00a66a!important;
+  background:#e4f8eb!important;
+  transform:translateY(-3px);
+}
+.atalho-icone{background:#d9f4e2!important;color:#006b43!important}
+.resumo-card strong,.numero{color:#008653!important}
+.resumo-item,.resultado-ia,.dia.evento{
+  background:#e5f7eb!important;color:#07583a!important;border-color:#bde7ca!important;
+}
+.dia.hoje{background:#008653!important;color:#fff!important;border-color:#008653!important}
+.controles .seta{min-width:42px}
+.voltar{border-radius:12px!important;text-decoration:none}
+footer{background:#edf7ef!important}
+@media(max-width:700px){
+  body>header:not(.topo-aluno){padding:13px 14px!important}
+  body>header nav ul{gap:4px!important}
+  body>header nav ul li a{padding:8px 10px!important;font-size:13px}
+  main:not(.login){padding-top:16px;padding-bottom:30px}
+}
