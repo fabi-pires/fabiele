@@ -101,7 +101,8 @@ async function carregarAtividades(user){
 
   const [
     {data:atividades,error:erroAtividades},
-    {data:respostas,error:erroRespostas}
+    {data:respostas,error:erroRespostas},
+    {data:aulas,error:erroAulas}
   ]=await Promise.all([
     supabaseClient.from("atividades_escolares")
       .select("id,titulo,descricao,materia,prazo_entrega,arquivo_pdf_url,criado_em")
@@ -110,7 +111,12 @@ async function carregarAtividades(user){
 
     supabaseClient.from("respostas_atividades")
       .select("id,atividade_id,resposta_texto,arquivo_url,status,nota_final,comentario_professora,criado_em")
-      .eq("aluno_id",user.id)
+      .eq("aluno_id",user.id),
+
+    supabaseClient.from("aulas")
+      .select("id,titulo,disciplina,atividade_avaliativa")
+      .not("atividade_avaliativa","is",null)
+      .order("id",{ascending:false})
   ]);
 
   if(erroAtividades){
@@ -123,18 +129,57 @@ async function carregarAtividades(user){
     return;
   }
 
+  if(erroAulas){
+    lista.textContent="Não foi possível carregar as atividades das aulas: "+erroAulas.message;
+    return;
+  }
+
   const mapa=new Map((respostas||[]).map(r=>[String(r.atividade_id),r]));
   const pendentes=(atividades||[]).filter(a=>!mapa.has(String(a.id))).length;
 
   document.getElementById("pendentes").textContent=pendentes;
   document.getElementById("entregues").textContent=(respostas||[]).length;
 
+  lista.innerHTML="";
+
+  if(aulas&&aulas.length){
+    const tituloGrupo=document.createElement("h2");
+    tituloGrupo.textContent="📘 Atividades das aulas";
+    tituloGrupo.style.cssText="margin:8px 0 0;color:#1b5e20;font-size:21px";
+    lista.appendChild(tituloGrupo);
+    const orientacao=document.createElement("p");
+    orientacao.textContent="Estas atividades fazem parte do conteúdo de cada aula. Leia as orientações e consulte a professora sobre a forma de entrega.";
+    lista.appendChild(orientacao);
+    aulas.forEach(aula=>{
+      const card=document.createElement("article");
+      card.className="atividade";
+      const titulo=document.createElement("h2");
+      titulo.textContent=aula.titulo||"Aula";
+      const materia=document.createElement("p");
+      materia.className="materia";
+      materia.textContent="📚 "+(aula.disciplina||"Biologia Geral")+" • Atividade da aula";
+      const descricao=document.createElement("p");
+      descricao.className="descricao";
+      descricao.textContent=aula.atividade_avaliativa;
+      const aviso=document.createElement("p");
+      aviso.className="aviso";
+      aviso.textContent="Atividade vinculada à aula. Para enviar sua resposta, siga a orientação da professora.";
+      card.append(titulo,materia,descricao,aviso);
+      lista.appendChild(card);
+    });
+  }
+
   if(!atividades||atividades.length===0){
-    lista.innerHTML='<div class="vazio">A professora ainda não publicou atividades.</div>';
+    if(!aulas||aulas.length===0){
+      lista.innerHTML='<div class="vazio">A professora ainda não publicou atividades.</div>';
+    }
     return;
   }
 
-  lista.innerHTML="";
+  const tituloExtras=document.createElement("h2");
+  tituloExtras.textContent="📝 Provas, trabalhos e atividades extras";
+  tituloExtras.style.cssText="margin:18px 0 0;color:#1b5e20;font-size:21px";
+  lista.appendChild(tituloExtras);
 
   for(const atividade of atividades){
     const resposta=mapa.get(String(atividade.id));
