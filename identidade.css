@@ -509,3 +509,155 @@ footer,.rodape,.rodape-principal{padding:32px 20px!important;text-align:center}
 .login-premium h1{text-align:center;font-family:'Playfair Display',Georgia,serif!important;font-size:clamp(27px,6vw,35px)!important;line-height:1.2;margin-bottom:12px}.login-premium .login-intro{text-align:center;max-width:360px;margin:0 auto 22px;font-size:15px;color:#718074}.login-premium label{font-size:14px;color:#294c35}.login-premium input{padding:14px 15px!important}.login-premium #btnEntrar{border-radius:30px!important;padding:15px!important;box-shadow:0 8px 20px #315f4322}.login-premium button.secundario{border-radius:30px!important}.login-premium .links{font-size:14px}.login-premium .links a{text-decoration:none;font-weight:600}.login-premium .links a:hover{text-decoration:underline}
 .boas-vindas-perfil{display:flex;align-items:center;gap:20px;padding:23px!important}.avatar-aluno{width:94px;height:94px;flex:0 0 94px;border-radius:50%;border:4px solid #d8ead5;background:linear-gradient(145deg,#e8f3e5,#c9e3c5);display:grid;place-items:center;overflow:hidden;font-size:40px}.avatar-aluno img{width:100%;height:100%;object-fit:cover}.boas-etiqueta{font-size:10px;letter-spacing:1.7px;font-weight:800;color:#66836b}.boas-texto h2{margin:6px 0;color:#244b35}.link-perfil-foto{display:inline-block;margin-top:8px;color:#315f43;font-weight:700;font-size:13px;text-decoration:none;padding:8px 12px;border-radius:22px;background:#eaf1e9}.link-perfil-foto:hover{background:#dcebd8}
 @media(max-width:500px){.boas-vindas-perfil{align-items:flex-start;gap:13px;padding:17px!important}.avatar-aluno{width:76px;height:76px;flex-basis:76px;font-size:32px}.boas-etiqueta{letter-spacing:1px;font-size:9px}}
+
+
+/* =====================================================
+   BIO SEM MISTÉRIO — PREMIUM EMERALD + CHAMPAGNE
+   Camada visual: preserva HTML, scripts, rotas e integrações.
+===================================================== */
+:root{
+  --bio-verde:#123f32;
+  --bio-verde-escuro:#0b3027;
+  --bio-esmeralda:#17634a;
+  --bio-champagne:#c8aa75;
+  --bio-champagne-claro:#eadfc9;
+  --bio-salvia:#edf2eb;
+  --bio-fundo:#f8f7f2;
+  --bio-texto:#293c34;
+  --bio-muted:#718078;
+  --bio-linha:#e7e2d7;
+  --bio-sombra:0 16px 42px rgba(19,53,40,.075);
+}
+body{
+  background:
+    radial-gradient(ellipse at 4% 8%,rgba(200,170,117,.09),transparent 30%),
+    linear-gradient(180deg,#f8f7f2 0%,#fff 64%,#f5f6f0 100%)!important;
+  color:#293c34!important;
+}
+body>header:not(.topo-aluno){
+  background:rgba(250,249,245,.96)!important;
+  border-bottom:1px solid #e7e0d2!important;
+  box-shadow:0 8px 28px rgba(16,54,40,.055)!important;
+  backdrop-filter:blur(16px);
+}
+body>header .logo h1,body>header h1{color:#123f32!important}
+body>header .logo-subtitulo{color:#7b8177!important;letter-spacing:.08em}
+body>header nav ul li a{
+  color:#53665c!important;
+  font-weight:600!important;
+  border-radius:999px!important;
+}
+body>header nav ul li a:hover,
+body>header nav ul li a[aria-current=page]{
+  background:#edf1e9!important;color:#123f32!important;
+  box-shadow:inset 0 0 0 1px #dce5d9!important;
+}
+body>header nav ul li:last-child a{
+  background:#123f32!important;color:#fff!important;
+  box-shadow:0 6px 16px rgba(18,63,50,.14)!important;
+}
+body>header nav ul li:last-child a:hover{background:#1b6048!important}
+h1,h2,h3{color:#123f32}
+.card,.cards .card,.destaque-card,.material-card,.atividade,.resumo-card,
+.contato-card,.card-depoimento,.menu-professora a,.sobre-pilar,
+.sobre-apresentacao,.cadastro-auth,.boas-vindas{
+  border-color:#e7e2d7!important;
+  box-shadow:0 14px 36px rgba(19,53,40,.065)!important;
+}
+.card,.material-card,.atividade,.resumo-card,.sobre-pilar{
+  border-top:2px solid #c8aa75!important;
+}
+button,.btn,.voltar,.botao,.cadastro-auth button,
+.sobre-cta,.sobre-convite a{
+  background:linear-gradient(120deg,#123f32,#1b6048)!important;
+  color:#fff!important;
+  border:1px solid rgba(200,170,117,.28)!important;
+  box-shadow:0 8px 20px rgba(18,63,50,.13)!important;
+}
+button:hover,.btn:hover,.voltar:hover,.botao:hover,
+.sobre-cta:hover,.sobre-convite a:hover{
+  background:linear-gradient(120deg,#0b3027,#164d3b)!important;
+  box-shadow:0 12px 26px rgba(18,63,50,.19)!important;
+}
+input,select,textarea{
+  border-color:#ddd8cc!important;
+  background:#fffefa!important;
+}
+input:focus,select:focus,textarea:focus{
+  outline:3px solid rgba(200,170,117,.18)!important;
+  border-color:#b99a65!important;
+}
+.hero.hero-novo{
+  background:
+    radial-gradient(circle at 78% 25%,rgba(200,170,117,.22),transparent 26%),
+    radial-gradient(circle at 10% 90%,rgba(47,132,96,.22),transparent 32%),
+    linear-gradient(125deg,#092b23 0%,#123f32 54%,#1d6349 100%)!important;
+}
+.hero-novo .hero-texto h1 em{color:#dfc99e!important;text-shadow:none!important}
+.hero-novo .hero-etiqueta{
+  color:#eadfc9!important;border-color:rgba(222,201,158,.48)!important;
+  background:rgba(255,255,255,.065)!important;
+}
+.hero-novo .botao{
+  background:linear-gradient(120deg,#e4d2ad,#c8aa75)!important;
+  color:#183b2e!important;border:1px solid #f0e4cc!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.16)!important;
+}
+.hero-novo .botao:hover{background:#f0e4cc!important;color:#123f32!important}
+.hero-novo .imagem-moldura{
+  border-color:rgba(222,201,158,.55)!important;
+  box-shadow:0 26px 70px rgba(0,0,0,.30),0 0 34px rgba(200,170,117,.10)!important;
+}
+.hero-novo .selo-flutuante{
+  background:#f8f5ed!important;color:#123f32!important;
+  border:1px solid #e6d8bd!important;
+}
+.inicio-destaques{background:linear-gradient(180deg,#f8f7f2,#fff)!important}
+.inicio-destaques .secao-intro h2{color:#123f32!important}
+.destaque-card{
+  background:linear-gradient(145deg,#fffefa,#f4f4ed)!important;
+  border:1px solid #e7e2d7!important;border-top:2px solid #c8aa75!important;
+}
+.destaque-icone,.icone,.atalho-icone{
+  background:#f0e8d8!important;color:#725b35!important;
+}
+.sobre-foto{background:linear-gradient(145deg,#e6d7b9,#17634a)!important}
+.sobre-selo{background:#f0e6d2!important;color:#123f32!important}
+.sobre-chamada,.sobre-titulo>span{color:#94794d!important}
+.sobre-conteudo h2 span{color:#9a7b48!important}
+.sobre-cta{background:linear-gradient(120deg,#123f32,#1b6048)!important}
+.topo-aluno,body>header.topo-aluno{
+  background:linear-gradient(115deg,#0b3027,#123f32 68%,#1b6048)!important;
+  border-bottom:1px solid rgba(222,201,158,.5)!important;
+}
+.boas-vindas{
+  background:linear-gradient(110deg,#fffefa,#f2f3ec)!important;
+  border-left:3px solid #c8aa75!important;
+}
+.boas-vindas h2{color:#123f32!important}
+.menu .card,.menu-professora a{
+  background:linear-gradient(145deg,#fffefa,#f4f4ed)!important;
+}
+.menu-professora a:hover{border-color:#c8aa75!important}
+footer,.rodape,.rodape-principal{
+  background:linear-gradient(120deg,#0b3027,#123f32)!important;
+  color:#e9e5d9!important;border-top:1px solid #c8aa75!important;
+}
+footer p,footer small,.rodape-principal p,.rodape-principal small{color:#e9e5d9!important}
+footer a,.rodape-principal a{color:#e4d2ad!important}
+.login-premium{border-top:3px solid #c8aa75!important}
+.login-icone{background:linear-gradient(145deg,#f0e8d8,#d9c49c)!important}
+.login-selo,.boas-etiqueta{color:#94794d!important}
+.link-perfil-foto{background:#f0e8d8!important;color:#123f32!important}
+#painelProfessora>.card:first-child,.painel>.card:first-child{
+  background:linear-gradient(125deg,#0b3027,#123f32 68%,#1b6048)!important;
+  border-bottom:2px solid #c8aa75!important;
+}
+@media(max-width:760px){
+  body>header:not(.topo-aluno){border-bottom-width:1px!important}
+  body>header nav ul li a{font-size:13px!important;padding:8px 10px!important}
+  .hero.hero-novo{background:linear-gradient(145deg,#092b23,#123f32 65%,#1d6349)!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
