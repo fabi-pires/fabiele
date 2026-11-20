@@ -119,6 +119,25 @@
       margin-top: 8px;
       font-weight: bold;
     }
+
+    /* Redesign compacto e responsivo - Bio sem Mistério */
+    body{padding:clamp(12px,3vw,26px);background:linear-gradient(160deg,#f1f8f1,#e7f2e8);color:#204329}
+    .painel{max-width:920px}
+    .card{padding:clamp(16px,2.5vw,22px);margin-bottom:14px;border:1px solid #e0eee1;border-radius:18px;box-shadow:0 5px 18px rgba(23,59,32,.07)}
+    #painelProfessora>.card:first-child{background:linear-gradient(120deg,#1b5e20,#39834a);color:#fff;min-height:auto}
+    #painelProfessora>.card:first-child h1{font-size:clamp(21px,4vw,28px);margin-bottom:5px}
+    #painelProfessora>.card:first-child p{margin:0;opacity:.9}
+    h1,h2{line-height:1.25}
+    h2{font-size:clamp(18px,3vw,22px);margin-bottom:12px}
+    h3{font-size:17px}
+    label{margin-top:12px;font-size:14px}
+    input,textarea{padding:11px;border-radius:10px;border-color:#c8ddca;background:#fcfffc}
+    textarea{min-height:100px}
+    button{margin-top:14px;padding:11px 16px;border-radius:10px}
+    .sair{background:#eaf5eb;color:#1b5e20;float:right}
+    .aula{padding:14px 0}
+    @media(max-width:520px){body{padding:10px}.card{padding:15px;margin-bottom:11px;border-radius:15px}button{width:auto;max-width:100%;font-size:15px}.sair{float:none;display:block;margin:0 0 12px auto}}
+
   </style>
 </head>
 
