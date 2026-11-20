@@ -2,7 +2,7 @@
 (function () {
   if (document.getElementById("bio-chatbot")) return;
 
-  const WHATSAPP_NUMBER = ""; // preencher depois: código do país + DDD + número, somente dígitos
+  const WHATSAPP_NUMBER = "555195747291"; // preencher depois: código do país + DDD + número, somente dígitos
   const style = document.createElement("style");
   style.textContent = `
     #bio-chatbot{position:fixed;right:18px;bottom:18px;z-index:99999;font-family:Arial,sans-serif;color:#183c25}
