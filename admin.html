@@ -303,6 +303,13 @@
             required
           ></textarea>
 
+          <div style="margin-top:20px;padding:16px;border:2px solid #c9dfca;border-radius:12px;background:#f4faf4">
+            <h3 style="margin:0 0 6px;color:#205c2b">📝 Atividade avaliativa</h3>
+            <p style="margin:0 0 8px;color:#526354;font-size:13px">Campo separado do conteúdo da aula. Preencha quando esta aula tiver uma tarefa para o aluno.</p>
+            <label for="atividadeAvaliativa">Enunciado e orientações da atividade</label>
+            <textarea id="atividadeAvaliativa" placeholder="Descreva aqui o que o aluno deverá fazer. Deixe em branco se esta aula não tiver atividade."></textarea>
+          </div>
+
           <label for="arquivo">Anexar PDF ou imagem (até 25 MB)</label>
           <input
             id="arquivo"
@@ -982,6 +989,16 @@
         conteudo.textContent =
           aula.conteudo;
 
+        const atividadeAvaliativa = document.createElement("div");
+        if (aula.atividade_avaliativa) {
+          atividadeAvaliativa.style.cssText = "margin-top:14px;padding:13px;border-left:4px solid #2e7d32;border-radius:8px;background:#f0f8f0";
+          const rotuloAtividade = document.createElement("strong");
+          rotuloAtividade.textContent = "📝 ATIVIDADE AVALIATIVA";
+          const textoAtividade = document.createElement("p");
+          textoAtividade.textContent = aula.atividade_avaliativa;
+          atividadeAvaliativa.append(rotuloAtividade, textoAtividade);
+        }
+
 
         div.appendChild(titulo);
         div.appendChild(categoria);
@@ -989,6 +1006,7 @@
         div.appendChild(descricao);
 
         div.appendChild(conteudo);
+        if (aula.atividade_avaliativa) div.appendChild(atividadeAvaliativa);
 
         if (aula.arquivo_url) {
           const linkArquivo = document.createElement("a");
@@ -1079,6 +1097,9 @@
       const conteudo =
         document.getElementById("conteudo").value;
 
+      const atividadeAvaliativa =
+        document.getElementById("atividadeAvaliativa").value.trim();
+
       const arquivo = document.getElementById("arquivo").files[0];
       const videoUrl = document.getElementById("videoUrl").value.trim();
       let arquivoUrl = null;
@@ -1113,6 +1134,7 @@
           disciplina: document.getElementById("disciplinaAula").value,
           descricao: descricao,
           conteudo: conteudo,
+          atividade_avaliativa: atividadeAvaliativa || null,
           arquivo_url: arquivoUrl,
           arquivo_nome: arquivoNome,
           video_url: videoUrl || null
