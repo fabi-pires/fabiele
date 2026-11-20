@@ -157,6 +157,21 @@
 #painelProfessora>.card:nth-child(3),#painelProfessora>.card:nth-child(5),#painelProfessora>.card:nth-child(7){background:#fcfffc}
 @media(max-width:680px){#painelProfessora:not(.oculto){grid-template-columns:1fr;gap:11px}#painelProfessora>.card:first-child{padding:18px}#painelProfessora>.card:first-child .sair{right:15px;top:15px}#painelProfessora>.card{padding:16px;border-radius:15px}}
 
+  
+/* Organização do painel: atalhos e listas em cartões */
+.menu-professora{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.menu-professora a{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;min-height:105px;padding:16px;border:1px solid #dcebdd;border-radius:15px;background:linear-gradient(145deg,#fff,#f4faf4);color:#205c2b;text-decoration:none;font-weight:700;box-shadow:0 3px 12px rgba(24,59,32,.05);transition:transform .18s,box-shadow .18s}
+.menu-professora a:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(24,59,32,.1)}
+.menu-professora .atalho-icone{font-size:25px}
+.menu-professora small{font-size:12px;font-weight:400;color:#667968;line-height:1.35}
+#listaAulas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#listaAulas .aula{border:1px solid #dcebdd;border-radius:14px;padding:16px;background:#fbfefb;min-width:0;overflow-wrap:anywhere}
+#listaAulas .aula h3{color:#205c2b}
+#listaAulas .aula p{white-space:pre-wrap}
+#painelProfessora>.card{scroll-margin-top:14px}
+@media(max-width:700px){.menu-professora{grid-template-columns:repeat(2,minmax(0,1fr))}#listaAulas{grid-template-columns:1fr}}
+@media(max-width:380px){.menu-professora a{padding:12px;min-height:95px}}
+
   </style>
 </head>
 
@@ -214,14 +229,26 @@
       </section>
 
 
-      <section class="card">
+
+      <nav class="menu-professora" aria-label="Atalhos do painel">
+        <a href="#sec-matriculas"><span class="atalho-icone">👥</span> Matrículas <small>Aprovar novos alunos</small></a>
+        <a href="#sec-aulas"><span class="atalho-icone">🎓</span> Nova aula <small>Publicar conteúdo da disciplina</small></a>
+        <a href="#sec-lista-aulas"><span class="atalho-icone">📚</span> Aulas cadastradas <small>Consultar ou excluir aulas</small></a>
+        <a href="#sec-materiais"><span class="atalho-icone">📂</span> Materiais <small>Enviar e organizar arquivos</small></a>
+        <a href="#sec-atividades"><span class="atalho-icone">📝</span> Atividades <small>Cadastrar atividades</small></a>
+        <a href="#sec-publicadas"><span class="atalho-icone">📋</span> Publicadas <small>Ver atividades disponíveis</small></a>
+        <a href="#sec-respostas"><span class="atalho-icone">📥</span> Respostas <small>Ver entregas dos alunos</small></a>
+        <a href="#sec-matriculas"><span class="atalho-icone">🌿</span> Início do painel <small>Voltar aos atalhos</small></a>
+      </nav>
+
+      <section class="card" id="sec-matriculas">
         <h2>Solicitações de matrícula</h2>
         <p>Confira os alunos que aguardam aprovação.</p>
         <div id="listaSolicitacoes">Carregando solicitações...</div>
         <p id="mensagemSolicitacoes" role="status" aria-live="polite"></p>
       </section>
 
-      <section class="card">
+      <section class="card" id="sec-materiais">
         <h2>📚 Material de Apoio</h2>
         <p>Envie arquivos para os alunos consultarem e baixarem.</p>
         <form id="formMaterial">
@@ -235,9 +262,9 @@
         <div id="listaMateriaisProf" aria-live="polite">Carregando materiais...</div>
       </section>
 
-      <section class="card">
+      <section class="card" id="sec-aulas">
 
-        <h2>Nova aula</h2>
+        <h2>🎓 Nova aula</h2>
 
         <form id="formAula">
 
@@ -288,7 +315,7 @@
       </section>
 
 
-      <section class="card">
+      <section class="card" id="sec-atividades">
         <h2>📝 Cadastrar atividade</h2>
         <form id="formAtividade">
           <label for="atividadeTitulo">Título</label>
@@ -306,19 +333,19 @@
         </form>
       </section>
 
-      <section class="card">
-        <h2>Atividades publicadas</h2>
+      <section class="card" id="sec-publicadas">
+        <h2>📋 Atividades publicadas</h2>
         <div id="listaAtividadesProf">Carregando atividades...</div>
       </section>
 
-      <section class="card">
+      <section class="card" id="sec-respostas">
         <h2>📥 Respostas dos alunos</h2>
         <div id="listaRespostas">Carregando respostas...</div>
       </section>
 
-      <section class="card">
+      <section class="card" id="sec-lista-aulas">
 
-        <h2>Aulas cadastradas</h2>
+        <h2>📚 Aulas cadastradas</h2>
 
         <div id="listaAulas">
           Carregando aulas...
