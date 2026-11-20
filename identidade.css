@@ -74,3 +74,80 @@ body:has(main.login){display:grid;place-items:center;min-height:100vh;padding:22
  .container{padding:16px 13px 30px!important}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* HERO DE IMPACTO — identidade científica e botânica */
+body{
+  background:
+    radial-gradient(ellipse at 12% 18%,rgba(211,229,207,.42),transparent 34%),
+    radial-gradient(ellipse at 88% 78%,rgba(220,232,215,.34),transparent 32%),
+    #f7f9f5!important;
+}
+.hero.hero-novo{
+  position:relative;isolation:isolate;overflow:hidden;
+  max-width:none!important;width:100%;min-height: min(760px,calc(100vh - 72px));
+  margin:0!important;padding:clamp(58px,8vw,112px) clamp(22px,8vw,112px)!important;
+  gap:clamp(28px,5vw,72px);
+  background:
+    radial-gradient(ellipse at 78% 20%,rgba(151,190,139,.28),transparent 34%),
+    radial-gradient(ellipse at 12% 100%,rgba(119,157,111,.22),transparent 38%),
+    linear-gradient(125deg,#102f25 0%,#1d4936 48%,#315f43 100%)!important;
+}
+.hero.hero-novo:before,.hero.hero-novo:after{
+  content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;
+}
+.hero.hero-novo:before{
+  width:520px;height:520px;right:-150px;top:-210px;
+  border:1px solid rgba(232,243,222,.22);
+  box-shadow:0 0 0 32px rgba(232,243,222,.035),0 0 0 72px rgba(232,243,222,.025),0 0 0 118px rgba(232,243,222,.018);
+}
+.hero.hero-novo:after{
+  width:300px;height:300px;left:-170px;bottom:-190px;
+  background:radial-gradient(circle,rgba(190,218,172,.16),transparent 70%);
+}
+.hero-novo .hero-texto{max-width:590px;position:relative;z-index:1}
+.hero-novo .hero-etiqueta{
+  display:inline-block;color:#d7e8c9!important;letter-spacing:2.5px;font-size:11px;
+  font-weight:700;margin-bottom:20px;padding:9px 14px;border:1px solid rgba(226,240,216,.28);
+  border-radius:30px;background:rgba(255,255,255,.07)
+}
+.hero-novo .hero-texto h1{
+  color:#fff!important;font-family:'Playfair Display',Georgia,serif!important;
+  font-size:clamp(39px,5.2vw,66px)!important;line-height:1.08!important;
+  letter-spacing:-1.4px;margin-bottom:22px
+}
+.hero-novo .hero-texto h1 em{color:#c8dfaF;font-style:italic}
+.hero-novo .hero-texto p{color:rgba(247,250,244,.86)!important;font-size:clamp(16px,1.5vw,19px);line-height:1.8;max-width:550px}
+.hero-novo .hero-texto b{color:#e0edcf!important}
+.hero-novo .hero .botao,.hero-novo .botao{
+  background:#d5e5c7!important;color:#183b2b!important;border-radius:30px!important;
+  padding:15px 25px;box-shadow:0 10px 28px rgba(0,0,0,.18)
+}
+.hero-novo .botao:hover{background:#fff!important}
+.hero-novo .link-secundario{color:#f3f7ef!important;text-decoration-color:rgba(243,247,239,.5)}
+.hero-novo .hero-nota{color:#d9e7d2!important;margin-top:26px}
+.hero-novo .hero-imagem{position:relative;z-index:1}
+.hero-novo .imagem-moldura{
+  position:relative;padding:12px;border:1px solid rgba(238,247,231,.36);
+  border-radius:28px;background:rgba(255,255,255,.10);
+  box-shadow:0 28px 70px rgba(0,0,0,.28);backdrop-filter:blur(5px)
+}
+.hero-novo .imagem-moldura:before{
+  content:"";position:absolute;inset:22px -18px -18px 22px;border:1px solid rgba(216,235,201,.32);
+  border-radius:28px;z-index:-1
+}
+.hero-novo .imagem-moldura img{border-radius:19px;max-height:470px;object-fit:cover}
+.hero-novo .selo-flutuante{
+  background:#fbfcf8!important;color:#244b35!important;border:1px solid rgba(255,255,255,.7);
+  border-radius:16px!important;box-shadow:0 16px 38px rgba(0,0,0,.2)
+}
+.inicio-destaques{padding:clamp(54px,7vw,90px) clamp(18px,6vw,70px)!important}
+.inicio-destaques .secao-intro h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(30px,4vw,43px)}
+.destaque-card{background:linear-gradient(150deg,#fff 0%,#f2f7ef 100%)!important;border:1px solid #e0e9dc!important;border-radius:20px!important;box-shadow:0 12px 34px rgba(31,72,44,.08)!important}
+.destaque-card:hover{transform:translateY(-6px);box-shadow:0 20px 42px rgba(31,72,44,.13)!important}
+@media(max-width:700px){
+ .hero.hero-novo{min-height:auto;padding:55px 22px 62px!important;text-align:left}
+ .hero-novo .hero-texto h1{font-size:clamp(37px,10vw,49px)!important}
+ .hero-novo .hero-imagem{max-width:390px;margin:12px auto 0}
+ .hero-novo .imagem-moldura:before{inset:12px -9px -10px 12px}
+}
