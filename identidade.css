@@ -398,3 +398,48 @@ button:hover,.btn:hover,.botao:hover,.voltar:hover{transform:translateY(-2px)}
 .sobre-convite a{background:#e0ffb8;color:#075b39!important}
 @media(max-width:760px){.sobre-apresentacao{grid-template-columns:1fr;padding:22px}.sobre-foto-wrap{max-width:300px}.sobre-pilares{grid-template-columns:1fr}.sobre-beneficios{grid-template-columns:1fr}.sobre-selo{right:-4px}.sobre-pagina{padding-left:15px!important;padding-right:15px!important}}
 @media(prefers-reduced-motion:no-preference){.sobre-pilar,.sobre-beneficios article{transition:transform .25s ease,box-shadow .25s ease}.sobre-pilar:hover,.sobre-beneficios article:hover{transform:translateY(-4px);box-shadow:0 17px 34px #004e3018}}
+
+
+/* BIO SEM MISTÉRIO — identidade completa, viva e responsiva */
+:root{--bio-verde:#008653;--bio-verde-escuro:#064b35;--bio-lima:#dfff45;--bio-menta:#e5f8ec;--bio-fundo:#f5fbf6;--bio-texto:#244b37;--bio-linha:#cfe9d8;--bio-sombra:0 16px 42px rgba(0,91,54,.10)}
+body{background:radial-gradient(circle at 4% 18%,#00a66a12,transparent 22rem),radial-gradient(circle at 96% 68%,#b7ef5c1f,transparent 25rem),linear-gradient(180deg,#f6fcf7,#fff 58%,#f3faf5)!important;color:#244b37!important}
+body>header:not(.topo-aluno){background:#ffffffF5!important;border-bottom:3px solid #00a66a!important;box-shadow:0 8px 28px #004b2d17!important;backdrop-filter:blur(14px)}
+body>header .logo h1,body>header h1{color:#064b35!important}
+body>header nav ul li a{color:#285c43!important;font-weight:700!important;border-radius:24px!important;transition:all .22s ease!important}
+body>header nav ul li a:hover,body>header nav ul li a[aria-current=page]{background:#e1f7e9!important;color:#006b43!important;box-shadow:inset 0 0 0 1px #bde8cc}
+body>header nav ul li:last-child a{background:linear-gradient(120deg,#008653,#00ad70)!important;color:#fff!important;box-shadow:0 6px 17px #00865338!important}
+button,.btn,.botao,.voltar,.sobre-cta,.sobre-convite a{background:linear-gradient(120deg,#008653,#00ad70)!important;color:#fff!important;border:0!important;box-shadow:0 8px 20px #00865330!important}
+button:hover,.btn:hover,.botao:hover,.voltar:hover{background:linear-gradient(120deg,#006b43,#008653)!important;box-shadow:0 12px 26px #00865340!important}
+input:focus,select:focus,textarea:focus{outline:3px solid #00a66a2b!important;border-color:#00a66a!important}
+.card,.cards .card,.destaque-card,.material-card,.atividade,.resumo-card,.contato-card,.card-depoimento,.menu-professora a,.sobre-pilar{border-color:#cfe9d8!important;box-shadow:var(--bio-sombra)!important;border-radius:20px!important}
+.card:hover,.cards .card:hover,.destaque-card:hover,.material-card:hover,.card-depoimento:hover,.menu-professora a:hover{transform:translateY(-5px);box-shadow:0 20px 42px #005b3629!important}
+.hero.hero-novo{background:radial-gradient(circle at 78% 24%,#b8ff4045,transparent 24%),radial-gradient(circle at 12% 88%,#00da923d,transparent 32%),linear-gradient(125deg,#003b2d,#006b45 50%,#009b62)!important}
+.hero-novo .hero-texto h1 em{color:#dfff45!important}
+.hero-novo .hero-etiqueta{color:#eaffb1!important;border-color:#dfff4580!important}
+.hero-novo .botao{background:#dfff45!important;color:#123b20!important}
+.hero-novo .botao:hover{background:#f0ff9e!important;color:#123b20!important}
+.hero-novo .imagem-moldura{border-color:#dfff45aa!important;box-shadow:0 24px 70px #001f16a8,0 0 40px #b7ff452e!important}
+.inicio-destaques{background:linear-gradient(180deg,#eff9e9,#fff)!important}
+.inicio-destaques .secao-intro h2{color:#075b39!important}
+.destaque-card{background:linear-gradient(145deg,#fff,#eaf8e5)!important;border-top:4px solid #69bd35!important}
+.destaque-icone,.icone,.atalho-icone{background:#dff4c9!important;color:#17683d!important}
+.topo-aluno,body>header.topo-aluno{background:linear-gradient(115deg,#064b35,#008653 65%,#00ad70)!important;color:#fff!important;box-shadow:0 8px 24px #004b2d33!important}
+.topo-aluno h1,body>header.topo-aluno h1{color:#fff!important}
+.boas-vindas{border-left:5px solid #00a66a!important;background:linear-gradient(110deg,#fff,#f0fbf3)!important}
+.boas-vindas h2{color:#006b43!important}
+.menu .card,.menu-professora a{background:linear-gradient(145deg,#fff,#effaf2)!important}
+footer,.rodape,.rodape-principal{background:linear-gradient(120deg,#063f2e,#08754d)!important;color:#e3f5e9!important;border:0!important}
+footer p,footer small,.rodape-principal p,.rodape-principal small{color:#e3f5e9!important}
+footer a,.rodape-principal a{color:#e2ff9b!important}
+footer .rodape-marca{color:#fff!important}
+.dia.hoje,.dia.selecionado,.dia.com-evento,.dia.evento{background:#dff5e6!important;color:#075b39!important;border-color:#75c994!important}
+.dia.hoje{background:#008653!important;color:#fff!important}
+.ponto{background:#00a66a!important}
+#painelProfessora>.card:first-child,.painel>.card:first-child{background:linear-gradient(125deg,#064b35,#008653 65%,#00ad70)!important;color:#fff!important}
+#painelProfessora>.card:first-child h1,#painelProfessora>.card:first-child h2,#painelProfessora>.card:first-child h3,#painelProfessora>.card:first-child p,.painel>.card:first-child h1,.painel>.card:first-child h2,.painel>.card:first-child p{color:#fff!important}
+@keyframes bioBrilho{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.9;transform:scale(1.04)}}
+@keyframes bioFlutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.hero-novo:after{animation:bioBrilho 8s ease-in-out infinite}
+.hero-novo .selo-flutuante{animation:bioFlutua 5s ease-in-out infinite}
+@media(max-width:760px){body>header:not(.topo-aluno){padding:13px 12px!important}body>header nav ul{gap:4px!important}body>header nav ul li a{padding:8px 10px!important;font-size:13px!important}.hero.hero-novo{min-height:auto;padding:52px 20px!important}.hero-novo .hero-texto h1{font-size:clamp(34px,9vw,48px)!important}.hero-imagem{max-width:390px;margin:8px auto 0}}
+@media(prefers-reduced-motion:reduce){.hero-novo:after,.hero-novo .selo-flutuante{animation:none!important}}
