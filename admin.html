@@ -783,73 +783,99 @@
     async function carregarMateriaisProf() {
       const lista = document.getElementById("listaMateriaisProf");
       if (!lista) return;
-      lista.textContent = "Carregando...";
-      const { data, error } = await supabaseClient.storage.from("materiais-aulas")
-        .list("apoio", { limit: 100, sortBy: { column: "name", order: "desc" } });
-      if (error) {
-        lista.textContent = "Não foi possível listar os materiais: " + error.message;
+      lista.innerHTML = "<p>Procurando arquivos antigos e novos...</p>";
+
+      // Os slides antigos foram enviados para o bucket no singular.
+      // Os envios mais recentes usam o bucket no plural.
+      const locais = [
+        { bucket: "materiais-aula", nome: "Materiais antigos" },
+        { bucket: "materiais-aulas", nome: "Materiais atuais" }
+      ];
+      const pastas = ["", "apoio"];
+      const encontrados = [];
+      const falhas = [];
+
+      for (const local of locais) {
+        for (const pasta of pastas) {
+          const { data, error } = await supabaseClient.storage
+            .from(local.bucket)
+            .list(pasta, { limit: 200, sortBy: { column: "name", order: "desc" } });
+          if (error) {
+            falhas.push(local.bucket + (pasta ? "/" + pasta : "") + ": " + error.message);
+            continue;
+          }
+          (data || []).forEach(arquivo => {
+            if (!arquivo.name || arquivo.name === ".emptyFolderPlaceholder" || (!arquivo.id && !arquivo.metadata)) return;
+            encontrados.push({
+              bucket: local.bucket,
+              grupo: local.nome,
+              pasta: pasta,
+              arquivo: arquivo,
+              caminho: (pasta ? pasta + "/" : "") + arquivo.name
+            });
+          });
+        }
+      }
+
+      if (!encontrados.length) {
+        lista.innerHTML = "<p>Nenhum arquivo encontrado nos dois espaços de armazenamento.</p>" +
+          (falhas.length ? "<p>Algumas pastas não puderam ser consultadas: " + falhas.join(" | ") + "</p>" : "");
         return;
       }
-      const arquivos = (data || []).filter(item => item.name && item.name !== ".emptyFolderPlaceholder" && (item.id || item.metadata));
-      if (!arquivos.length) {
-        lista.textContent = "Nenhum material publicado ainda.";
-        return;
-      }
+
       lista.innerHTML = "";
-      arquivos.forEach(arquivo => {
-        const caminho = "apoio/" + arquivo.name;
-        const url = supabaseClient.storage.from("materiais-aulas").getPublicUrl(caminho).data.publicUrl;
+      encontrados.forEach(registro => {
         const item = document.createElement("div");
         item.className = "aula";
+        item.style.padding = "14px";
+        item.style.margin = "10px 0";
+        item.style.border = "1px solid #d8e5d8";
+        item.style.borderRadius = "10px";
+        const nome = registro.arquivo.name.replace(/^\\d+-/, "");
+        const url = supabaseClient.storage.from(registro.bucket).getPublicUrl(registro.caminho).data.publicUrl;
+        const titulo = document.createElement("strong");
+        titulo.textContent = "📄 " + nome;
+        const origem = document.createElement("small");
+        origem.style.display = "block";
+        origem.style.margin = "5px 0";
+        origem.textContent = registro.grupo + (registro.pasta ? " • pasta " + registro.pasta : " • pasta principal");
         const link = document.createElement("a");
         link.href = url;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
-        link.textContent = "Abrir / baixar: " + arquivo.name.replace(/^\d+-/, "");
-        if (/\.(png|jpe?g|webp)$/i.test(arquivo.name)) {
-          const imagem = document.createElement("img");
-          imagem.src = url;
-          imagem.alt = "Prévia de " + arquivo.name;
-          imagem.loading = "lazy";
-          imagem.style.display = "block";
-          imagem.style.maxWidth = "100%";
-          imagem.style.height = "auto";
-          imagem.style.maxHeight = "520px";
-          imagem.style.objectFit = "contain";
-          imagem.style.margin = "12px 0";
-          item.appendChild(imagem);
-        }
-        item.appendChild(link);
+        link.textContent = "Abrir / baixar arquivo";
         const excluir = document.createElement("button");
         excluir.type = "button";
-        excluir.textContent = "🗑️ Excluir material";
-        excluir.className = "btn-excluir";
-        excluir.style.background = "#b42318";
-        excluir.style.color = "#fff";
+        excluir.textContent = "🗑️ EXCLUIR ESTE ARQUIVO";
         excluir.style.display = "block";
         excluir.style.width = "100%";
+        excluir.style.background = "#b42318";
+        excluir.style.color = "#fff";
         excluir.style.padding = "14px";
-        excluir.style.margin = "12px 0 4px";
-        excluir.style.fontSize = "16px";
+        excluir.style.margin = "12px 0 0";
         excluir.style.fontWeight = "800";
-        excluir.style.borderRadius = "10px";
         excluir.addEventListener("click", async () => {
-          const nomeExibicao = arquivo.name.replace(/^\\d+-/, "");
-          if (!confirm('Excluir o material "' + nomeExibicao + '"? Ele será removido do armazenamento e da área do aluno.')) return;
+          if (!confirm('Tem certeza que deseja excluir "' + nome + '"?')) return;
           excluir.disabled = true;
           excluir.textContent = "Excluindo...";
-          const { error: erroExcluir } = await supabaseClient.storage.from("materiais-aulas").remove([caminho]);
-          if (erroExcluir) {
-            alert("Não foi possível excluir. " + erroExcluir.message + "\\nVerifique a permissão de exclusão no Supabase Storage.");
+          const { error } = await supabaseClient.storage.from(registro.bucket).remove([registro.caminho]);
+          if (error) {
+            alert("O Supabase não permitiu excluir: " + error.message + ". Precisamos liberar a permissão DELETE nesse bucket.");
             excluir.disabled = false;
-            excluir.textContent = "🗑️ Excluir material";
+            excluir.textContent = "🗑️ EXCLUIR ESTE ARQUIVO";
             return;
           }
-          carregarMateriaisProf();
+          item.remove();
+          if (!lista.children.length) lista.textContent = "Todos os materiais foram removidos.";
         });
-        item.appendChild(excluir);
+        item.append(titulo, origem, link, excluir);
         lista.appendChild(item);
       });
+      if (falhas.length) {
+        const aviso = document.createElement("p");
+        aviso.textContent = "Aviso: alguns locais não puderam ser consultados: " + falhas.join(" | ");
+        lista.appendChild(aviso);
+      }
     }
 
     // CARREGAR AULAS
