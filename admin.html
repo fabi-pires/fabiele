@@ -233,10 +233,10 @@
 
       <nav class="menu-professora" aria-label="Atalhos do painel">
         <a href="#sec-matriculas"><span class="atalho-icone">👥</span> Matrículas <small>Aprovar novos alunos</small></a>
-        <a href="#sec-aulas"><span class="atalho-icone">🎓</span> Nova aula <small>Publicar conteúdo da disciplina</small></a>
+        <a href="#sec-aulas"><span class="atalho-icone">🎓</span> Nova aula <small>Conteúdo, material e atividade da mesma aula</small></a>
         <a href="#sec-lista-aulas"><span class="atalho-icone">📚</span> Aulas cadastradas <small>Consultar ou excluir aulas</small></a>
         <a href="#sec-materiais"><span class="atalho-icone">📂</span> Materiais <small>Enviar e organizar arquivos</small></a>
-        <a href="#sec-atividades"><span class="atalho-icone">📝</span> Atividades <small>Cadastrar atividades</small></a>
+        <a href="#sec-atividades"><span class="atalho-icone">📝</span> Atividades extras <small>Provas, trabalhos e exercícios separados das aulas</small></a>
         <a href="#sec-publicadas"><span class="atalho-icone">📋</span> Publicadas <small>Ver atividades disponíveis</small></a>
         <a href="#sec-respostas"><span class="atalho-icone">📥</span> Respostas <small>Ver entregas dos alunos</small></a>
         <a href="#sec-matriculas"><span class="atalho-icone">🌿</span> Início do painel <small>Voltar aos atalhos</small></a>
@@ -336,7 +336,8 @@
 
 
       <section class="card" id="sec-atividades">
-        <h2>📝 Cadastrar atividade</h2>
+        <h2>📝 Atividades independentes</h2>
+        <p><strong>Use esta área somente para provas, trabalhos e exercícios que não fazem parte de uma aula específica.</strong> Se a atividade pertence a uma aula, cadastre-a no campo “Atividade avaliativa” dentro de “Nova aula”. Assim, não será necessário cadastrar a mesma atividade duas vezes.</p>
         <form id="formAtividade">
           <label for="atividadeTitulo">Título</label>
           <input id="atividadeTitulo" type="text" required>
@@ -354,7 +355,8 @@
       </section>
 
       <section class="card" id="sec-publicadas">
-        <h2>📋 Atividades publicadas</h2>
+        <h2>📋 Atividades extras publicadas</h2>
+        <p>Lista de provas, trabalhos e exercícios cadastrados na área “Atividades independentes”.
         <div id="listaAtividadesProf">Carregando atividades...</div>
       </section>
 
