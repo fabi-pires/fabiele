@@ -361,3 +361,40 @@ button:hover,.btn:hover,.botao:hover,.voltar:hover{transform:translateY(-2px)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
+
+
+/* PÁGINA SOBRE A PROFESSORA — apresentação editorial */
+.sobre-pagina{max-width:1160px;margin:0 auto;padding:clamp(28px,5vw,64px) 22px 58px!important}
+.sobre-apresentacao{display:grid;grid-template-columns:minmax(260px,.85fr) 1.15fr;gap:clamp(28px,6vw,76px);align-items:center;padding:clamp(22px,4vw,48px);background:linear-gradient(135deg,#fff 0%,#f0faf3 100%);border:1px solid #d8ecdf;border-radius:30px;box-shadow:0 20px 55px rgba(0,78,48,.09)}
+.sobre-foto-wrap{position:relative;max-width:390px;margin:auto;width:100%}
+.sobre-foto{padding:10px;background:linear-gradient(145deg,#a6e7b8,#078653);border-radius:28px 28px 90px 28px;box-shadow:0 20px 45px rgba(0,100,60,.18)}
+.sobre-foto img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center;border-radius:21px 21px 80px 21px}
+.sobre-selo{position:absolute;right:-12px;bottom:25px;padding:12px 17px;border-radius:30px;background:#e7ffd5;color:#075b39;font-weight:800;box-shadow:0 8px 24px #064b3522}
+.sobre-selo i{margin-right:6px}
+.sobre-chamada,.sobre-titulo>span,.sobre-convite>span{font-size:.75rem;letter-spacing:.16em;font-weight:800;color:#078653}
+.sobre-conteudo h2{font-size:clamp(2rem,4.5vw,3.4rem);line-height:1.12;margin:14px 0 18px;color:#123d2b}
+.sobre-conteudo h2 span{color:#008653}
+.sobre-conteudo p{color:#52695b;line-height:1.85;font-size:1.02rem}
+.sobre-conteudo .sobre-destaque{font-size:1.2rem;font-weight:700;color:#28583e;line-height:1.6}
+.sobre-cta,.sobre-convite a{display:inline-flex;gap:12px;align-items:center;margin-top:18px;padding:14px 20px;border-radius:14px;background:linear-gradient(120deg,#008653,#00a86b);color:white!important;text-decoration:none;font-weight:800;box-shadow:0 9px 22px #0086532c}
+.sobre-proposito,.sobre-metodo{padding:clamp(44px,7vw,78px) 4px 10px}
+.sobre-titulo{text-align:center;max-width:680px;margin:0 auto 30px}
+.sobre-titulo h2{font-size:clamp(1.7rem,3vw,2.35rem);margin:10px 0;color:#064b35}
+.sobre-titulo p{color:#65796c}
+.sobre-pilares{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.sobre-pilar{padding:27px 24px;background:#fff;border:1px solid #d7eadc;border-top:4px solid #21a66b;border-radius:20px;box-shadow:0 12px 30px #004e3010}
+.sobre-pilar>div{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:#e2f7e9;color:#008653;font-size:1.2rem}
+.sobre-pilar h3{margin:18px 0 8px;color:#075b39}
+.sobre-pilar p,.sobre-beneficios p{margin:0;color:#617568;line-height:1.7}
+.sobre-beneficios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.sobre-beneficios article{display:flex;gap:17px;align-items:flex-start;padding:22px;background:linear-gradient(135deg,#fff,#f0faf3);border:1px solid #d7eadc;border-radius:18px}
+.sobre-beneficios article>i{flex:0 0 46px;width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:#dcf5e5;color:#008653;font-size:1.15rem}
+.sobre-beneficios h3{margin:2px 0 7px;color:#075b39}
+.sobre-publico{text-align:center;margin:25px auto 0;padding:17px 20px;max-width:850px;border-radius:14px;background:#e8f7ed;color:#28583e;font-weight:700;line-height:1.6}
+.sobre-convite{text-align:center;margin-top:58px;padding:clamp(30px,5vw,52px) 22px;border-radius:26px;background:radial-gradient(circle at 85% 20%,#21a66b66,transparent 28%),linear-gradient(120deg,#064b35,#008653);color:#fff}
+.sobre-convite h2{color:#fff;font-size:clamp(1.7rem,3vw,2.4rem);margin:12px 0}
+.sobre-convite>span{color:#d7ffb8}
+.sobre-convite p{color:#e5f5e9;line-height:1.7}
+.sobre-convite a{background:#e0ffb8;color:#075b39!important}
+@media(max-width:760px){.sobre-apresentacao{grid-template-columns:1fr;padding:22px}.sobre-foto-wrap{max-width:300px}.sobre-pilares{grid-template-columns:1fr}.sobre-beneficios{grid-template-columns:1fr}.sobre-selo{right:-4px}.sobre-pagina{padding-left:15px!important;padding-right:15px!important}}
+@media(prefers-reduced-motion:no-preference){.sobre-pilar,.sobre-beneficios article{transition:transform .25s ease,box-shadow .25s ease}.sobre-pilar:hover,.sobre-beneficios article:hover{transform:translateY(-4px);box-shadow:0 17px 34px #004e3018}}
