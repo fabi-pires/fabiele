@@ -1,0 +1,76 @@
+/* Identidade visual compartilhada — Bio sem Mistério */
+:root{
+  --bio-verde:#315f43;--bio-verde-escuro:#244b35;--bio-salvia:#eaf1e9;
+  --bio-fundo:#f8faf6;--bio-texto:#35443a;--bio-muted:#718074;--bio-linha:#e4ebe2;
+  --bio-sombra:0 10px 28px rgba(37,72,47,.07);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bio-fundo)!important;color:var(--bio-texto)!important;font-family:Arial,Helvetica,sans-serif}
+body>header,body>header.cabecalho,body>header.topo-aluno{
+  background:#fff!important;color:var(--bio-verde-escuro)!important;
+  border-bottom:1px solid var(--bio-linha);box-shadow:0 5px 24px rgba(37,72,47,.045);
+}
+body>header:not(.topo-aluno){padding:15px clamp(16px,4vw,52px)!important;min-height:72px}
+body>header .logo h1,body>header h1{color:var(--bio-verde-escuro)!important}
+body>header nav ul{gap:5px}
+body>header nav ul li a{color:#526b58!important;border-radius:24px;padding:9px 12px;text-decoration:none;transition:background .2s,color .2s}
+body>header nav ul li a:hover,body>header nav ul li a[aria-current=page]{background:var(--bio-salvia);color:var(--bio-verde-escuro)!important}
+body>header nav ul li:last-child a{background:var(--bio-verde);color:#fff!important;border-radius:24px}
+body>header nav ul li:last-child a:hover{background:var(--bio-verde-escuro)}
+main{color:var(--bio-texto)}
+main:not(.login){max-width:1120px;margin-left:auto;margin-right:auto}
+h1,h2,h3{color:var(--bio-verde-escuro)}
+h1,h2{line-height:1.2}
+p{line-height:1.65}
+.card,.cards .card,.contato-card,.cadastro-auth,.perfil,.secao,.calendario,.eventos,.atividade,.material-card,.resumo-card,.aviso{
+  border:1px solid var(--bio-linha)!important;border-radius:16px!important;box-shadow:var(--bio-sombra)!important;
+}
+button,.btn,.voltar,.botao,.cadastro-auth button{
+  background:var(--bio-verde)!important;color:#fff!important;border:0!important;border-radius:10px!important;
+  font-weight:700;transition:background .2s,transform .2s;
+}
+button:hover,.btn:hover,.voltar:hover,.botao:hover,.cadastro-auth button:hover{background:var(--bio-verde-escuro)!important;transform:translateY(-1px)}
+button:disabled{opacity:.6;transform:none}
+input,select,textarea{border:1px solid #cbd8ca!important;border-radius:10px!important;background:#fff!important;color:var(--bio-texto)!important}
+input:focus,select:focus,textarea:focus{outline:3px solid rgba(49,95,67,.13);border-color:var(--bio-verde)!important}
+a{color:var(--bio-verde)}
+footer,.rodape,.rodape-principal{background:#f0f4ed!important;color:#718074!important;border-top:1px solid var(--bio-linha)}
+/* Matrícula e páginas institucionais */
+.pagina-matricula,.pagina-contato,.sobre,.vantagens,.disciplinas{padding:clamp(22px,5vw,54px) clamp(16px,4vw,32px)}
+.introducao{text-align:center;margin:28px auto;max-width:760px}
+.introducao h1{font-size:clamp(30px,5vw,44px)}
+.cadastro-auth{max-width:650px;margin:24px auto 48px;background:#fff;padding:clamp(20px,4vw,32px)}
+/* Login */
+body:has(main.login){display:grid;place-items:center;min-height:100vh;padding:22px;background:radial-gradient(ellipse at top right,#eaf1e9,transparent 55%),var(--bio-fundo)!important}
+.login{width:min(100%,440px);padding:clamp(24px,5vw,36px)!important;background:#fff;border:1px solid var(--bio-linha);border-radius:20px;box-shadow:0 18px 50px rgba(37,72,47,.1)}
+.login h1{font-family:Georgia,serif;color:var(--bio-verde-escuro);font-size:30px}
+.login p{color:var(--bio-muted)}
+.login .links a{color:var(--bio-verde)}
+/* Painel do aluno e páginas internas */
+.topo-aluno{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px clamp(16px,4vw,40px)!important}
+.topo-aluno h1{font-size:clamp(20px,4vw,26px);margin:0}
+.container{max-width:1000px!important;padding:22px 16px 40px!important}
+.boas-vindas{background:#fff;border:1px solid var(--bio-linha)!important;border-radius:17px!important;box-shadow:var(--bio-sombra)!important}
+.boas-vindas h2{color:var(--bio-verde-escuro)}
+.menu{gap:13px}
+.card h3,.atividade h2,.secao h2,.eventos h2{color:var(--bio-verde-escuro)!important}
+.dia.hoje{border-color:var(--bio-verde)!important}
+.dia.evento,.resumo-item,.resultado-ia{background:var(--bio-salvia)!important;color:var(--bio-verde-escuro)!important;border-color:#d8e5d5!important}
+.ponto{background:var(--bio-verde)!important}
+.voltar{display:inline-block}
+.sair{background:#eaf1e9!important;color:var(--bio-verde-escuro)!important;border:1px solid #d6e3d4!important}
+.sair:hover{background:#dfeadd!important}
+#painelProfessora>.card:first-child{background:linear-gradient(120deg,#315f43,#52785a)!important}
+#painelProfessora>.card h2,#painelProfessora>.card h3{color:var(--bio-verde-escuro)!important}
+.menu-professora a{border-color:var(--bio-linha)!important;background:linear-gradient(145deg,#fff,#f4f8f2)!important;color:var(--bio-verde-escuro)!important;border-radius:15px}
+@media(max-width:900px){
+ body>header:not(.topo-aluno){flex-direction:column;gap:10px}
+ body>header nav{width:100%}
+ body>header nav ul{justify-content:center;flex-wrap:wrap}
+}
+@media(max-width:600px){
+ .resumo{grid-template-columns:1fr 1fr}
+ .topo-aluno{justify-content:center;text-align:center}
+ .container{padding:16px 13px 30px!important}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
