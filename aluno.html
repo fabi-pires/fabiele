@@ -3,7 +3,7 @@
   <link rel="stylesheet" href="identidade.css?v=premium-20261120">
 </head>
 <body><header class="topo-aluno"><h1>🎓 Painel do Aluno</h1><button class="sair" id="btnSair">Sair</button></header>
-<main class="container"><section class="boas-vindas"><h2>Olá, <span id="nomeAluno">aluno</span>! 👋</h2><p>Bem-vindo ao seu espaço de estudos no Bio sem Mistério.</p><p id="statusAluno" role="status"></p></section>
+<main class="container"><section class="boas-vindas boas-vindas-perfil"><div class="avatar-aluno"><img id="fotoAluno" alt="Foto do aluno" hidden><span id="avatarFallback">🌱</span></div><div class="boas-texto"><span class="boas-etiqueta">SEU ESPAÇO DE APRENDIZAGEM</span><h2>Olá, <span id="nomeAluno">aluno</span>! 👋</h2><p>Bem-vindo ao seu espaço de estudos no Bio sem Mistério.</p><p id="statusAluno" role="status"></p><a class="link-perfil-foto" href="perfil.html">📷 Personalizar meu perfil</a></div></section>
 <section class="menu"><a href="disciplinas.html" class="card"><div class="icone">📚</div><h3>Disciplinas</h3><p>Veja suas disciplinas.</p></a><a href="material.html" class="card"><div class="icone">📚</div><h3>Material de Apoio</h3><p>Consulte e baixe os materiais da professora.</p></a><a href="atividades.html" class="card"><div class="icone">📝</div><h3>Atividades</h3><p>Veja suas atividades.</p></a><a href="notas.html" class="card"><div class="icone">📊</div><h3>Notas</h3><p>Consulte suas notas.</p></a><a href="calendario.html" class="card"><div class="icone">📅</div><h3>Calendário</h3><p>Veja suas próximas atividades.</p></a><a href="perfil.html" class="card"><div class="icone">👤</div><h3>Meu Perfil</h3><p>Veja seus dados.</p></a><a href="mensagens.html" class="card"><div class="icone">💬</div><h3>Mensagens</h3><p>Consulte avisos e escreva mensagens.</p></a></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
@@ -12,7 +12,7 @@ const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 (async()=>{const {data:{user}}=await db.auth.getUser();if(!user){location.replace("login.html");return;}
 const {data:perfil,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
 if(error||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){await db.auth.signOut();location.replace("login.html");return;}
-document.getElementById("nomeAluno").textContent=perfil.nome||user.user_metadata?.nome||"aluno";
+document.getElementById("nomeAluno").textContent=perfil.nome||user.user_metadata?.nome||"aluno";\nconst photo=user.user_metadata?.foto_perfil; if(photo){const img=document.getElementById("fotoAluno");img.src=photo;img.hidden=false;document.getElementById("avatarFallback").hidden=true;}
 document.getElementById("statusAluno").textContent="Acesso liberado.";
 })();
 document.getElementById("btnSair").addEventListener("click",async()=>{await db.auth.signOut();location.href="login.html";});
