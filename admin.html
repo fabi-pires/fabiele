@@ -138,6 +138,25 @@
     .aula{padding:14px 0}
     @media(max-width:520px){body{padding:10px}.card{padding:15px;margin-bottom:11px;border-radius:15px}button{width:auto;max-width:100%;font-size:15px}.sair{float:none;display:block;margin:0 0 12px auto}}
 
+ 
+/* Dashboard layout mais visível: grade, cards compactos e cabeçalho */
+#painelProfessora:not(.oculto){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+#painelProfessora>.card{margin:0;padding:20px;background:#fff;border:1px solid #dcebdd;border-radius:18px;box-shadow:0 4px 16px rgba(24,59,32,.06);min-width:0}
+#painelProfessora>.card:first-child{grid-column:1/-1;position:relative;padding:22px 24px;background:linear-gradient(120deg,#14532d,#39824b);color:white;border:0;display:block}
+#painelProfessora>.card:first-child h1{font-size:clamp(23px,4vw,30px);margin:0 0 5px}
+#painelProfessora>.card:first-child p{margin:0;color:#e5f4e7}
+#painelProfessora>.card:first-child .sair{position:absolute;right:20px;top:20px;margin:0;background:#e7f4e8;color:#185b27}
+#painelProfessora>.card h2{font-size:18px;margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid #e7f0e7;color:#205c2b}
+#painelProfessora>.card h3{font-size:15px;margin:15px 0 8px;color:#315e38}
+#painelProfessora>.card p{font-size:14px;line-height:1.5;color:#627363}
+#painelProfessora label{font-size:13px;margin-top:12px}
+#painelProfessora input,#painelProfessora textarea{padding:10px;border-radius:9px;background:#fbfefb;border-color:#cbdccb;font-size:15px}
+#painelProfessora textarea{min-height:86px}
+#painelProfessora button{padding:10px 14px;border-radius:9px;font-size:14px}
+#painelProfessora>.card:nth-child(2),#painelProfessora>.card:nth-child(3),#painelProfessora>.card:nth-child(4),#painelProfessora>.card:nth-child(5),#painelProfessora>.card:nth-child(6),#painelProfessora>.card:nth-child(7),#painelProfessora>.card:nth-child(8){min-height:unset}
+#painelProfessora>.card:nth-child(3),#painelProfessora>.card:nth-child(5),#painelProfessora>.card:nth-child(7){background:#fcfffc}
+@media(max-width:680px){#painelProfessora:not(.oculto){grid-template-columns:1fr;gap:11px}#painelProfessora>.card:first-child{padding:18px}#painelProfessora>.card:first-child .sair{right:15px;top:15px}#painelProfessora>.card{padding:16px;border-radius:15px}}
+
   </style>
 </head>
 
