@@ -443,3 +443,61 @@ footer .rodape-marca{color:#fff!important}
 .hero-novo .selo-flutuante{animation:bioFlutua 5s ease-in-out infinite}
 @media(max-width:760px){body>header:not(.topo-aluno){padding:13px 12px!important}body>header nav ul{gap:4px!important}body>header nav ul li a{padding:8px 10px!important;font-size:13px!important}.hero.hero-novo{min-height:auto;padding:52px 20px!important}.hero-novo .hero-texto h1{font-size:clamp(34px,9vw,48px)!important}.hero-imagem{max-width:390px;margin:8px auto 0}}
 @media(prefers-reduced-motion:reduce){.hero-novo:after,.hero-novo .selo-flutuante{animation:none!important}}
+
+
+/* ACABAMENTO PREMIUM — BIO SEM MISTÉRIO */
+:root{
+ --bio-ink:#123b2b;--bio-muted:#61776b;--bio-glass:rgba(255,255,255,.82);
+ --bio-line:#dcece1;--bio-glow:0 24px 65px rgba(5,75,48,.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans", "Segoe UI",Arial,sans-serif!important;letter-spacing:.005em}
+h1,h2,h3,.logo h1{font-family:"Playfair Display",Georgia,serif!important;letter-spacing:-.025em}
+p{line-height:1.75}
+body>header:not(.topo-aluno){position:relative;z-index:5;padding-top:15px!important;padding-bottom:15px!important}
+body>header .logo h1{font-size:clamp(1.35rem,2vw,1.8rem)!important}
+body>header nav ul{align-items:center!important;justify-content:center!important;gap:7px!important}
+body>header nav ul li a{padding:10px 14px!important;font-size:.91rem!important}
+main{isolation:isolate}
+main>section{position:relative}
+.hero.hero-novo{overflow:hidden!important;border-radius:0 0 34px 34px!important;min-height:510px!important}
+.hero.hero-novo:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:radial-gradient(circle at 1px 1px,#d9ffb8 1px,transparent 1.7px);background-size:30px 30px;mask-image:linear-gradient(90deg,#000,transparent 85%)}
+.hero-novo .hero-texto{max-width:650px}
+.hero-novo .hero-texto h1{font-size:clamp(2.8rem,5.6vw,5rem)!important;line-height:1.04!important;letter-spacing:-.045em!important}
+.hero-novo .hero-texto p{max-width:560px;color:#e5f5eb!important;font-size:1.08rem!important}
+.hero-novo .hero-etiqueta{display:inline-flex;padding:9px 14px!important;border-radius:30px!important;backdrop-filter:blur(8px);background:#ffffff12!important}
+.hero-novo .imagem-moldura{border-radius:34px 34px 100px 34px!important;padding:9px!important;background:#ffffff18!important;backdrop-filter:blur(8px)}
+.hero-novo .botao{border-radius:999px!important;padding:15px 24px!important;font-weight:800!important;letter-spacing:.01em}
+.inicio-destaques{padding-top:clamp(55px,7vw,88px)!important;padding-bottom:clamp(55px,7vw,88px)!important}
+.inicio-destaques .secao-intro h2{font-size:clamp(2rem,4vw,3rem)!important}
+.destaque-card{border-radius:24px!important;padding:28px!important;box-shadow:0 14px 35px rgba(0,80,48,.08)!important}
+.destaque-icone{width:58px!important;height:58px!important;border-radius:19px!important;font-size:1.45rem!important}
+.sobre-apresentacao{box-shadow:var(--bio-glow)!important;border-radius:34px!important}
+.sobre-foto{box-shadow:0 24px 55px rgba(0,90,54,.2)!important}
+.sobre-conteudo h2{letter-spacing:-.045em!important}
+.sobre-pilar,.sobre-beneficios article{box-shadow:0 12px 32px rgba(5,75,48,.065)!important}
+.sobre-convite{box-shadow:0 22px 55px rgba(0,75,48,.2)!important}
+.card,.cards .card,.menu .card,.menu-professora a,.material-card,.atividade,.resumo-card,.card-depoimento,.contato-card{
+ background:linear-gradient(145deg,#fff 0%,#f5fbf6 100%)!important;
+ border:1px solid var(--bio-line)!important;
+ box-shadow:0 12px 34px rgba(5,75,48,.075)!important;
+}
+.menu{gap:20px!important}
+.menu .card,.menu-professora a{padding:25px!important;min-height:150px!important}
+.menu .card h3,.menu-professora a h3{font-size:1.15rem!important}
+.menu .card p,.menu-professora a p{color:var(--bio-muted)!important}
+.icone,.atalho-icone{width:54px!important;height:54px!important;border-radius:17px!important;display:grid;place-items:center}
+.boas-vindas{border:1px solid var(--bio-line)!important;border-left:5px solid #00a66a!important;border-radius:22px!important;padding:26px!important;box-shadow:0 14px 35px rgba(5,75,48,.07)!important}
+input,select,textarea{border-radius:12px!important;border-color:#d4e6da!important;background:#fff!important}
+button,.btn,.botao,.voltar{border-radius:12px!important;font-weight:800!important;letter-spacing:.01em}
+footer,.rodape,.rodape-principal{padding:32px 20px!important;text-align:center}
+::selection{background:#cfff83;color:#064b35}
+:focus-visible{outline:3px solid #7ccf99!important;outline-offset:3px!important}
+@media(max-width:760px){
+ body>header nav ul{flex-wrap:wrap!important}
+ .hero.hero-novo{border-radius:0 0 24px 24px!important}
+ .hero-novo .hero-texto h1{font-size:clamp(2.35rem,10vw,3.4rem)!important}
+ .menu{gap:13px!important}
+ .menu .card,.menu-professora a{min-height:unset!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
