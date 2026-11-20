@@ -1,67 +1,75 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio sem Mistério | Professora Fabiele Pires</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7fbf7">
+  <meta name="description" content="Bio sem Mistério — aulas de Biologia com a professora Fabiele Pires. Reforço escolar, ENEM e vestibulares.">
+  <title>Bio sem Mistério | Professora Fabiele Pires</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header>
+    <div class="logo">
+      <h1>Bio sem Mistério<span class="logo-ponto">.</span></h1>
+      <span class="logo-subtitulo">Biologia com leveza e propósito</span>
+    </div>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Início</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="disciplinas.html">Disciplinas</a></li>
+        <li><a href="matricula.html">Matrícula</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="depoimentos.html">Depoimentos</a></li>
+        <li><a href="login.html">Área do aluno</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <header>
-        <div class="logo">
-            <h1>Bio sem mistério</h1>
+  <main>
+    <section class="hero hero-novo" id="inicio">
+      <div class="hero-texto">
+        <span class="hero-etiqueta">DESCUBRA • APRENDA • EVOLUA</span>
+        <h1>A Biologia fica mais fácil quando faz <em>sentido.</em></h1>
+        <p>Aulas particulares com a professora <b>Fabiele Pires</b>, com explicações claras e acolhedoras para reforço escolar, ENEM e vestibulares.</p>
+        <div class="hero-acoes">
+          <a href="matricula.html" class="botao">Quero me matricular <span aria-hidden="true">↗</span></a>
+          <a href="disciplinas.html" class="link-secundario">Conheça as disciplinas</a>
         </div>
+        <div class="hero-nota"><span aria-hidden="true">✳</span> Aprender no seu ritmo também é aprender bem.</div>
+      </div>
+      <div class="hero-imagem">
+        <div class="imagem-moldura">
+          <img src="imagens/WhatsApp Image 2026-07-13 at 10.02.06.jpeg" alt="Conteúdo de Biologia">
+        </div>
+        <div class="selo-flutuante"><span>🌿</span><span><strong>Conhecimento</strong><small>que floresce</small></span></div>
+      </div>
+    </section>
 
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="disciplinas.html">Disciplinas</a></li>
-                <li><a href="matricula.html">Matrícula</a></li>
-                <li><a href="contato.html">Contato</a></li>
-                <li><a href="depoimentos.html">Depoimentos</a></li>
-                <li><a href="login.html">Área do aluno</a></li>
+    <section class="inicio-destaques" aria-labelledby="destaques-titulo">
+      <div class="secao-intro">
+        <span class="hero-etiqueta">UM JEITO MAIS LEVE DE ESTUDAR</span>
+        <h2 id="destaques-titulo">Seu aprendizado em boas mãos.</h2>
+        <p>Encontre o que precisa para seguir aprendendo, com clareza e confiança.</p>
+      </div>
+      <div class="destaques-grade">
+        <a class="destaque-card" href="disciplinas.html"><span class="destaque-icone">✿</span><h3>Disciplinas</h3><p>Explore os conteúdos e descubra novos assuntos.</p><span class="destaque-link">Conhecer <b>↗</b></span></a>
+        <a class="destaque-card" href="matricula.html"><span class="destaque-icone">♡</span><h3>Matrícula</h3><p>Dê o próximo passo e comece sua jornada de estudos.</p><span class="destaque-link">Quero participar <b>↗</b></span></a>
+        <a class="destaque-card" href="login.html"><span class="destaque-icone">✧</span><h3>Área do aluno</h3><p>Acesse suas aulas, atividades e materiais de apoio.</p><span class="destaque-link">Acessar área <b>↗</b></span></a>
+      </div>
+    </section>
+  </main>
 
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero" id="inicio">
-
-            <div class="hero-texto">
-                <h1>Aprenda Biologia de forma simples!</h1>
-
-                <p>
-                    Aulas particulares com a Professora
-                    <b>Fabiele Pires</b>.
-                    Reforço escolar, ENEM e Vestibulares.
-                </p>
-
-                <a href="matricula.html" class="botao">
-                    Quero me matricular
-                </a>
-            </div>
-
-            <div class="hero-imagem">
-                <img
-                    src="imagens/WhatsApp Image 2026-07-13 at 10.02.06.jpeg"
-                    alt="Biologia">
-            </div>
-
-        </section>
-    </main>
-
-    <footer>
-        <p>
-            © 2026 Bio sem Mistério - Professora Fabiele Pires.
-            Todos os direitos reservados. <a href="admin.html" style="color:#1b5e20;text-decoration:none;font-weight:600">Área da professora</a>
-        </p>
-    </footer>
+  <footer class="rodape-principal">
+    <a class="rodape-marca" href="index.html">Bio sem Mistério<span>.</span></a>
+    <p>Aprender Biologia pode ser simples, interessante e transformador.</p>
+    <div class="rodape-links"><a href="sobre.html">Sobre</a><a href="disciplinas.html">Disciplinas</a><a href="contato.html">Contato</a><a href="admin.html">Área da professora</a></div>
+    <small>© 2026 Bio sem Mistério — Professora Fabiele Pires. Todos os direitos reservados.</small>
+  </footer>
 
   <script src="chatbot.js"></script>
 </body>
