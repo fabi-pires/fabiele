@@ -45,7 +45,8 @@
     }
 
     input,
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 12px;
       margin-top: 7px;
@@ -131,7 +132,7 @@
     h2{font-size:clamp(18px,3vw,22px);margin-bottom:12px}
     h3{font-size:17px}
     label{margin-top:12px;font-size:14px}
-    input,textarea{padding:11px;border-radius:10px;border-color:#c8ddca;background:#fcfffc}
+    input,textarea,select{padding:11px;border-radius:10px;border:1px solid #c8ddca;background:#fcfffc;width:100%;font:inherit}
     textarea{min-height:100px}
     button{margin-top:14px;padding:11px 16px;border-radius:10px}
     .sair{background:#eaf5eb;color:#1b5e20;float:right}
@@ -150,7 +151,7 @@
 #painelProfessora>.card h3{font-size:15px;margin:15px 0 8px;color:#315e38}
 #painelProfessora>.card p{font-size:14px;line-height:1.5;color:#627363}
 #painelProfessora label{font-size:13px;margin-top:12px}
-#painelProfessora input,#painelProfessora textarea{padding:10px;border-radius:9px;background:#fbfefb;border-color:#cbdccb;font-size:15px}
+#painelProfessora input,#painelProfessora textarea,#painelProfessora select{padding:10px;border-radius:9px;background:#fbfefb;border-color:#cbdccb;font-size:15px}
 #painelProfessora textarea{min-height:86px}
 #painelProfessora button{padding:10px 14px;border-radius:9px;font-size:14px}
 #painelProfessora>.card:nth-child(2),#painelProfessora>.card:nth-child(3),#painelProfessora>.card:nth-child(4),#painelProfessora>.card:nth-child(5),#painelProfessora>.card:nth-child(6),#painelProfessora>.card:nth-child(7),#painelProfessora>.card:nth-child(8){min-height:unset}
@@ -267,6 +268,18 @@
         <h2>🎓 Nova aula</h2>
 
         <form id="formAula">
+
+          <label for="disciplinaAula">Disciplina / categoria</label>
+          <select id="disciplinaAula" required>
+            <option value="">Selecione a disciplina</option>
+            <option value="Zoologia">🐾 Zoologia</option>
+            <option value="Botânica">🌿 Botânica</option>
+            <option value="Genética">🧬 Genética</option>
+            <option value="Ecologia">🌎 Ecologia</option>
+            <option value="Corpo Humano">🫀 Corpo Humano</option>
+            <option value="Citologia">🔬 Citologia</option>
+            <option value="Biologia Geral">📘 Biologia Geral</option>
+          </select>
 
           <label for="titulo">Título da aula</label>
 
@@ -951,6 +964,10 @@
         titulo.textContent =
           aula.titulo;
 
+        const categoria = document.createElement("span");
+        categoria.textContent = "📚 " + (aula.disciplina || "Biologia Geral");
+        categoria.style.cssText = "display:inline-block;margin:0 0 9px;padding:5px 10px;border-radius:20px;background:#e8f4e9;color:#205c2b;font-size:12px;font-weight:700";
+
 
         const descricao =
           document.createElement("strong");
@@ -967,6 +984,7 @@
 
 
         div.appendChild(titulo);
+        div.appendChild(categoria);
 
         div.appendChild(descricao);
 
@@ -1092,6 +1110,7 @@
         .from("aulas")
         .insert({
           titulo: titulo,
+          disciplina: document.getElementById("disciplinaAula").value,
           descricao: descricao,
           conteudo: conteudo,
           arquivo_url: arquivoUrl,
