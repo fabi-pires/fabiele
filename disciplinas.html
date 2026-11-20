@@ -91,7 +91,7 @@
 
             const { data, error } = await bancoAulas
                 .from("aulas")
-                .select("id, titulo, disciplina, descricao, conteudo, arquivo_url, arquivo_nome, video_url")
+                .select("id, titulo, disciplina, descricao, conteudo, atividade_avaliativa, arquivo_url, arquivo_nome, video_url")
                 .order("id", { ascending: false });
 
             botaoAtualizar.disabled = false;
@@ -132,6 +132,14 @@
                 card.appendChild(criarElemento("strong", "📚 " + (aula.disciplina || "Biologia Geral"), "categoria-aula"));
                 if (aula.descricao) card.appendChild(criarElemento("p", aula.descricao));
                 card.appendChild(criarElemento("p", aula.conteudo || "Conteúdo não informado."));
+
+                if (aula.atividade_avaliativa) {
+                    const blocoAtividade = document.createElement("section");
+                    blocoAtividade.style.cssText = "margin-top:16px;padding:14px;border:2px solid #c9dfca;border-left:5px solid #2e7d32;border-radius:12px;background:#f2faf2";
+                    blocoAtividade.appendChild(criarElemento("h4", "📝 ATIVIDADE AVALIATIVA"));
+                    blocoAtividade.appendChild(criarElemento("p", aula.atividade_avaliativa));
+                    card.appendChild(blocoAtividade);
+                }
 
                 if (aula.arquivo_url) {
                     const linkArquivo = document.createElement("a");
