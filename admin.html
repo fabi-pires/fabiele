@@ -230,8 +230,9 @@
           <button type="submit">Publicar material</button>
           <p id="mensagemMaterial" role="status" aria-live="polite"></p>
         </form>
-        <h3>Materiais publicados</h3>
-        <div id="listaMateriaisProf">Carregando materiais...</div>
+        <h3>📂 Gerenciar materiais já enviados</h3>
+        <p>Os arquivos que já estão no sistema aparecem aqui. Use o botão vermelho para remover os slides ou materiais duplicados.</p>
+        <div id="listaMateriaisProf" aria-live="polite">Carregando materiais...</div>
       </section>
 
       <section class="card">
@@ -789,7 +790,7 @@
         lista.textContent = "Não foi possível listar os materiais: " + error.message;
         return;
       }
-      const arquivos = (data || []).filter(item => item.name && item.id);
+      const arquivos = (data || []).filter(item => item.name && item.name !== ".emptyFolderPlaceholder" && (item.id || item.metadata));
       if (!arquivos.length) {
         lista.textContent = "Nenhum material publicado ainda.";
         return;
@@ -825,6 +826,13 @@
         excluir.className = "btn-excluir";
         excluir.style.background = "#b42318";
         excluir.style.color = "#fff";
+        excluir.style.display = "block";
+        excluir.style.width = "100%";
+        excluir.style.padding = "14px";
+        excluir.style.margin = "12px 0 4px";
+        excluir.style.fontSize = "16px";
+        excluir.style.fontWeight = "800";
+        excluir.style.borderRadius = "10px";
         excluir.addEventListener("click", async () => {
           const nomeExibicao = arquivo.name.replace(/^\\d+-/, "");
           if (!confirm('Excluir o material "' + nomeExibicao + '"? Ele será removido do armazenamento e da área do aluno.')) return;
