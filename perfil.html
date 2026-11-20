@@ -1,215 +1,52 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Perfil - Área do Aluno</title>
-
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Perfil | Bio sem Mistério</title>
+<link rel="stylesheet" href="portal.css"><link rel="stylesheet" href="identidade.css?v=foto-perfil-20261120">
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #1e293b;
-}
-
-header {
-    background: linear-gradient(135deg, #1d4ed8, #60a5fa);
-    color: white;
-    text-align: center;
-    padding: 30px 15px;
-}
-
-header h1 {
-    margin: 0 0 8px;
-    font-size: 28px;
-}
-
-header p {
-    margin: 0;
-}
-
-.container {
-    max-width: 750px;
-    margin: 25px auto;
-    padding: 0 15px 30px;
-}
-
-.perfil {
-    background: white;
-    border-radius: 20px;
-    padding: 28px 20px;
-    text-align: center;
-    box-shadow: 0 5px 18px #0f172a0d;
-}
-
-.avatar {
-    width: 105px;
-    height: 105px;
-    margin: 0 auto 15px;
-    border-radius: 50%;
-    background: #dbeafe;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 55px;
-    border: 4px solid #bfdbfe;
-}
-
-.perfil h2 {
-    color: #1d4ed8;
-    margin: 10px 0;
-}
-
-.subtitulo {
-    color: #64748b;
-    margin-bottom: 25px;
-}
-
-.informacoes {
-    text-align: left;
-    margin-top: 25px;
-}
-
-.informacao {
-    padding: 15px 5px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.informacao:last-child {
-    border-bottom: none;
-}
-
-.rotulo {
-    display: block;
-    font-size: 13px;
-    color: #64748b;
-    margin-bottom: 6px;
-}
-
-.valor {
-    font-size: 16px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
-}
-
-.aviso {
-    background: #eff6ff;
-    color: #1e40af;
-    padding: 14px;
-    border-radius: 12px;
-    margin-top: 20px;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.botoes {
-    display: grid;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.botao {
-    display: block;
-    padding: 14px;
-    border-radius: 10px;
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    font-weight: bold;
-}
-
-.botao-secundario {
-    background: #dbeafe;
-    color: #1d4ed8;
-}
-
-footer {
-    text-align: center;
-    color: #64748b;
-    font-size: 12px;
-    padding: 15px;
-}
-
-@media (max-width: 400px) {
-    .perfil {
-        padding: 22px 15px;
-    }
-}
-</style>
-  <link rel="stylesheet" href="portal.css">
-  <link rel="stylesheet" href="identidade.css?v=premium-20261120">
-</head>
-
-<body>
-
-<header>
-    <h1>👤 Meu Perfil</h1>
-    <p>Suas informações escolares</p>
-</header>
-
-<main class="container">
-
-    <section class="perfil">
-
-        <div class="avatar">🎓</div>
-
-        <h2 id="nomeAluno">Aluno Exemplo</h2>
-        <p class="subtitulo">Bem-vindo à sua área pessoal!</p>
-
-        <div class="informacoes">
-
-            <div class="informacao">
-                <span class="rotulo">Nome completo</span>
-                <span class="valor" id="nomeCompleto">Aluno Exemplo</span>
-            </div>
-
-            <div class="informacao">
-                <span class="rotulo">Turma</span>
-                <span class="valor">6º Ano</span>
-            </div>
-
-            <div class="informacao">
-                <span class="rotulo">Turno</span>
-                <span class="valor">Manhã</span>
-            </div>
-
-            <div class="informacao">
-                <span class="rotulo">E-mail</span>
-                <span class="valor">aluno@exemplo.com</span>
-            </div>
-
-            <div class="informacao">
-                <span class="rotulo">Situação escolar</span>
-                <span class="valor">Matriculado</span>
-            </div>
-
-        </div>
-
-        <div class="aviso">
-            💙 Estas informações são demonstrativas. Personalize os dados conforme necessário.
-        </div>
-
-        <div class="botoes">
-            <a href="aluno.html" class="botao">← Voltar ao painel do aluno</a>
-            <a href="notas.html" class="botao botao-secundario">📚 Consultar minhas notas</a>
-            <a href="atividades.html" class="botao botao-secundario">📝 Ver minhas atividades</a>
-            <a href="calendario.html" class="botao botao-secundario">📅 Abrir calendário</a>
-        </div>
-
-    </section>
-
-</main>
-
-<footer>
-    Área do Aluno • Portal Escolar
-</footer>
-
-</body>
-</html>
+body{background:#f4f8f3!important}.perfil-page{max-width:720px!important;margin:25px auto;padding:18px!important}
+.perfil-foto-card{background:#fff;border:1px solid #dfeade;border-radius:24px;padding:clamp(22px,5vw,36px);box-shadow:0 14px 36px #234b3510;text-align:center}
+.avatar-foto{width:148px;height:148px;border-radius:50%;margin:0 auto 16px;border:5px solid #d8ead5;background:linear-gradient(145deg,#e8f3e5,#c9e3c5);display:grid;place-items:center;overflow:hidden;font-size:62px;position:relative}
+.avatar-foto img{width:100%;height:100%;object-fit:cover}
+.perfil-sub{color:#718074;margin:8px 0 20px}
+.upload-label{display:inline-block;background:#315f43;color:#fff;padding:12px 18px;border-radius:30px;font-weight:700;cursor:pointer}
+#fotoInput{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.upload-info{font-size:13px;color:#718074;margin:12px auto 22px;max-width:400px}
+.info-perfil{text-align:left;background:#f7faf5;border:1px solid #e4ebe2;border-radius:14px;padding:16px;margin-top:22px}
+.info-row{padding:12px 0;border-bottom:1px solid #e3ebe1}.info-row:last-child{border-bottom:0}
+.info-label{font-size:12px;color:#718074;display:block;margin-bottom:5px}.info-value{font-weight:700;overflow-wrap:anywhere}
+.perfil-acao{display:block;text-decoration:none;margin-top:12px;border-radius:12px;padding:13px;font-weight:bold;background:#315f43;color:#fff}
+.perfil-acao.secondary{background:#eaf1e9;color:#244b35}
+#statusFoto{min-height:22px;color:#315f43;font-size:14px;margin-top:10px}
+</style></head><body>
+<header class="topo-aluno"><h1>👤 Meu Perfil</h1><a href="aluno.html" class="perfil-acao secondary" style="margin:0;padding:9px 14px">Voltar ao painel</a></header>
+<main class="perfil-page"><section class="perfil-foto-card">
+<div class="avatar-foto"><img id="fotoAtual" alt="Foto de perfil" hidden><span id="fotoPlaceholder">🌱</span></div>
+<h2 id="nomeAluno">Meu perfil</h2><p class="perfil-sub">Seu cantinho pessoal no Bio sem Mistério</p>
+<label class="upload-label" for="fotoInput">📷 Escolher foto da galeria</label><input id="fotoInput" type="file" accept="image/*">
+<p class="upload-info">Escolha uma foto do celular (JPG, PNG ou WEBP, até 4 MB). A imagem será exibida no painel do aluno.</p><p id="statusFoto" role="status"></p>
+<div class="info-perfil"><div class="info-row"><span class="info-label">Nome completo</span><span class="info-value" id="nomeCompleto">Carregando…</span></div><div class="info-row"><span class="info-label">E-mail</span><span class="info-value" id="emailAluno">—</span></div></div>
+<a href="aluno.html" class="perfil-acao">← Voltar ao painel</a><a href="notas.html" class="perfil-acao secondary">📊 Consultar notas</a><a href="atividades.html" class="perfil-acao secondary">📝 Ver atividades</a>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const statusFoto=document.getElementById("statusFoto");
+function mostrarFoto(url){const img=document.getElementById("fotoAtual");img.src=url;img.hidden=false;document.getElementById("fotoPlaceholder").hidden=true;}
+(async()=>{const {data:{user}}=await db.auth.getUser();if(!user){location.replace("login.html");return;}
+const {data:perfil,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
+if(error||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){await db.auth.signOut();location.replace("login.html");return;}
+const nome=perfil.nome||user.user_metadata?.nome||"Aluno";document.getElementById("nomeAluno").textContent=nome;document.getElementById("nomeCompleto").textContent=nome;document.getElementById("emailAluno").textContent=user.email||"—";
+if(user.user_metadata?.foto_perfil)mostrarFoto(user.user_metadata.foto_perfil);
+})();
+document.getElementById("fotoInput").addEventListener("change",async ev=>{const file=ev.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){statusFoto.textContent="Escolha um arquivo de imagem.";return;}if(file.size>4*1024*1024){statusFoto.textContent="A foto precisa ter até 4 MB.";return;}
+statusFoto.textContent="Enviando foto…";const {data:{user}}=await db.auth.getUser();if(!user){location.href="login.html";return;}
+const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";const path=user.id+"/avatar."+ext;
+const {error:uploadError}=await db.storage.from("fotos-alunos").upload(path,file,{upsert:true,contentType:file.type});
+if(uploadError){statusFoto.textContent="Falha no envio: "+uploadError.message+" (confira a configuração do armazenamento).";return;}
+const {data:urlData}=db.storage.from("fotos-alunos").getPublicUrl(path);const url=urlData.publicUrl+"?v="+Date.now();
+const {error:metaError}=await db.auth.updateUser({data:{foto_perfil:url}});
+if(metaError){statusFoto.textContent="A foto foi enviada, mas não conseguimos salvar no perfil: "+metaError.message;return;}
+mostrarFoto(url);statusFoto.textContent="Foto atualizada com sucesso! Ela já aparece no painel do aluno.";
+});
+</script></body></html>
