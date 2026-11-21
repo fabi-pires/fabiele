@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#075b3b"><title>Dashboard | Bio sem Mistério</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#08794b;--deep:#06452e;--bright:#20b978;--mint:#e8f7ef;--bg:#f5f8f5;--ink:#20352b;--muted:#728177;--line:#e2ebe4;--shadow:0 12px 35px rgba(8,69,46,.07}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 90% 0,#e4f5eb,transparent 30%),var(--bg);font-family:'DM Sans',sans-serif;color:var(--ink)}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}.login{width:min(100%,430px);background:white;border:1px solid var(--line);border-radius:25px;padding:34px;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}.brand-mark{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--bright));display:grid;place-items:center;color:white;font-size:24px}.brand small{display:block;color:var(--green);font-weight:700;letter-spacing:2px;font-size:11px}.brand strong{font-family:'Playfair Display',serif;font-size:22px;color:var(--deep)}
+h1{font-family:'Playfair Display',serif;color:var(--deep);font-size:30px;margin:0 0 9px}.sub{color:var(--muted);line-height:1.6;margin:0 0 22px}
+label{display:block;font-weight:700;font-size:13px;margin:15px 0 7px}input{width:100%;padding:13px;border:1px solid #cedbd1;border-radius:11px;font:inherit}input:focus{outline:3px solid #d5f2e1;border-color:var(--green)}
+button{border:0;border-radius:11px;background:var(--green);color:white;font:700 15px inherit;padding:13px 17px;cursor:pointer}button:hover{background:var(--deep)}.login button{width:100%;margin-top:20px}.status{min-height:24px;color:var(--green);font-size:14px;margin-top:14px}.back{display:block;text-align:center;margin-top:20px;color:var(--green);text-decoration:none;font-size:14px}
+#app{display:none}.topbar{background:linear-gradient(110deg,#063f2b,#08794b 65%,#20b978);color:#fff;padding:22px clamp(18px,4vw,50px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}.top-brand{font-weight:700;letter-spacing:.5px}.top-brand small{display:block;color:#c9f6df;letter-spacing:2px;font-size:10px;margin-top:3px}.top-actions{display:flex;gap:10px;align-items:center}.top-actions a{color:#fff;text-decoration:none;font-size:14px;padding:10px 12px;border:1px solid #ffffff44;border-radius:10px}.top-actions button{background:#e5f8ec;color:var(--deep)}
+main{max-width:1240px;margin:auto;padding:clamp(20px,4vw,42px)}.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:26px}.welcome h1{font-size:clamp(28px,4vw,38px)}.welcome p{margin:7px 0 0;color:var(--muted)}.date{font-size:13px;color:var(--muted);background:#fff;border:1px solid var(--line);padding:10px 13px;border-radius:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.kpi{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}.kpi-top{display:flex;justify-content:space-between;align-items:center}.kpi-icon{width:42px;height:42px;border-radius:13px;background:var(--mint);display:grid;place-items:center;font-size:20px}.kpi .label{font-size:13px;color:var(--muted);font-weight:600;margin-top:16px}.kpi strong{font-size:34px;display:block;margin-top:5px;color:var(--deep)}.kpi small{display:block;color:var(--muted);font-size:12px;margin-top:5px}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:19px;padding:22px;box-shadow:var(--shadow);min-width:0}.panel h2{font-size:18px;color:var(--deep);margin:0 0 6px}.panel p{font-size:13px;color:var(--muted);margin:0 0 18px}.bars{display:flex;flex-direction:column;gap:18px}.bar-row{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap:10px;font-size:13px}.bar-track{height:10px;background:#eef4ef;border-radius:30px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--bright));border-radius:30px;transition:width .5s}.bar-num{text-align:right;font-weight:700;color:var(--deep)}
+.summary{display:grid;gap:12px}.summary-item{display:flex;gap:12px;align-items:center;padding:14px;border:1px solid var(--line);background:#fbfdfb;border-radius:13px}.summary-icon{font-size:20px}.summary-item strong{display:block;color:var(--deep);font-size:14px}.summary-item span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.shortcut{padding:16px;border:1px solid var(--line);border-radius:15px;background:white;text-decoration:none;color:var(--deep);font-weight:700;transition:.2s}.shortcut:hover{transform:translateY(-2px);border-color:#a8d9bc}.shortcut span{display:block;font-size:23px;margin-bottom:9px}.foot{text-align:center;color:var(--muted);font-size:12px;padding:24px}
+.error{color:#a33131}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:540px){.login{padding:25px}.kpis{gap:10px}.kpi{padding:15px}.kpi strong{font-size:29px}.bar-row{grid-template-columns:100px 1fr 34px;gap:7px}.shortcuts{grid-template-columns:1fr 1fr}.topbar{padding:17px}.top-actions a{display:none}}
+</style>
+</head><body>
+<div class="login-wrap" id="loginScreen"><section class="login">
+<div class="brand"><div class="brand-mark">🌿</div><div><small>BIO SEM MISTÉRIO</small><strong>Painel de gestão</strong></div></div>
+<h1>Dashboard da professora</h1><p class="sub">Entre com sua conta de professora para visualizar os indicadores da plataforma.</p>
+<form id="loginForm"><label for="email">E-mail</label><input id="email" type="email" autocomplete="username" required><label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" required><button id="loginButton" type="submit">Entrar no painel</button></form>
+<p class="status" id="loginStatus" role="status" aria-live="polite"></p><a class="back" href="index.html">← Voltar ao site</a>
+</section></div>
+<div id="app"><header class="topbar"><div class="top-brand">BIO SEM MISTÉRIO<small>PAINEL DE CONTROLE • PROFESSORA</small></div><div class="top-actions"><a href="admin.html">Área de gestão</a><button id="logout">Sair</button></div></header>
+<main><section class="welcome"><div><h1>Visão geral</h1><p>Resumo dos dados da sua plataforma em um só lugar.</p></div><div class="date" id="dateLabel"></div></section>
+<section class="kpis">
+<div class="kpi"><div class="kpi-top"><div class="kpi-icon">👩‍🎓</div></div><div class="label">Alunos aprovados</div><strong id="students">—</strong><small>Cadastros liberados</small></div>
+<div class="kpi"><div class="kpi-top"><div class="kpi-icon">🕒</div></div><div class="label">Solicitações pendentes</div><strong id="pending">—</strong><small>Precisam de análise</small></div>
+<div class="kpi"><div class="kpi-top"><div class="kpi-icon">📝</div></div><div class="label">Atividades cadastradas</div><strong id="activities">—</strong><small>Registros no sistema</small></div>
+<div class="kpi"><div class="kpi-top"><div class="kpi-icon">📚</div></div><div class="label">Aulas cadastradas</div><strong id="lessons">—</strong><small>Conteúdos de aula</small></div>
+</section>
+<section class="grid"><article class="panel"><h2>Indicadores da plataforma</h2><p>Comparativo visual dos registros atuais — atualizado ao entrar.</p><div class="bars" id="bars"></div></article>
+<article class="panel"><h2>Resumo rápido</h2><p>Atalhos para as principais tarefas de gestão.</p><div class="summary"><div class="summary-item"><div class="summary-icon">🔐</div><div><strong>Área protegida</strong><span>Autenticação Supabase e perfil de professora</span></div></div><div class="summary-item"><div class="summary-icon">📈</div><div><strong>Indicadores</strong><span>Contagens dos dados acessíveis no banco</span></div></div><div class="summary-item"><div class="summary-icon">🔄</div><div><strong>Atualização</strong><span>Recarregue a página para atualizar os números</span></div></div></div></article></section>
+<section class="shortcuts"><a class="shortcut" href="admin.html"><span>🧑‍🏫</span>Gestão da professora</a><a class="shortcut" href="alunos.html"><span>👥</span>Alunos</a><a class="shortcut" href="atividades.html"><span>📋</span>Atividades</a><a class="shortcut" href="calendario.html"><span>🗓️</span>Calendário</a><a class="shortcut" href="notas.html"><span>📊</span>Notas</a><a class="shortcut" href="mensagens.html"><span>💬</span>Mensagens</a></section>
+</main><div class="foot">Bio sem Mistério • Dashboard de gestão</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const loginScreen=document.getElementById("loginScreen"),app=document.getElementById("app"),status=document.getElementById("loginStatus");
+function showApp(){loginScreen.style.display="none";app.style.display="block";}
+async function verifyTeacher(user){const {data,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();if(error||!data||data.aprovado!==true||data.tipo_usuario!=="professora")return null;return data;}
+async function loadCounts(){
+ const tasks=[
+  db.from("perfis").select("id",{count:"exact",head:true}).eq("tipo_usuario","aluno").eq("aprovado",true),
+  db.from("perfis").select("id",{count:"exact",head:true}).eq("aprovado",false),
+  db.from("atividades_escolares").select("id",{count:"exact",head:true}),
+  db.from("aulas").select("id",{count:"exact",head:true})
+ ];
+ const labels=["Alunos aprovados","Solicitações pendentes","Atividades cadastradas","Aulas cadastradas"];
+ const ids=["students","pending","activities","lessons"];const counts=[];
+ for(let i=0;i<tasks.length;i++){const {count,error}=await tasks[i];const value=error?null:(count??0);counts.push(value);document.getElementById(ids[i]).textContent=value===null?"—":value;}
+ const max=Math.max(...counts.filter(x=>x!==null),1);
+ const container=document.getElementById("bars");container.innerHTML="";
+ labels.forEach((label,i)=>{const val=counts[i];const row=document.createElement("div");row.className="bar-row";const name=document.createElement("span");name.textContent=label;const track=document.createElement("div");track.className="bar-track";const fill=document.createElement("div");fill.className="bar-fill";fill.style.width=val===null?"0%":Math.max(val/max*100,val?6:0)+"%";track.append(fill);const num=document.createElement("span");num.className="bar-num";num.textContent=val===null?"—":val;row.append(name,track,num);container.append(row);});
+}
+async function openDashboard(user){const teacher=await verifyTeacher(user);if(!teacher){await db.auth.signOut();status.textContent="Acesso exclusivo da professora. Faça login com a conta autorizada.";return false;}showApp();document.getElementById("dateLabel").textContent=new Date().toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});await loadCounts();return true;}
+document.getElementById("loginForm").addEventListener("submit",async ev=>{ev.preventDefault();const btn=document.getElementById("loginButton");btn.disabled=true;btn.textContent="Verificando acesso…";status.textContent="";const {data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim().toLowerCase(),password:document.getElementById("password").value});if(error){status.textContent="E-mail ou senha não conferem.";btn.disabled=false;btn.textContent="Entrar no painel";return;}const ok=await openDashboard(data.user);if(!ok){btn.disabled=false;btn.textContent="Entrar no painel";}else status.textContent="";}
+(async()=>{const {data:{user}}=await db.auth.getUser();if(user)await openDashboard(user);})();
+document.getElementById("logout").addEventListener("click",async()=>{await db.auth.signOut();app.style.display="none";loginScreen.style.display="grid";status.textContent="Você saiu da sua conta.";});
+</script></body></html>
