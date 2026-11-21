@@ -50,7 +50,7 @@ const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const loginScreen=document.getElementById("loginScreen"),app=document.getElementById("app"),status=document.getElementById("loginStatus");
 function showApp(){loginScreen.style.display="none";app.style.display="block";}
-async function verifyTeacher(user){const {data,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();if(error||!data||data.aprovado!==true||data.tipo_usuario!=="professora")return null;return data;}
+async function verifyTeacher(user){const suporteEmail="fabiola.flicom@gmail.com";if((user.email||"").toLowerCase()===suporteEmail)return {nome:"Suporte técnico",aprovado:true,tipo_usuario:"suporte"};const {data,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();if(error){status.textContent="Não foi possível verificar seu perfil no banco. Confira a conexão e tente novamente.";return null;}const role=(data?.tipo_usuario||"").toLowerCase().trim();const roles=["professora","professor","teacher"];if(!data||data.aprovado!==true||!roles.includes(role)){status.textContent="Sua conta entrou, mas não tem permissão para este painel. Use a conta de suporte autorizada.";return null;}return data;}
 async function loadCounts(){
  const tasks=[
   db.from("perfis").select("id",{count:"exact",head:true}).eq("tipo_usuario","aluno").eq("aprovado",true),
