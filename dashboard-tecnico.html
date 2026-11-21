@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central Técnica | Bio sem Mistério</title>
+<meta name="theme-color" content="#064e3b">
+<style>
+:root{--bg:#061b17;--panel:#0d2922;--panel2:#10352a;--line:#245344;--text:#e8f5ef;--muted:#a9c9ba;--green:#34d399;--mint:#a7f3d0;--gold:#fbbf24;--red:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#134b38 0%,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}main{max-width:1120px;margin:auto;padding:24px 18px 55px}.head{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:24px}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(140deg,#34d399,#047857);display:grid;place-items:center;font-size:24px;box-shadow:0 8px 30px #10b98133}.brand h1{margin:0;font-size:clamp(20px,4vw,27px);letter-spacing:-.4px}.brand p{margin:3px 0;color:var(--muted);font-size:13px}.tag{border:1px solid #26704f;background:#0d3326;color:var(--mint);padding:7px 12px;border-radius:999px;font-size:12px}.hero{padding:24px;border:1px solid #26704f;border-radius:24px;background:linear-gradient(125deg,#103c2c,#0b251f 70%);margin-bottom:20px}.hero h2{font-size:clamp(22px,4vw,31px);margin:0 0 7px}.hero p{margin:0;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,var(--panel2),var(--panel));padding:18px}.card h3{margin:0 0 6px;font-size:16px}.stat{font-size:26px;font-weight:750;margin:10px 0 4px}.small{font-size:13px;color:var(--muted)}.status{display:inline-flex;align-items:center;gap:8px;font-weight:650}.dot{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px currentColor}.ok .dot{background:var(--green)}.bad .dot{background:var(--red)}.checks{margin-top:20px}.checks h2,.links h2{font-size:19px;margin:0 0 12px}.check{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #1b4435}.check:last-child{border-bottom:0}.check-name{font-weight:600}.check-detail{color:var(--muted);font-size:12px;margin-top:2px}.pill{font-size:12px;border:1px solid #2c654d;color:var(--mint);padding:5px 9px;border-radius:999px;white-space:nowrap}.links{margin-top:20px}.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}.link{display:block;text-decoration:none;color:var(--text);padding:15px;border:1px solid var(--line);background:#0c2821;border-radius:14px;transition:.15s}.link:hover{border-color:var(--green);transform:translateY(-2px)}.link b{display:block}.link span{color:var(--muted);font-size:12px}.footer{margin-top:24px;color:var(--muted);font-size:12px;text-align:center}.login{max-width:430px;margin:30px auto 0;padding:22px;border:1px solid var(--line);background:#0c2821;border-radius:20px}.login h2{margin:0 0 6px}.login p{color:var(--muted);font-size:13px}.login label{display:block;font-size:13px;margin:14px 0 5px}.login input{width:100%;border:1px solid #2b5946;border-radius:11px;background:#071b16;color:var(--text);padding:12px;font-size:16px}.btn{width:100%;margin-top:15px;border:0;border-radius:11px;padding:12px;background:linear-gradient(120deg,#34d399,#059669);color:#04281b;font-weight:750;font-size:15px}.hide{display:none!important}.logout{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:9px 12px}.notice{margin-top:12px;padding:11px;border:1px solid #765b24;background:#352b13;color:#f9d984;border-radius:12px;font-size:12px}
+@media(max-width:560px){main{padding:16px 12px 35px}.hero{padding:19px}.card{padding:15px}.head{align-items:flex-start}}
+</style>
+</head>
+<body>
+<main>
+<header class="head">
+<div class="brand"><div class="logo">🛠️</div><div><h1>Central de Suporte Técnico</h1><p>Bio sem Mistério · Ambiente técnico</p></div></div>
+<span class="tag">ACESSO TÉCNICO</span>
+</header>
+<section id="login" class="login">
+<h2>Área técnica privada</h2><p>Entre com sua conta para abrir o painel de diagnóstico.</p>
+<form id="loginForm">
+<label for="email">E-mail</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" required>
+<button class="btn" type="submit">Entrar na central</button>
+</form><div id="loginMsg" class="small" style="margin-top:10px"></div>
+<div class="notice">A tela restringe o acesso por login e e-mail permitido. Os diagnósticos abaixo são públicos e não acessam dados privados nem alteram o banco.</div>
+</section>
+<section id="dashboard" class="hide">
+<div class="hero"><h2>Olá, suporte técnico 👋</h2><p>Resumo rápido da disponibilidade dos serviços do Bio sem Mistério.</p></div>
+<div class="grid">
+<div class="card"><h3>🌐 Site público</h3><div class="stat status" id="siteStatus"><i class="dot"></i>Verificando…</div><div class="small">Página inicial do portal</div></div>
+<div class="card"><h3>🚀 GitHub Pages</h3><div class="stat status" id="pagesStatus"><i class="dot"></i>Verificando…</div><div class="small">Publicação da página técnica</div></div>
+<div class="card"><h3>🗄️ Supabase API</h3><div class="stat status" id="dbStatus"><i class="dot"></i>Verificando…</div><div class="small">Resposta do endpoint público</div></div>
+<div class="card"><h3>🕒 Última checagem</h3><div class="stat" id="lastCheck">—</div><div class="small">Atualizada ao abrir ou clicar em testar</div></div>
+</div>
+<div class="card checks"><h2>Diagnóstico</h2><div id="checksList"></div><button class="btn" id="runTests" type="button">↻ Repetir testes</button></div>
+<div class="links"><h2>Atalhos técnicos</h2><div class="links-grid">
+<a class="link" target="_blank" rel="noopener" href="https://github.com/fabi-pires/fabiele"><b>🐙 GitHub</b><span>Repositório do site</span></a>
+<a class="link" target="_blank" rel="noopener" href="https://github.com/fabi-pires/fabiele/actions"><b>⚙️ Actions</b><span>Histórico de publicação</span></a>
+<a class="link" target="_blank" rel="noopener" href="https://supabase.com/dashboard/project/ishkkvikgwwstisspgjc"><b>🗄️ Supabase</b><span>Console do projeto</span></a>
+<a class="link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/"><b>🌿 Site ao vivo</b><span>Abrir portal</span></a>
+<a class="link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/admin.html"><b>👩‍🏫 Painel professora</b><span>Área pedagógica</span></a>
+<a class="link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/login.html"><b>🔐 Login do portal</b><span>Testar autenticação</span></a>
+</div></div>
+<button class="logout" id="logout" style="margin-top:20px">Sair</button>
+</section>
+<footer class="footer">Bio sem Mistério · Central técnica · Não realiza alterações no banco de dados.</footer>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://ishkkvikgwwstisspgjc.supabase.co';
+const SUPABASE_PUBLIC_KEY='sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf';
+const ALLOWED_EMAIL='fabiola.flicom@gmail.com';
+const SITE_URL='https://fabi-pires.github.io/fabiele/';
+const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);
+const loginBox=document.getElementById('login'),dashboard=document.getElementById('dashboard'),loginMsg=document.getElementById('loginMsg');
+function showDashboard(){loginBox.classList.add('hide');dashboard.classList.remove('hide');runChecks();}
+function showLogin(){dashboard.classList.add('hide');loginBox.classList.remove('hide');}
+async function validateSession(){const {data:{session}}=await supabase.auth.getSession();if(session&&session.user.email?.toLowerCase()===ALLOWED_EMAIL)showDashboard();else showLogin();}
+document.getElementById('loginForm').addEventListener('submit',async e=>{e.preventDefault();loginMsg.textContent='Autenticando…';const email=document.getElementById('email').value.trim().toLowerCase();if(email!==ALLOWED_EMAIL){loginMsg.textContent='Este e-mail não está autorizado para a área técnica.';return;}const password=document.getElementById('password').value;const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error){loginMsg.textContent='Não foi possível entrar: '+error.message;return;}if(data.user.email?.toLowerCase()!==ALLOWED_EMAIL){await supabase.auth.signOut();loginMsg.textContent='Acesso não autorizado.';return;}loginMsg.textContent='';showDashboard();});
+document.getElementById('logout').addEventListener('click',async()=>{await supabase.auth.signOut();showLogin();});
+document.getElementById('runTests').addEventListener('click',runChecks);
+function setStatus(id,ok,label){const el=document.getElementById(id);el.className='stat status '+(ok?'ok':'bad');el.innerHTML='<i class="dot"></i>'+label;}
+function addCheck(name,detail,ok){const row=document.createElement('div');row.className='check';const left=document.createElement('div');left.innerHTML='<div class="check-name"></div><div class="check-detail"></div>';left.querySelector('.check-name').textContent=name;left.querySelector('.check-detail').textContent=detail;const pill=document.createElement('span');pill.className='pill';pill.textContent=ok?'OK':'Verificar';row.append(left,pill);document.getElementById('checksList').append(row);}
+async function probe(url){try{const res=await fetch(url,{method:'GET',cache:'no-store'});return res.ok;}catch(e){return false;}}
+async function runChecks(){const list=document.getElementById('checksList');list.innerHTML='';document.getElementById('lastCheck').textContent='Testando…';
+const [site,pages,api]=await Promise.all([probe(SITE_URL),probe(SITE_URL+'dashboard-tecnico.html'),probe(SUPABASE_URL+'/auth/v1/health')]);
+setStatus('siteStatus',site,site?'Online':'Indisponível');setStatus('pagesStatus',pages,pages?'Publicado':'Não confirmado');setStatus('dbStatus',api,api?'Respondendo':'Sem resposta');
+addCheck('Portal público',site?'O site respondeu ao teste.':'Não houve resposta ao site. Verifique a publicação.',site);
+addCheck('Página técnica publicada',pages?'Esta página está acessível no Pages.':'Ainda não foi confirmada; aguarde publicação ou verifique GitHub Actions.',pages);
+addCheck('Endpoint de autenticação Supabase',api?'A API de autenticação respondeu.':'Falha de conexão ou resposta não confirmada.',api);
+addCheck('Login técnico',true,'Login validado localmente pelo Supabase Auth; sem leitura de dados privados.',true);
+document.getElementById('lastCheck').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+validateSession();
+</script>
+</body>
+</html>
