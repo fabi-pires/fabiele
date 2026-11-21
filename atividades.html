@@ -201,7 +201,26 @@ async function carregarAtividades(user){
 
     const prazo=document.createElement("p");
     prazo.className="prazo";
-    prazo.textContent="📅 Prazo: "+dataBR(atividade.prazo_entrega);
+    if(atividade.prazo_entrega){
+      const hoje=new Date();
+      hoje.setHours(0,0,0,0);
+      const diaPrazo=new Date(atividade.prazo_entrega+"T00:00:00");
+      prazo.textContent="📅 Entregar até: "+dataBR(atividade.prazo_entrega);
+      if(!resposta && diaPrazo<hoje){
+        prazo.textContent+=" — ⛔ Prazo encerrado";
+        prazo.style.color="#b42318";
+        prazo.style.fontWeight="bold";
+        card.classList.add("vencida");
+      }else if(!resposta && diaPrazo.getTime()===hoje.getTime()){
+        prazo.textContent+=" — ⚠️ Entrega hoje!";
+        prazo.style.color="#a05a00";
+        prazo.style.fontWeight="bold";
+      }else if(!resposta){
+        prazo.textContent+=" — 🕒 Dentro do prazo";
+      }
+    }else{
+      prazo.textContent="📅 Sem prazo definido";
+    }
 
     const status=document.createElement("p");
     status.className="status";
