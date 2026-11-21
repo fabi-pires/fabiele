@@ -21,8 +21,9 @@
 <h2>Área técnica privada</h2><p>Entre com sua conta para abrir o painel de diagnóstico.</p>
 <form id="loginForm">
 <label for="email">E-mail</label><input id="email" type="email" autocomplete="username" required>
-<label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" required>
+<label for="password">Senha</label><div class="pw-wrap"><input id="password" type="password" autocomplete="current-password" required><button class="pw-toggle" type="button" id="togglePassword" aria-label="Mostrar senha">👁 Mostrar</button></div>
 <button class="btn" type="submit">Entrar na central</button>
+<div class="auth-actions"><button type="button" id="registerBtn">Cadastrar acesso</button><button type="button" id="forgotBtn">Esqueci a senha</button></div>
 </form><div id="loginMsg" class="small" style="margin-top:10px"></div>
 <div class="notice">A tela restringe o acesso por login e e-mail permitido. Os diagnósticos abaixo são públicos e não acessam dados privados nem alteram o banco.</div>
 </section>
