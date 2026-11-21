@@ -701,3 +701,7 @@ footer,.rodape,.rodape-principal{background:linear-gradient(120deg,#064b32,#008b
 @media(max-width:760px){body>header:has(nav){flex-direction:column!important;align-items:center!important;gap:9px!important;padding:12px 10px!important}body>header:has(nav) nav ul{gap:3px!important}body>header:has(nav) nav ul li a{padding:7px 9px!important;font-size:12px!important}body>header:not(:has(nav)){padding:22px 14px!important}.container{padding-left:12px!important;padding-right:12px!important}.resumo{grid-template-columns:1fr 1fr!important}.controles{gap:7px!important}.dia{min-height:43px!important;font-size:12px!important}}
 @media(max-width:420px){body>header:has(nav) nav ul li a{padding:6px 7px!important;font-size:11.5px!important}.card,.secao,.calendario,.eventos{padding:15px!important}.controles h2{font-size:17px!important}.dia{min-height:38px!important;padding:5px 1px!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+
+/* Botões secundários e sair mantêm contraste suave */
+button.secundario,button.btn-olho,.sair,#painelProfessora>.card:first-child .sair{background:#e8fff2!important;color:#075333!important;border:1px solid #c6edda!important;box-shadow:none!important}
+button.secundario:hover,button.btn-olho:hover,.sair:hover{background:#d5f6e2!important;color:#064b32!important}
