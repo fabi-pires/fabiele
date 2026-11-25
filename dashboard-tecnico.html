@@ -34,7 +34,7 @@
 <a class="quick-link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/"><i>🌿</i><b>Site ao vivo</b><span>Visualizar portal público</span></a>
 <a class="quick-link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/admin.html"><i>👩‍🏫</i><b>Painel da professora</b><span>Gestão pedagógica</span></a>
 <a class="quick-link" target="_blank" rel="noopener" href="https://fabi-pires.github.io/fabiele/login.html"><i>🔑</i><b>Login do aluno</b><span>Testar entrada no portal</span></a>
-</div><div class="security"><b>🔒 Segurança em primeiro lugar</b><br>Este painel não mostra senhas de usuários nem altera registros do banco. Use a recuperação de senha do Supabase para redefinir acessos.</div></section>
+</div><div class="security"><b>🔒 Segurança em primeiro lugar</b><br>Este painel não mostra senhas de usuários nem altera registros do banco. Use a recuperação de senha do Supabase para redefinir acessos. Este painel é uma interface estática: a restrição de e-mail controla a exibição, não substitui regras de segurança do banco.</div></section>
 </div>
 <div class="bottom"><span>Bio sem Mistério · Central de Suporte Técnico</span><button class="logout" id="logout" type="button">Sair da central ↗</button></div>
 </section>
@@ -42,31 +42,83 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
+'use strict';
 const URL='https://ishkkvikgwwstisspgjc.supabase.co';
 const KEY='sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf';
 const EMAIL='fabiola.flicom@gmail.com';
 const ROOT='https://fabi-pires.github.io/fabiele/';
 const $=id=>document.getElementById(id);
 const login=$('login'),dash=$('dashboard'),msg=$('loginMsg');
+let auth=null,diagnosticBusy=false;
 function message(t,err){msg.textContent=t;msg.style.color=err?'#bd5555':'#267653';}
-function showLogin(){login.style.display='block';dash.style.display='none';login.classList.remove('hide');dash.classList.add('hide');}
+function authorized(user){return !!user&&String(user.email||'').toLowerCase()===EMAIL;}
+function showLogin(clear=false){login.style.display='block';dash.style.display='none';login.classList.remove('hide');dash.classList.add('hide');if(clear)$('password').value='';}
 function showDash(){login.style.display='none';dash.style.display='block';login.classList.add('hide');dash.classList.remove('hide');clock();checks();}
 function clock(){const d=new Date();$('today').textContent=d.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});$('clock').textContent=d.toLocaleTimeString('pt-BR');}
-setInterval(clock,1000);
+clock();setInterval(clock,1000);
 $('togglePassword').onclick=function(){const p=$('password');p.type=p.type==='password'?'text':'password';this.textContent=p.type==='text'?'Ocultar':'Mostrar';};
-let auth=null;try{if(window.supabase&&window.supabase.createClient)auth=window.supabase.createClient(URL,KEY);}catch(e){message('Falha ao iniciar autenticação: '+e.message,true);}
-window.criarAcessoTecnico=async function(){message('Botão de cadastro acionado.',false);if(!auth){message('Não foi possível conectar ao Supabase. Verifique a internet e recarregue.',true);return;}const email=$('email').value.trim().toLowerCase(),password=$('password').value;if(email!==EMAIL){message('Digite o e-mail técnico autorizado.',true);return;}if(password.length<6){message('Senha precisa ter pelo menos 6 caracteres.',true);return;}const b=$('registerBtn');b.disabled=true;b.textContent='Verificando conta…';try{const {data,error}=await auth.signUp({email,password});if(error)message('Cadastro: '+error.message,true);else if(data.session)message('Cadastro/login inicial concluído. Pode entrar.',false);else message('A conta já existe ou cadastro recebido. Use Entrar na central.',false);}catch(e){message('Erro no cadastro: '+e.message,true);}finally{b.disabled=false;b.textContent='Criar meu acesso';}};
+try{if(window.supabase&&window.supabase.createClient)auth=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});}catch(e){message('Falha ao iniciar autenticação. Confira a conexão e recarregue.',true);}
+window.criarAcessoTecnico=async function(){
+ if(!auth){message('Supabase Auth não carregou. Recarregue a página.',true);return;}
+ const email=$('email').value.trim().toLowerCase(),password=$('password').value;
+ if(email!==EMAIL){message('Use o e-mail técnico autorizado.',true);return;}
+ if(password.length<8){message('Por segurança, use uma senha com pelo menos 8 caracteres.',true);return;}
+ const b=$('registerBtn');b.disabled=true;b.textContent='Criando acesso…';
+ try{const {data,error}=await auth.auth.signUp({email,password});
+ if(error)message('Cadastro não concluído: '+error.message,true);
+ else if(data.session&&authorized(data.user)){message('Conta criada e sessão confirmada. Você já pode acessar.',false);showDash();}
+ else message('Cadastro recebido. Se a confirmação de e-mail estiver ativa, confirme a mensagem antes de entrar.',false);
+ }catch(e){message('Falha no cadastro. Tente novamente.',true);}
+ finally{b.disabled=false;b.textContent='Criar meu acesso';}
+};
 $('registerBtn').onclick=()=>window.criarAcessoTecnico();
-$('loginForm').onsubmit=async function(e){e.preventDefault();message('Botão Entrar acionado. Validando…',false);if(!auth){message('Supabase Auth não carregou. Recarregue e tente novamente.',true);return;}const email=$('email').value.trim().toLowerCase(),password=$('password').value;if(email!==EMAIL){message('E-mail não autorizado para a central.',true);return;}const b=$('loginButton');b.disabled=true;b.textContent='Entrando…';try{const {data,error}=await auth.auth.signInWithPassword({email,password});if(error)message('Login recusado: '+error.message,true);else if(data.user&&data.user.email.toLowerCase()===EMAIL){message('Acesso confirmado.',false);showDash();}else message('Conta não autorizada.',true);}catch(e){message('Erro de login: '+e.message,true);}finally{b.disabled=false;b.textContent='Entrar na central';}};
-$('forgotBtn').onclick=async()=>{if(!auth){message('Supabase indisponível.',true);return;}const email=$('email').value.trim().toLowerCase();if(email!==EMAIL){message('Digite primeiro seu e-mail técnico.',true);return;}message('Solicitando recuperação…',false);try{const {error}=await auth.auth.resetPasswordForEmail(email,{redirectTo:ROOT+'dashboard-tecnico.html'});message(error?'Falha: '+error.message:'Pedido enviado. Confira e-mail e spam.',!!error);}catch(e){message('Erro: '+e.message,true);}};
-$('logout').onclick=async()=>{try{if(auth)await auth.auth.signOut();}catch(e){}showLogin();};
-async function probe(u){try{return (await fetch(u,{cache:'no-store'})).ok;}catch(e){return false;}}
-function status(id,ok,label){const e=$(id);e.className='metric-value state '+(ok?'ok':'bad');e.innerHTML='<i class="dot"></i> '+label;}
-function add(title,detail,ok){const row=document.createElement('div');row.className='check-row';row.innerHTML='<div><div class="check-title"></div><div class="check-detail"></div></div><span class="status-pill '+(ok?'ok':'bad')+'">'+(ok?'Conectado':'Verificar')+'</span>';row.querySelector('.check-title').textContent=title;row.querySelector('.check-detail').textContent=detail;$('checksList').append(row);}
-async function checks(){const b=$('runTests'),m=$('testMessage');if(b){b.disabled=true;b.textContent='Testando…';}if(m)m.textContent='Consultando serviços…';$('checksList').innerHTML='';$('lastCheck').textContent='…';const r=await Promise.all([probe(ROOT),probe(ROOT+'dashboard-tecnico.html'),probe(URL+'/auth/v1/health')]);status('siteStatus',r[0],r[0]?'Online':'Sem resposta');status('pagesStatus',r[1],r[1]?'Publicado':'Não confirmado');status('dbStatus',r[2],r[2]?'Respondendo':'Sem resposta');add('Site público',r[0]?'A página inicial respondeu.':'Sem resposta do site.',r[0]);add('GitHub Pages',r[1]?'Central técnica acessível.':'Página não respondeu.',r[1]);add('Supabase Auth',r[2]?'Endpoint respondeu.':'API não confirmou resposta.',r[2]);$('lastCheck').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});if(m)m.textContent='Diagnóstico concluído.';if(b){b.disabled=false;b.textContent='↻ Executar diagnóstico';}}
+$('loginForm').onsubmit=async function(e){
+ e.preventDefault();if(!auth){message('Supabase Auth não carregou. Recarregue a página.',true);return;}
+ const email=$('email').value.trim().toLowerCase(),password=$('password').value;
+ if(email!==EMAIL){message('E-mail não autorizado para a central.',true);return;}
+ const b=$('loginButton');b.disabled=true;b.textContent='Validando…';
+ try{const {data,error}=await auth.auth.signInWithPassword({email,password});
+ if(error)message('Não foi possível entrar: confira e-mail e senha ou use recuperação.',true);
+ else if(authorized(data.user)){message('Acesso confirmado.',false);showDash();}
+ else{await auth.auth.signOut();message('Conta sem autorização para esta central.',true);}
+ }catch(e){message('Erro de conexão ao autenticar. Tente novamente.',true);}
+ finally{b.disabled=false;b.textContent='Entrar na central';}
+};
+$('forgotBtn').onclick=async()=>{
+ if(!auth){message('Supabase Auth indisponível. Recarregue a página.',true);return;}
+ const email=$('email').value.trim().toLowerCase();
+ if(email!==EMAIL){message('Informe seu e-mail técnico autorizado primeiro.',true);return;}
+ message('Enviando pedido de recuperação…',false);
+ try{const {error}=await auth.auth.resetPasswordForEmail(email,{redirectTo:ROOT+'dashboard-tecnico.html'});
+ message(error?'Não foi possível solicitar a recuperação: '+error.message:'Pedido enviado. Confira sua caixa de entrada e spam.',!!error);
+ }catch(e){message('Falha ao solicitar recuperação. Tente novamente.',true);}
+};
+$('logout').onclick=async()=>{const b=$('logout');b.disabled=true;try{if(auth){const {error}=await auth.auth.signOut();if(error)message('Aviso: não foi possível encerrar a sessão no servidor.',true);}showLogin(true);}catch(e){showLogin(true);}finally{b.disabled=false;}};
+async function probe(url){try{const res=await fetch(url,{cache:'no-store',mode:'cors'});return {ok:res.ok,status:res.status};}catch(e){return {ok:false,status:0};}}
+function status(id,ok,label){const el=$(id);el.className='metric-value state '+(ok?'ok':'bad');const dot=document.createElement('i');dot.className='dot';el.replaceChildren(dot,document.createTextNode(' '+label));}
+function add(title,detail,ok){const row=document.createElement('div'),wrap=document.createElement('div'),titleEl=document.createElement('div'),detailEl=document.createElement('div'),pill=document.createElement('span');row.className='check-row';titleEl.className='check-title';titleEl.textContent=title;detailEl.className='check-detail';detailEl.textContent=detail;wrap.append(titleEl,detailEl);pill.className='status-pill '+(ok?'ok':'bad');pill.textContent=ok?'Respondendo':'Não confirmado';row.append(wrap,pill);$('checksList').append(row);}
+async function checks(){
+ if(diagnosticBusy)return;diagnosticBusy=true;
+ const b=$('runTests'),m=$('testMessage');if(b){b.disabled=true;b.textContent='Testando…';}if(m)m.textContent='Consultando serviços…';
+ $('checksList').replaceChildren();$('lastCheck').textContent='…';
+ try{
+ const [site,pages,authHealth,restHealth]=await Promise.all([probe(ROOT),probe(ROOT+'dashboard-tecnico.html'),probe(URL+'/auth/v1/health'),probe(URL+'/rest/v1/')]);
+ status('siteStatus',site.ok,site.ok?'Online':'Sem resposta');status('pagesStatus',pages.ok,pages.ok?'Publicado':'Não confirmado');status('dbStatus',authHealth.ok||restHealth.ok,(authHealth.ok||restHealth.ok)?'Respondendo':'Sem resposta');
+ add('Site público',site.ok?'Página inicial respondeu (HTTP '+site.status+').':'Falha de acesso ou bloqueio de CORS.',site.ok);
+ add('GitHub Pages',pages.ok?'Esta página publicada respondeu (HTTP '+pages.status+').':'Não foi possível confirmar a publicação.',pages.ok);
+ add('Supabase Auth',authHealth.ok?'Endpoint de autenticação respondeu (HTTP '+authHealth.status+').':'Endpoint não confirmou resposta; pode ser rede/CORS.',authHealth.ok);
+ add('Supabase REST',restHealth.ok?'Endpoint REST respondeu (HTTP '+restHealth.status+').':'API REST não confirmou resposta; acesso pode exigir cabeçalhos.',restHealth.ok);
+ $('lastCheck').textContent=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+ if(m)m.textContent=(site.ok&&pages.ok&&(authHealth.ok||restHealth.ok))?'Serviços principais responderam.':'Diagnóstico concluído; veja os itens pendentes.';
+ }catch(e){if(m)m.textContent='O diagnóstico encontrou uma falha inesperada. Tente novamente.';}
+ finally{if(b){b.disabled=false;b.textContent='↻ Executar diagnóstico';}diagnosticBusy=false;}
+}
 $('runTests').onclick=checks;
 showLogin();message('Central pronta. Entre com seu e-mail e senha.',false);
-if(auth)auth.auth.getSession().then(({data})=>{if(data.session&&data.session.user.email.toLowerCase()===EMAIL)showDash();}).catch(()=>{});
+if(auth){
+ auth.auth.onAuthStateChange((event,session)=>{if(session&&authorized(session.user)){if(event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='TOKEN_REFRESHED')showDash();}else if(event==='SIGNED_OUT'||(session&&!authorized(session.user))){showLogin(true);}});
+ auth.auth.getSession().then(({data,error})=>{if(error){message('Não foi possível recuperar a sessão. Faça login novamente.',true);return;}if(data.session&&authorized(data.session.user))showDash();else if(data.session){auth.auth.signOut();showLogin(true);}}).catch(()=>message('Não foi possível verificar a sessão. Faça login novamente.',true));
+}
 })();
 </script>
 </body></html>
