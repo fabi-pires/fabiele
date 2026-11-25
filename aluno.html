@@ -2,18 +2,46 @@
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Painel do Aluno | Bio sem Mistério</title><link rel="stylesheet" href="aluno.css"><style>.topo-aluno{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px}.sair{border:0;border-radius:9px;padding:10px 14px;background:#1b5e20;color:#fff;font-weight:bold}</style>  <link rel="stylesheet" href="portal.css">
   <link rel="stylesheet" href="identidade.css?v=emerald-uniforme-20261121b">
 </head>
-<body><header class="topo-aluno"><h1>🎓 Painel do Aluno</h1><button class="sair" id="btnSair">Sair</button></header>
+<body><header class="topo-aluno"><h1>🎓 Painel do Aluno</h1><button class="sair" id="btnSair" type="button">Sair</button></header>
 <main class="container"><section class="boas-vindas boas-vindas-perfil"><div class="avatar-aluno"><img id="fotoAluno" alt="Foto do aluno" hidden><span id="avatarFallback">🌱</span></div><div class="boas-texto"><span class="boas-etiqueta">SEU ESPAÇO DE APRENDIZAGEM</span><h2>Olá, <span id="nomeAluno">aluno</span>! 👋</h2><p>Bem-vindo ao seu espaço de estudos no Bio sem Mistério.</p><p id="statusAluno" role="status"></p><a class="link-perfil-foto" href="perfil.html">📷 Personalizar meu perfil</a></div></section>
 <section class="menu"><a href="disciplinas.html" class="card"><div class="icone">📚</div><h3>Disciplinas</h3><p>Veja suas disciplinas.</p></a><a href="material.html" class="card"><div class="icone">📚</div><h3>Material de Apoio</h3><p>Consulte e baixe os materiais da professora.</p></a><a href="atividades.html" class="card"><div class="icone">📝</div><h3>Atividades</h3><p>Veja suas atividades.</p></a><a href="notas.html" class="card"><div class="icone">📊</div><h3>Notas</h3><p>Consulte suas notas.</p></a><a href="calendario.html" class="card"><div class="icone">📅</div><h3>Calendário</h3><p>Veja suas próximas atividades.</p></a><a href="perfil.html" class="card"><div class="icone">👤</div><h3>Meu Perfil</h3><p>Veja seus dados.</p></a><a href="mensagens.html" class="card"><div class="icone">💬</div><h3>Mensagens</h3><p>Consulte avisos e escreva mensagens.</p></a></section></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const SUPABASE_URL="https://ishkkvikgwwstisspgjc.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_6Wueqa-KQPrEeYIDl5lBQA_y0M1ySqf";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-(async()=>{const {data:{user}}=await db.auth.getUser();if(!user){location.replace("login.html");return;}
-const {data:perfil,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
-if(error||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){await db.auth.signOut();location.replace("login.html");return;}
-document.getElementById("nomeAluno").textContent=perfil.nome||user.user_metadata?.nome||"aluno";\nconst photo=user.user_metadata?.foto_perfil; if(photo){const img=document.getElementById("fotoAluno");img.src=photo;img.hidden=false;document.getElementById("avatarFallback").hidden=true;}
-document.getElementById("statusAluno").textContent="Acesso liberado.";
+(async()=>{
+  const {data:{user},error:userError}=await db.auth.getUser();
+  if(userError||!user){location.replace("login.html");return;}
+  const {data:perfil,error}=await db.from("perfis").select("nome,aprovado,tipo_usuario").eq("id",user.id).maybeSingle();
+  if(error||!perfil||perfil.aprovado!==true||perfil.tipo_usuario!=="aluno"){
+    await db.auth.signOut({scope:"local"}).catch(()=>{});
+    location.replace("login.html");return;
+  }
+  document.getElementById("nomeAluno").textContent=perfil.nome||user.user_metadata?.nome||"aluno";
+  const photo=user.user_metadata?.foto_perfil;
+  if(photo){const img=document.getElementById("fotoAluno");img.src=photo;img.hidden=false;document.getElementById("avatarFallback").hidden=true;}
+  document.getElementById("statusAluno").textContent="Acesso liberado.";
 })();
-document.getElementById("btnSair").addEventListener("click",async()=>{await db.auth.signOut();location.href="login.html";});
+document.getElementById("btnSair").addEventListener("click",async()=>{
+  const btn=document.getElementById("btnSair");
+  btn.disabled=true;btn.textContent="Saindo…";
+  try{
+    // Encerra apenas a sessão deste navegador/dispositivo, sem derrubar outros acessos.
+    await db.auth.signOut({scope:"local"});
+  }catch(err){
+    console.warn("Falha no encerramento remoto; limpando sessão local.",err);
+  }finally{
+    // Remove possíveis dados de autenticação residuais desta instância Supabase.
+    const authKeyPrefix="sb-"+new URL(SUPABASE_URL).hostname.split(".")[0]+"-auth-token";
+    for(const storage of [localStorage,sessionStorage]){
+      for(let i=storage.length-1;i>=0;i--){
+        const key=storage.key(i);
+        if(key&&(key.startsWith(authKeyPrefix)||key.includes("supabase.auth.token"))){
+          storage.removeItem(key);
+        }
+      }
+    }
+    location.replace("login.html");
+  }
+});
 </script></body></html>
