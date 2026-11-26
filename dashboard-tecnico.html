@@ -167,6 +167,49 @@
   .sidebar .nav button.active{box-shadow:inset 0 0 0 1px #b4e7bf38,0 5px 14px #001b1022!important}
 }
 
+
+/* Acabamento premium da navegação lateral — alteração visual isolada */
+.sidebar{
+  background:linear-gradient(155deg,#063b25 0%,#052f20 55%,#08271b 100%)!important;
+  border-right:1px solid rgba(218,244,224,.12)!important;
+  box-shadow:10px 0 32px rgba(5,48,29,.10)!important;
+  padding:22px 15px!important;
+}
+.sidebar .nav-label{
+  color:#a5d5b2!important;font-size:9px!important;letter-spacing:1.8px!important;
+  font-weight:800!important;padding:22px 12px 9px!important;
+}
+.sidebar .nav{gap:7px!important}
+.sidebar .nav button{
+  min-height:46px!important;padding:10px 13px!important;border:1px solid transparent!important;
+  border-radius:13px!important;color:#d9ecdf!important;font-size:12px!important;
+  font-weight:650!important;transition:background .18s ease,border-color .18s ease,transform .18s ease!important;
+}
+.sidebar .nav button:hover{
+  background:rgba(255,255,255,.09)!important;border-color:rgba(210,242,219,.12)!important;
+  transform:translateX(2px);
+}
+.sidebar .nav button.active{
+  color:#fff!important;background:linear-gradient(100deg,rgba(115,207,143,.22),rgba(115,207,143,.08))!important;
+  border-color:rgba(157,225,174,.2)!important;
+  box-shadow:inset 3px 0 #a9e7b6,0 5px 15px rgba(0,0,0,.08)!important;
+}
+.sidebar .nav-icon{
+  width:22px!important;height:22px;display:inline-grid;place-items:center;border-radius:7px;
+  background:rgba(255,255,255,.07);font-size:15px!important;
+}
+.sidebar .nav button.active .nav-icon{background:rgba(174,235,188,.16)}
+.sidebar .sidebar-foot{
+  border:1px solid rgba(196,232,205,.16)!important;border-radius:14px!important;
+  background:rgba(255,255,255,.045)!important;color:#b9d6c2!important;padding:13px!important;
+}
+.sidebar .sidebar-foot b{color:#effaf1!important}
+@media(max-width:760px){
+  .sidebar{padding:14px 8px!important}.sidebar .nav{gap:8px!important}
+  .sidebar .nav button{min-height:44px!important;padding:10px 7px!important;border-radius:12px!important}
+  .sidebar .nav-icon{width:24px!important;height:24px!important;font-size:17px!important}
+}
+
 </style></head>
 <body>
 <section id="login" class="login-wrap"><div class="login-card"><div class="emblem">✦</div><div class="eyebrow">Acesso reservado</div><h1>Central de Operações</h1><p>Entre para monitorar, diagnosticar e cuidar da plataforma Bio sem Mistério.</p><form id="loginForm"><div class="field"><label for="email">E-mail técnico</label><input id="email" type="email" autocomplete="username" placeholder="E-mail autorizado" required></div><div class="field"><label for="password">Senha</label><div class="password-row"><input id="password" type="password" autocomplete="current-password" placeholder="Sua senha" required><button class="btn btn-light btn-small" type="button" id="togglePassword">Mostrar</button></div></div><button class="btn btn-primary" id="loginButton" type="submit">Entrar na central</button></form><div class="auth-actions"><button class="text-btn" id="registerBtn" type="button">Criar meu acesso</button><button class="text-btn" id="forgotBtn" type="button">Esqueci minha senha</button></div><div id="loginMsg" class="message" role="status" aria-live="polite"></div><div class="login-note">🔒 Área privada. Esta interface não exibe senhas. A autorização definitiva deverá ser aplicada também no Supabase (RLS).</div></div></section>
