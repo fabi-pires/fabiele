@@ -173,6 +173,16 @@
 @media(max-width:700px){.menu-professora{grid-template-columns:repeat(2,minmax(0,1fr))}#listaAulas{grid-template-columns:1fr}}
 @media(max-width:380px){.menu-professora a{padding:12px;min-height:95px}}
 
+  
+/* Perfil da professora com foto personalizável */
+.prof-header{display:flex!important;align-items:center;gap:18px;min-height:120px;padding-right:150px!important}
+.prof-foto-wrap{width:94px;height:94px;border-radius:50%;border:4px solid #e2f2e3;background:#ffffff20;overflow:hidden;display:grid;place-items:center;flex:0 0 auto;color:#fff;font-size:38px}
+.prof-foto-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.prof-perfil-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.prof-foto-btn{display:inline-block!important;margin:0!important;padding:7px 10px!important;border-radius:999px!important;background:#eaf5eb!important;color:#1b5e20!important;font-size:11px!important;font-weight:700!important;cursor:pointer}
+.prof-foto-msg{font-size:11px;color:#e4f5e7;min-height:14px}
+@media(max-width:680px){.prof-header{padding-right:15px!important;gap:12px}.prof-foto-wrap{width:76px;height:76px}.prof-foto-msg{width:100%}}
+
   </style>
   <link rel="stylesheet" href="identidade.css?v=emerald-uniforme-20261121b">
 </head>
@@ -220,14 +230,10 @@
     <!-- PAINEL DA PROFESSORA -->
     <section id="painelProfessora" class="oculto">
 
-      <section class="card">
-
+      <section class="card prof-header">
+        <div class="prof-foto-wrap" id="fotoProfWrap"><span id="fotoProfFallback">👩‍🏫</span><img id="fotoProfImg" alt="Foto de perfil da professora" hidden></div>
+        <div class="prof-titulo"><h1>🌿 BioAulas</h1><p>Área da professora</p><div class="prof-perfil-actions"><label class="prof-foto-btn" for="fotoProfInput">📷 Alterar foto</label><input id="fotoProfInput" type="file" accept="image/*" hidden><span id="fotoProfMsg" class="prof-foto-msg" role="status" aria-live="polite"></span></div></div>
         <button id="btnSair" class="sair">Sair</button>
-
-        <h1>🌿 BioAulas</h1>
-
-        <p>Área da professora</p>
-
       </section>
 
 
@@ -472,6 +478,10 @@
     });
 
 
+    // FOTO DE PERFIL DA PROFESSORA (armazenada na conta autenticada)
+    function renderFotoProf(url){const img=document.getElementById("fotoProfImg"),fallback=document.getElementById("fotoProfFallback");if(url){img.src=url;img.hidden=false;fallback.hidden=true;}else{img.hidden=true;fallback.hidden=false;}}
+    document.getElementById("fotoProfInput").addEventListener("change",async ev=>{const file=ev.target.files?.[0];if(!file)return;const status=document.getElementById("fotoProfMsg");if(!file.type.startsWith("image/")){status.textContent="Selecione um arquivo de imagem.";return;}if(file.size>4*1024*1024){status.textContent="Foto até 4 MB.";return;}status.textContent="Enviando foto…";try{const {data:{user},error:userError}=await supabaseClient.auth.getUser();if(userError||!user){status.textContent="Sessão expirada. Entre novamente.";return;}const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";const path=user.id+"/avatar-professora."+ext;const {error:uploadError}=await supabaseClient.storage.from("fotos-alunos").upload(path,file,{upsert:true,contentType:file.type});if(uploadError){status.textContent="Erro no envio: "+uploadError.message;return;}const {data:urlData}=supabaseClient.storage.from("fotos-alunos").getPublicUrl(path);const photoUrl=urlData.publicUrl+"?v="+Date.now();const {error:metaError}=await supabaseClient.auth.updateUser({data:{foto_perfil:photoUrl}});if(metaError){status.textContent="Foto enviada, mas perfil não atualizado: "+metaError.message;return;}renderFotoProf(photoUrl);status.textContent="Foto atualizada!";}catch(err){status.textContent="Não foi possível atualizar a foto.";console.error(err);}finally{ev.target.value="";}});
+
     // MOSTRAR PAINEL
     async function mostrarPainel() {
       const { data: sessao } = await supabaseClient.auth.getUser();
@@ -493,6 +503,7 @@
 
       telaLogin.classList.add("oculto");
       painelProfessora.classList.remove("oculto");
+      renderFotoProf(sessao.user.user_metadata?.foto_perfil);
       carregarAulas();
       carregarSolicitacoes();
       await garantirAtividadeTeste();
