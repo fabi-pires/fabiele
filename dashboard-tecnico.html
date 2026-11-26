@@ -210,6 +210,78 @@
   .sidebar .nav-icon{width:24px!important;height:24px!important;font-size:17px!important}
 }
 
+
+/* FINAL OVERRIDE — menu lateral premium Bio sem Mistério */
+#app .sidebar{
+  display:flex!important;flex-direction:column!important;
+  width:268px!important;top:350px!important;bottom:0!important;
+  padding:24px 17px 18px!important;
+  background:linear-gradient(180deg,#063b25 0%,#052f20 58%,#031f16 100%)!important;
+  border-right:1px solid rgba(190,235,202,.16)!important;
+  box-shadow:12px 0 34px rgba(4,43,25,.16)!important;
+}
+#app .sidebar .nav-label{
+  color:#9ed5ad!important;font-size:9px!important;letter-spacing:2px!important;
+  font-weight:850!important;padding:20px 12px 11px!important;
+}
+#app .sidebar .nav{display:grid!important;gap:8px!important}
+#app .sidebar .nav button{
+  display:flex!important;align-items:center!important;gap:13px!important;
+  width:100%!important;min-height:49px!important;padding:10px 13px!important;
+  color:#d8ebde!important;background:transparent!important;
+  border:1px solid transparent!important;border-radius:14px!important;
+  text-align:left!important;font-size:12px!important;font-weight:650!important;
+  box-shadow:none!important;transform:none!important;
+}
+#app .sidebar .nav button:hover{
+  color:#fff!important;background:rgba(255,255,255,.09)!important;
+  border-color:rgba(199,235,207,.16)!important;
+}
+#app .sidebar .nav button.active{
+  color:#fff!important;
+  background:linear-gradient(105deg,rgba(107,205,135,.27),rgba(107,205,135,.09))!important;
+  border:1px solid rgba(154,224,171,.25)!important;
+  box-shadow:inset 4px 0 #9ee3ad,0 7px 18px rgba(0,0,0,.10)!important;
+}
+#app .sidebar .nav button .nav-icon{
+  flex:0 0 30px!important;width:30px!important;height:30px!important;
+  display:grid!important;place-items:center!important;border-radius:10px!important;
+  color:#c3edce!important;background:rgba(255,255,255,.09)!important;
+  font-size:17px!important;
+}
+#app .sidebar .nav button.active .nav-icon{
+  color:#eaffed!important;background:rgba(139,226,158,.20)!important;
+}
+#app .sidebar .sidebar-foot{
+  margin-top:auto!important;padding:14px!important;border-radius:15px!important;
+  border:1px solid rgba(190,235,202,.17)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.035))!important;
+  color:#b9d9c2!important;font-size:10px!important;
+}
+#app .sidebar .sidebar-foot b{color:#f0fff3!important}
+#app .main{margin-left:268px!important}
+@media(max-width:760px){
+  #app .sidebar{
+    width:76px!important;top:283px!important;bottom:0!important;
+    padding:15px 8px!important;
+  }
+  #app .sidebar .nav-label,#app .sidebar .nav button .nav-text,
+  #app .sidebar .brand,#app .sidebar .sidebar-foot{display:none!important}
+  #app .sidebar .nav button{
+    min-height:48px!important;justify-content:center!important;
+    padding:8px 5px!important;border-radius:13px!important;
+  }
+  #app .sidebar .nav button .nav-icon{
+    flex-basis:34px!important;width:34px!important;height:34px!important;
+    font-size:18px!important;
+  }
+  #app .main{margin-left:76px!important}
+}
+@media(max-width:480px){
+  #app .sidebar{top:253px!important;width:68px!important;padding:12px 6px!important}
+  #app .main{margin-left:68px!important}
+}
+
 </style></head>
 <body>
 <section id="login" class="login-wrap"><div class="login-card"><div class="emblem">✦</div><div class="eyebrow">Acesso reservado</div><h1>Central de Operações</h1><p>Entre para monitorar, diagnosticar e cuidar da plataforma Bio sem Mistério.</p><form id="loginForm"><div class="field"><label for="email">E-mail técnico</label><input id="email" type="email" autocomplete="username" placeholder="E-mail autorizado" required></div><div class="field"><label for="password">Senha</label><div class="password-row"><input id="password" type="password" autocomplete="current-password" placeholder="Sua senha" required><button class="btn btn-light btn-small" type="button" id="togglePassword">Mostrar</button></div></div><button class="btn btn-primary" id="loginButton" type="submit">Entrar na central</button></form><div class="auth-actions"><button class="text-btn" id="registerBtn" type="button">Criar meu acesso</button><button class="text-btn" id="forgotBtn" type="button">Esqueci minha senha</button></div><div id="loginMsg" class="message" role="status" aria-live="polite"></div><div class="login-note">🔒 Área privada. Esta interface não exibe senhas. A autorização definitiva deverá ser aplicada também no Supabase (RLS).</div></div></section>
